@@ -1,0 +1,1224 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IQR — إدارة وتطوير المطاعم في العراق</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+<style>
+:root {
+  --bg: #000814;
+  --deep: #000510;
+  --navy: #0a1628;
+  --pink: #ff2d7a;
+  --pink-dim: rgba(255,45,122,0.15);
+  --blue: #00c3ff;
+  --blue-dim: rgba(0,195,255,0.12);
+  --gold: #ffd60a;
+  --white: #f0f4ff;
+  --grey: rgba(240,244,255,0.35);
+  --border: rgba(255,255,255,0.06);
+}
+
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+
+html { scroll-behavior: auto; }
+
+body {
+  background: var(--bg);
+  color: var(--white);
+  font-family: 'Cairo', sans-serif;
+  overflow-x: hidden;
+  cursor: none;
+}
+
+/* ── CURSOR ── */
+#cur, #cur-ring {
+  position: fixed; z-index: 9999; pointer-events: none;
+  border-radius: 50%; transform: translate(-50%,-50%);
+}
+#cur { width:10px; height:10px; background:var(--pink); transition: width .15s, height .15s; }
+#cur-ring {
+  width:38px; height:38px;
+  border: 1px solid rgba(255,45,122,0.45);
+  transition: width .3s, height .3s, border-color .3s;
+}
+body:has(a:hover) #cur-ring, body:has(button:hover) #cur-ring { width:60px; height:60px; border-color:var(--pink); }
+
+/* ── CANVAS BG ── */
+#bg-canvas {
+  position: fixed; top:0; left:0; width:100%; height:100%;
+  z-index: 0; pointer-events: none;
+}
+
+/* ── NOISE OVERLAY ── */
+.noise {
+  position: fixed; inset:0; z-index:1; pointer-events:none;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  opacity: 0.5;
+}
+
+/* ── NAV ── */
+nav {
+  position: fixed; top:0; left:0; right:0; z-index:100;
+  padding: 24px 48px;
+  display: flex; align-items:center; justify-content:space-between;
+  background: linear-gradient(to bottom, rgba(0,8,20,0.9), transparent);
+  backdrop-filter: blur(0px);
+  transition: backdrop-filter .4s, background .4s;
+}
+nav.scrolled { backdrop-filter: blur(20px); background: rgba(0,8,20,0.85); }
+.nav-logo {
+  font-family: 'Space Mono', monospace;
+  font-size: 20px; font-weight:700;
+  color: var(--white); letter-spacing:.08em;
+  text-decoration:none;
+  display:flex; align-items:center; gap:10px;
+}
+.nav-logo-dot { width:8px; height:8px; background:var(--pink); border-radius:50%; display:inline-block; animation: blink 2s infinite; }
+.nav-links { display:flex; gap:36px; }
+.nav-links a {
+  font-family:'Cairo',sans-serif; font-size:13px; font-weight:700;
+  color: var(--grey); text-decoration:none; letter-spacing:.1em;
+  transition: color .3s; cursor:none;
+}
+.nav-links a:hover { color:var(--white); }
+.nav-cta {
+  font-family:'Cairo',sans-serif; font-size:13px; font-weight:700;
+  padding: 10px 28px; background: var(--pink); color:#fff;
+  border:none; border-radius:3px; cursor:none; letter-spacing:.06em;
+  transition: transform .2s, box-shadow .2s;
+}
+.nav-cta:hover { transform: translateY(-2px); box-shadow: 0 6px 30px rgba(255,45,122,.5); }
+
+/* ── SECTIONS ── */
+section { position:relative; z-index:2; }
+
+/* ── HERO ── */
+#hero {
+  height: 100vh;
+  display:flex; align-items:center; justify-content:center;
+  overflow:hidden;
+}
+.hero-inner {
+  text-align:center; position:relative; z-index:5;
+  padding: 0 20px;
+}
+.hero-eyebrow {
+  font-size:11px; font-weight:700; letter-spacing:.4em;
+  color:var(--pink); text-transform:uppercase; margin-bottom:32px;
+  display:flex; align-items:center; justify-content:center; gap:16px;
+  opacity:0;
+}
+.hero-eyebrow::before, .hero-eyebrow::after {
+  content:''; flex:1; max-width:60px;
+  height:1px; background: linear-gradient(to right, transparent, var(--pink));
+}
+.hero-eyebrow::after { transform:scaleX(-1); }
+
+.hero-h1 {
+  font-size: clamp(64px, 12vw, 160px);
+  font-weight:900; line-height:.88;
+  letter-spacing:-.03em; margin-bottom:0;
+  overflow:hidden; opacity:0;
+}
+.hero-h1 .line { display:block; overflow:hidden; }
+.hero-h1 .line span { display:block; }
+.hero-h1 .accent { color: var(--pink); }
+.hero-h1 .stroke {
+  -webkit-text-stroke: 1px rgba(255,255,255,0.3);
+  color: transparent;
+}
+
+.hero-sub {
+  font-size:clamp(14px,1.4vw,18px); font-weight:400;
+  color:var(--grey); max-width:520px; margin:32px auto 48px;
+  line-height:1.9; opacity:0;
+}
+
+.hero-actions { display:flex; gap:16px; justify-content:center; opacity:0; }
+.btn-main {
+  font-family:'Cairo',sans-serif; font-size:14px; font-weight:700;
+  padding: 16px 44px; background:var(--pink); color:#fff;
+  border:none; border-radius:3px; cursor:none;
+  letter-spacing:.06em; position:relative; overflow:hidden;
+  transition: transform .2s, box-shadow .2s;
+  text-decoration:none; display:inline-block;
+}
+.btn-main::before {
+  content:''; position:absolute; inset:0;
+  background: linear-gradient(135deg, rgba(255,255,255,.2), transparent);
+}
+.btn-main:hover { transform:translateY(-3px); box-shadow: 0 10px 40px rgba(255,45,122,.5); }
+.btn-outline {
+  font-family:'Cairo',sans-serif; font-size:14px; font-weight:700;
+  padding:15px 44px; background:transparent; color:var(--grey);
+  border: 1px solid var(--border); border-radius:3px; cursor:none;
+  letter-spacing:.06em; transition: border-color .3s, color .3s;
+  text-decoration:none; display:inline-block;
+}
+.btn-outline:hover { border-color:var(--blue); color:var(--blue); }
+
+/* ── SCROLL INDICATOR ── */
+.scroll-hint {
+  position:absolute; bottom:40px; left:50%; transform:translateX(-50%);
+  display:flex; flex-direction:column; align-items:center; gap:10px;
+  opacity:0; animation: fadeIn 1s 3s forwards;
+}
+.scroll-hint span { font-size:10px; letter-spacing:.25em; color:var(--grey); text-transform:uppercase; font-weight:700; }
+.scroll-line { width:1px; height:50px; background: linear-gradient(to bottom, var(--pink), transparent); animation: scrollPulse 2s infinite; }
+
+/* ── MARQUEE ── */
+.marquee-section {
+  padding: 30px 0; overflow:hidden;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  background: rgba(255,45,122,0.03);
+}
+.marquee-track {
+  display:flex; gap:0; width:max-content;
+  animation: marquee 25s linear infinite;
+}
+.marquee-item {
+  font-family:'Space Mono',monospace; font-size:12px; font-weight:700;
+  color:var(--grey); letter-spacing:.2em; text-transform:uppercase;
+  padding: 0 48px; white-space:nowrap;
+  display:flex; align-items:center; gap:20px;
+}
+.marquee-item::after { content:'◆'; color:var(--pink); font-size:8px; }
+
+/* ── PROBLEM SECTION ── */
+#problem {
+  padding: 160px 48px;
+  max-width: 1400px; margin:0 auto;
+}
+.section-label {
+  font-size:10px; font-weight:700; letter-spacing:.4em;
+  color:var(--pink); text-transform:uppercase; margin-bottom:24px;
+  display:flex; align-items:center; gap:12px;
+}
+.section-label::before { content:''; width:30px; height:1px; background:var(--pink); }
+.section-h2 {
+  font-size:clamp(36px,5vw,72px); font-weight:900;
+  line-height:.95; letter-spacing:-.025em; margin-bottom:32px;
+}
+.section-h2 em { font-style:normal; color:var(--pink); }
+.section-h2 .dim { color:rgba(240,244,255,0.25); }
+
+.problem-grid {
+  display:grid; grid-template-columns:1fr 1fr;
+  gap:2px; margin-top:80px;
+}
+.problem-card {
+  background: var(--navy);
+  padding:52px 44px;
+  position:relative; overflow:hidden;
+  opacity:0; transform:translateY(40px);
+  transition: background .3s;
+}
+.problem-card::before {
+  content:''; position:absolute; top:0; right:0;
+  width:0; height:2px; background:var(--pink);
+  transition: width .6s ease;
+}
+.problem-card:hover::before { width:100%; }
+.problem-card:hover { background: rgba(10,22,40,0.9); }
+.problem-icon {
+  font-size:36px; margin-bottom:24px; display:block;
+  filter: grayscale(1) brightness(0.6);
+  transition: filter .3s;
+}
+.problem-card:hover .problem-icon { filter: none; }
+.problem-card h3 {
+  font-size:22px; font-weight:900; margin-bottom:12px;
+  color:rgba(240,244,255,0.8);
+}
+.problem-card p {
+  font-size:15px; color:var(--grey); line-height:1.8;
+}
+.problem-stat {
+  position:absolute; bottom:28px; left:44px;
+  font-family:'Space Mono',monospace; font-size:11px;
+  color:var(--pink); letter-spacing:.15em;
+}
+
+/* ── SOLUTION SECTION ── */
+#solution {
+  padding: 160px 0;
+  background: var(--deep);
+  overflow:hidden;
+}
+.solution-inner { max-width:1400px; margin:0 auto; padding:0 48px; }
+
+.solution-split {
+  display:grid; grid-template-columns:1fr 1fr;
+  gap:80px; align-items:center; margin-top:80px;
+}
+.solution-split.reverse { direction:ltr; }
+.solution-split.reverse .solution-text { direction:rtl; }
+
+.solution-text h3 {
+  font-size:clamp(28px,3.5vw,48px); font-weight:900;
+  line-height:1; letter-spacing:-.02em; margin-bottom:20px;
+}
+.solution-text p {
+  font-size:16px; color:var(--grey); line-height:1.9; margin-bottom:32px;
+}
+.solution-features { list-style:none; display:flex; flex-direction:column; gap:14px; }
+.solution-features li {
+  display:flex; align-items:center; gap:14px;
+  font-size:14px; font-weight:600; color:rgba(240,244,255,0.7);
+}
+.solution-features li::before {
+  content:''; width:20px; height:20px; flex-shrink:0;
+  background: var(--pink-dim); border:1px solid var(--pink);
+  border-radius:4px; display:flex; align-items:center; justify-content:center;
+  background-image: url("data:image/svg+xml,%3Csvg width='10' height='8' viewBox='0 0 10 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 4L3.5 6.5L9 1' stroke='%23ff2d7a' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat:no-repeat; background-position:center;
+}
+
+.solution-visual {
+  position:relative; height:420px;
+  opacity:0; transform:translateX(60px);
+}
+.solution-visual.from-left { transform:translateX(-60px); }
+
+.vis-card {
+  position:absolute; background: var(--navy);
+  border: 1px solid var(--border);
+  border-radius:8px; padding:24px 28px;
+  backdrop-filter:blur(10px);
+}
+.vis-card.main {
+  inset:0; display:flex; flex-direction:column; justify-content:center;
+  background: linear-gradient(135deg, rgba(10,22,40,0.95), rgba(0,8,20,0.8));
+}
+.vis-card.float-1 {
+  bottom: -20px; right: -20px; width:220px;
+  background: rgba(255,45,122,.08);
+  border-color: rgba(255,45,122,.3);
+  animation: floatCard 4s ease-in-out infinite;
+}
+.vis-card.float-2 {
+  top:-20px; left:-20px; width:200px;
+  background: rgba(0,195,255,.06);
+  border-color: rgba(0,195,255,.25);
+  animation: floatCard 5s ease-in-out infinite reverse;
+}
+
+.vis-metric {
+  font-family:'Space Mono',monospace;
+  font-size:36px; font-weight:700; color:var(--white);
+}
+.vis-metric span { color:var(--pink); }
+.vis-label { font-size:12px; color:var(--grey); margin-top:6px; letter-spacing:.1em; }
+.vis-bar-wrap { margin-top:20px; }
+.vis-bar-label { font-size:11px; color:var(--grey); margin-bottom:6px; letter-spacing:.08em; display:flex; justify-content:space-between; }
+.vis-bar-track { height:4px; background:rgba(255,255,255,.06); border-radius:99px; overflow:hidden; }
+.vis-bar-fill { height:100%; border-radius:99px; background: linear-gradient(to right, var(--pink), #ff6fa8); width:0; transition:width 1.5s ease; }
+.vis-bar-fill.blue { background: linear-gradient(to right, var(--blue), #66d9ff); }
+.vis-bar-fill.gold { background: linear-gradient(to right, var(--gold), #ffe066); }
+
+/* ── SERVICES SECTION ── */
+#services {
+  padding: 160px 48px;
+  max-width:1400px; margin:0 auto;
+}
+.services-header {
+  display:grid; grid-template-columns:1fr 1fr;
+  gap:80px; align-items:end; margin-bottom:80px;
+}
+.services-grid {
+  display:grid; grid-template-columns:repeat(3,1fr);
+  gap:2px;
+}
+.service-card {
+  background:var(--navy); padding:48px 36px;
+  position:relative; overflow:hidden; cursor:none;
+  opacity:0; transform:translateY(50px);
+  transition: background .4s;
+}
+.service-card::after {
+  content:''; position:absolute; bottom:0; left:0; right:0;
+  height:2px; background: linear-gradient(to right, var(--pink), transparent);
+  transform:scaleX(0); transform-origin:right;
+  transition: transform .5s ease;
+}
+.service-card:hover::after { transform:scaleX(1); transform-origin:left; }
+.service-card:hover { background: rgba(255,45,122,0.04); }
+
+.service-num {
+  font-family:'Space Mono',monospace; font-size:11px;
+  color:rgba(255,45,122,0.4); letter-spacing:.2em; margin-bottom:32px;
+}
+.service-icon-wrap {
+  width:52px; height:52px; background:var(--pink-dim);
+  border:1px solid rgba(255,45,122,.2); border-radius:6px;
+  display:flex; align-items:center; justify-content:center;
+  font-size:22px; margin-bottom:24px;
+  transition: background .3s, border-color .3s;
+}
+.service-card:hover .service-icon-wrap {
+  background: var(--pink); border-color:var(--pink);
+}
+.service-card h3 { font-size:20px; font-weight:900; margin-bottom:14px; line-height:1.2; }
+.service-card p { font-size:14px; color:var(--grey); line-height:1.8; }
+.service-arrow {
+  position:absolute; bottom:36px; left:36px;
+  font-family:'Space Mono',monospace; font-size:16px; color:var(--pink);
+  opacity:0; transform:translateX(-10px);
+  transition: opacity .3s, transform .3s;
+}
+.service-card:hover .service-arrow { opacity:1; transform:translateX(0); }
+
+/* ── PROCESS SECTION ── */
+#process {
+  padding: 160px 48px;
+  background: var(--deep); overflow:hidden;
+}
+.process-inner { max-width:1400px; margin:0 auto; }
+.process-steps {
+  display:grid; grid-template-columns:repeat(4,1fr);
+  gap:1px; margin-top:80px; position:relative;
+}
+.process-steps::before {
+  content:''; position:absolute; top:40px; right:12.5%; left:12.5%;
+  height:1px; background: linear-gradient(to left, transparent, var(--pink), var(--blue), transparent);
+  z-index:0;
+}
+.process-step {
+  padding:48px 28px 40px;
+  text-align:center; position:relative; z-index:1;
+  opacity:0; transform:translateY(30px);
+}
+.step-dot {
+  width:16px; height:16px; border-radius:50%;
+  background:var(--pink); margin:0 auto 40px;
+  position:relative; box-shadow: 0 0 20px var(--pink);
+}
+.step-dot::after {
+  content:''; position:absolute; inset:-4px;
+  border-radius:50%; border:1px solid rgba(255,45,122,.3);
+  animation: ripple 2s infinite;
+}
+.step-num {
+  font-family:'Space Mono',monospace; font-size:10px;
+  color:rgba(255,45,122,0.4); letter-spacing:.25em; margin-bottom:16px;
+}
+.process-step h3 { font-size:18px; font-weight:900; margin-bottom:12px; }
+.process-step p { font-size:13px; color:var(--grey); line-height:1.8; }
+
+/* ── RESULTS / NUMBERS ── */
+#results {
+  padding: 140px 48px;
+  max-width:1400px; margin:0 auto;
+}
+.results-grid {
+  display:grid; grid-template-columns:repeat(4,1fr);
+  gap:2px; margin-top:80px;
+}
+.result-item {
+  padding:52px 36px;
+  background:var(--navy);
+  text-align:center;
+  opacity:0; transform:scale(.9);
+  position:relative; overflow:hidden;
+}
+.result-item::before {
+  content:''; position:absolute; inset:0;
+  background: radial-gradient(ellipse at 50% 100%, rgba(255,45,122,0.08), transparent 60%);
+  opacity:0; transition:opacity .4s;
+}
+.result-item:hover::before { opacity:1; }
+.result-big {
+  font-family:'Space Mono',monospace;
+  font-size:clamp(40px,5vw,64px); font-weight:700;
+  line-height:1; margin-bottom:12px;
+}
+.result-big .n { color:var(--pink); }
+.result-big .pos { color:var(--gold); }
+.result-desc { font-size:13px; color:var(--grey); line-height:1.7; font-weight:600; letter-spacing:.04em; }
+
+/* ── TESTIMONIALS / EDITABLE CTA ── */
+#cta-section {
+  padding: 160px 48px;
+  background: var(--deep);
+  text-align:center; position:relative; overflow:hidden;
+}
+#cta-section::before {
+  content:''; position:absolute; top:50%; left:50%;
+  transform: translate(-50%,-50%);
+  width:600px; height:600px;
+  background: radial-gradient(ellipse, rgba(255,45,122,0.1), transparent 65%);
+  pointer-events:none;
+}
+.cta-inner { position:relative; z-index:2; max-width:800px; margin:0 auto; }
+.cta-badge {
+  display:inline-flex; align-items:center; gap:10px;
+  background:var(--pink-dim); border:1px solid rgba(255,45,122,.3);
+  border-radius:99px; padding:8px 20px;
+  font-size:12px; font-weight:700; letter-spacing:.1em; color:var(--pink);
+  margin-bottom:40px; text-transform:uppercase;
+}
+.cta-badge-dot { width:6px; height:6px; background:var(--pink); border-radius:50%; animation:blink 1.5s infinite; }
+#cta-section h2 {
+  font-size:clamp(40px,6vw,80px); font-weight:900;
+  line-height:.95; letter-spacing:-.025em; margin-bottom:28px;
+}
+#cta-section p {
+  font-size:17px; color:var(--grey); line-height:1.8; margin-bottom:48px;
+}
+.cta-actions { display:flex; gap:16px; justify-content:center; flex-wrap:wrap; }
+.cta-form-row {
+  display:flex; gap:0; max-width:480px; margin:0 auto 24px;
+  border:1px solid var(--border); border-radius:4px; overflow:hidden;
+  background:rgba(10,22,40,0.6); backdrop-filter:blur(10px);
+}
+.cta-input {
+  flex:1; background:transparent; border:none; outline:none;
+  padding:16px 20px; font-family:'Cairo',sans-serif;
+  font-size:14px; color:var(--white); direction:rtl;
+}
+.cta-input::placeholder { color:var(--grey); }
+.cta-submit {
+  background:var(--pink); border:none; color:#fff;
+  font-family:'Cairo',sans-serif; font-size:13px; font-weight:700;
+  padding:16px 28px; cursor:none; letter-spacing:.06em;
+  transition: background .3s;
+}
+.cta-submit:hover { background:#e0205c; }
+
+/* ── EDITABLE BANNER ── */
+.edit-banner {
+  background: rgba(255,214,10,0.08);
+  border: 1px dashed rgba(255,214,10,0.3);
+  border-radius:6px; padding:14px 24px;
+  font-size:12px; color:var(--gold); text-align:center;
+  letter-spacing:.08em; margin-bottom:40px;
+  display:flex; align-items:center; justify-content:center; gap:10px;
+}
+
+/* ── FOOTER ── */
+footer {
+  background: var(--deep);
+  border-top: 1px solid var(--border);
+  padding: 60px 48px;
+}
+.footer-inner {
+  max-width:1400px; margin:0 auto;
+  display:grid; grid-template-columns:1.5fr 1fr 1fr 1fr;
+  gap:60px; align-items:start;
+}
+.footer-brand .logo {
+  font-family:'Space Mono',monospace; font-size:20px; font-weight:700;
+  color:var(--white); margin-bottom:16px; display:block; letter-spacing:.08em;
+}
+.footer-brand p { font-size:13px; color:var(--grey); line-height:1.8; }
+.footer-col h4 {
+  font-size:11px; font-weight:700; letter-spacing:.2em;
+  color:rgba(240,244,255,0.4); text-transform:uppercase; margin-bottom:20px;
+}
+.footer-col a {
+  display:block; font-size:14px; font-weight:600;
+  color:var(--grey); text-decoration:none; margin-bottom:12px;
+  transition:color .3s; cursor:none;
+}
+.footer-col a:hover { color:var(--white); }
+.footer-bottom {
+  max-width:1400px; margin:40px auto 0;
+  padding-top:28px; border-top:1px solid var(--border);
+  display:flex; justify-content:space-between; align-items:center;
+}
+.footer-bottom span { font-size:12px; color:rgba(240,244,255,0.2); letter-spacing:.08em; }
+.status-dot {
+  display:flex; align-items:center; gap:8px;
+  font-family:'Space Mono',monospace; font-size:11px; color:rgba(240,244,255,0.3);
+}
+.status-dot::before { content:''; width:6px; height:6px; background:#00ff88; border-radius:50%; animation:blink 2s infinite; }
+
+/* ── ANIMATIONS ── */
+@keyframes marquee { from { transform:translateX(0); } to { transform:translateX(-50%); } }
+@keyframes blink { 0%,100% { opacity:1; } 50% { opacity:0.3; } }
+@keyframes scrollPulse { 0% { opacity:1; transform:scaleY(1); } 100% { opacity:0; transform:scaleY(0) translateY(20px); } }
+@keyframes ripple { 0% { transform:scale(1); opacity:1; } 100% { transform:scale(2.5); opacity:0; } }
+@keyframes floatCard { 0%,100% { transform:translateY(0); } 50% { transform:translateY(-12px); } }
+@keyframes fadeIn { to { opacity:1; } }
+
+.contact-card:hover { transform: translateY(-3px); box-shadow: 0 8px 30px rgba(0,0,0,.3); }
+.social-icon:hover { border-color: var(--pink) !important; background: var(--pink-dim); }
+
+/* ── PRICING NOTE ── */
+.pricing-note {
+  background: rgba(255,214,10,0.06);
+  border: 1px solid rgba(255,214,10,0.2);
+  border-radius:6px; padding:20px 28px;
+  font-size:14px; color:rgba(240,244,255,0.6);
+  text-align:center; line-height:1.8;
+  max-width:520px; margin:0 auto 36px;
+}
+.pricing-note strong { color:var(--gold); }
+@media(max-width:900px) {
+  nav { padding:20px 24px; }
+  .nav-links { display:none; }
+  #problem, #services, #results { padding:80px 24px; }
+  #solution, #process, #cta-section { padding:80px 24px; }
+  .solution-inner { padding:0 24px; }
+  .problem-grid, .solution-split, .services-grid, .process-steps, .results-grid { grid-template-columns:1fr; }
+  .services-header, .footer-inner { grid-template-columns:1fr; gap:32px; }
+  footer { padding:40px 24px; }
+  .footer-bottom { flex-direction:column; gap:12px; }
+  .process-steps::before { display:none; }
+}
+</style>
+</head>
+<body>
+
+<div id="cur"></div>
+<div id="cur-ring"></div>
+<div class="noise"></div>
+<canvas id="bg-canvas"></canvas>
+
+<!-- ── NAV ── -->
+<nav id="navbar">
+  <a href="#" class="nav-logo">
+    <span class="nav-logo-dot"></span>
+    IQR<span style="color:var(--pink);font-size:13px;font-weight:400;font-family:'Cairo',sans-serif;margin-right:6px;">لإدارة المطاعم</span>
+  </a>
+  <div class="nav-links">
+    <a href="#problem">المشكلة</a>
+    <a href="#solution">الحل</a>
+    <a href="#services">الخدمات</a>
+    <a href="#results">النتائج</a>
+    <a href="#cta-section">تواصل معنا</a>
+  </div>
+  <a href="https://wa.me/9647734383437?text=مرحبا،+أريد+الاستفسار+عن+خدمات+IQR" target="_blank" class="nav-cta">تواصل معنا 💬</a>
+</nav>
+
+<!-- ── HERO ── -->
+<section id="hero">
+  <div class="hero-inner">
+    <div class="hero-eyebrow">الشركة الأولى لإدارة وتطوير المطاعم في العراق</div>
+    <h1 class="hero-h1">
+      <span class="line"><span>هندسة.</span></span>
+      <span class="line"><span class="stroke">أتمتة.</span></span>
+      <span class="line"><span class="accent">نمو.</span></span>
+    </h1>
+    <p class="hero-sub">نحول فوضى مطعمك إلى دقة هندسية ذاتية — سواء كنت تفتح أول فرع أو تدير سلسلة كاملة في العراق</p>
+    <div class="hero-actions">
+      <a href="https://wa.me/9647734383437" target="_blank" class="btn-main">📲 تواصل على واتساب</a>
+      <a href="#solution" class="btn-outline">اكتشف الحل</a>
+    </div>
+  </div>
+  <div class="scroll-hint">
+    <span>اسحب للأسفل</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- ── MARQUEE ── -->
+<div class="marquee-section">
+  <div class="marquee-track" id="marquee">
+    <div class="marquee-item">توجيه ذكي للطلبات</div>
+    <div class="marquee-item">مخزن مؤتمت</div>
+    <div class="marquee-item">تقليل الهدر</div>
+    <div class="marquee-item">تحليلات استباقية</div>
+    <div class="marquee-item">رفع الكفاءة ٣٥٪</div>
+    <div class="marquee-item">إدارة الموظفين</div>
+    <div class="marquee-item">تتبع الأداء</div>
+    <div class="marquee-item">تكامل الكاشير</div>
+    <div class="marquee-item">توجيه ذكي للطلبات</div>
+    <div class="marquee-item">مخزن مؤتمت</div>
+    <div class="marquee-item">تقليل الهدر</div>
+    <div class="marquee-item">تحليلات استباقية</div>
+    <div class="marquee-item">رفع الكفاءة ٣٥٪</div>
+    <div class="marquee-item">إدارة الموظفين</div>
+    <div class="marquee-item">تتبع الأداء</div>
+    <div class="marquee-item">تكامل الكاشير</div>
+  </div>
+</div>
+
+<!-- ── PROBLEM ── -->
+<section id="problem">
+  <div class="section-label">التحدي</div>
+  <h2 class="section-h2">
+    المطاعم تخسر<br>
+    <em>يومياً</em> بدون<br>
+    <span class="dim">نظام حقيقي</span>
+  </h2>
+
+  <div class="problem-grid">
+    <div class="problem-card">
+      <span class="problem-icon">📦</span>
+      <h3>فوضى المخزن</h3>
+      <p>طلبيات يدوية، مواد تنفد بدون تحذير، هدر يومي في المواد الغذائية — كل هذا يُكلّفك آلاف الريالات شهرياً دون أن تشعر.</p>
+      <span class="problem-stat">// يصل الهدر إلى 30% من التكاليف</span>
+    </div>
+    <div class="problem-card">
+      <span class="problem-icon">⏱</span>
+      <h3>تأخر الطلبات</h3>
+      <p>بدون نظام توجيه واضح، الطلبات تتأخر، العملاء يتذمرون، والموظفون يتشتتون. الوقت تكلفة مباشرة.</p>
+      <span class="problem-stat">// ٦-١٢ دقيقة ضائعة لكل طلب</span>
+    </div>
+    <div class="problem-card">
+      <span class="problem-icon">👥</span>
+      <h3>إدارة بدون بيانات</h3>
+      <p>قرارات تُتخذ بالحدس لا بالأرقام — من يعمل في أي وردية، متى الذروة، أي صنف يخسرك ولا تعرف.</p>
+      <span class="problem-stat">// ٤٠% من القرارات خاطئة</span>
+    </div>
+    <div class="problem-card">
+      <span class="problem-icon">📉</span>
+      <h3>أرباح أقل مما تستحق</h3>
+      <p>مطعمك يعمل لكنه لا يُحقق إمكاناته الكاملة. بدون خطة عمليات واضحة، الأرباح تسرب في كل اتجاه.</p>
+      <span class="problem-stat">// ٢٠-٣٥% ربح ضائع قابل للاسترداد</span>
+    </div>
+  </div>
+</section>
+
+<!-- ── SOLUTION ── -->
+<section id="solution">
+  <div class="solution-inner">
+    <div class="section-label">الحل</div>
+    <h2 class="section-h2">نظام كامل.<br><em>يعمل وأنت نايم.</em></h2>
+
+    <!-- Split 1 -->
+    <div class="solution-split" style="margin-top:80px;">
+      <div class="solution-text">
+        <h3>توجيه ذكي للطلبات</h3>
+        <p>كل طلب يصل للشخص الصح، في الوقت الصح، بدون فوضى وبدون ضياع — نظام يتعلم مطعمك ويتكيف تلقائياً.</p>
+        <ul class="solution-features">
+          <li>توزيع تلقائي للطلبات على المحطات</li>
+          <li>تنبيهات فورية عند التأخر</li>
+          <li>تتبع زمن تحضير كل صنف</li>
+          <li>أولويات ذكية حسب الطاولة</li>
+        </ul>
+      </div>
+      <div class="solution-visual" id="vis1">
+        <div class="vis-card main">
+          <div class="vis-metric">6.2 <span>د</span></div>
+          <div class="vis-label">متوسط وقت التحضير</div>
+          <div class="vis-bar-wrap">
+            <div class="vis-bar-label"><span>الكفاءة</span><span>92%</span></div>
+            <div class="vis-bar-track"><div class="vis-bar-fill" data-w="92"></div></div>
+          </div>
+          <div class="vis-bar-wrap" style="margin-top:12px">
+            <div class="vis-bar-label"><span>الدقة</span><span>99%</span></div>
+            <div class="vis-bar-track"><div class="vis-bar-fill blue" data-w="99"></div></div>
+          </div>
+        </div>
+        <div class="vis-card float-1">
+          <div style="font-size:12px;color:var(--grey);margin-bottom:8px">طلب جديد ←</div>
+          <div style="font-family:'Space Mono',monospace;font-size:22px;color:var(--white)">طاولة 7</div>
+          <div style="font-size:11px;color:var(--pink);margin-top:6px">✓ وُجِّه لمحطة B</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Split 2 -->
+    <div class="solution-split reverse" style="margin-top:120px;">
+      <div class="solution-visual from-left" id="vis2">
+        <div class="vis-card main">
+          <div style="font-size:12px;color:var(--grey);letter-spacing:.1em;margin-bottom:20px">حالة المخزن — اليوم</div>
+          <div style="display:flex;flex-direction:column;gap:14px;">
+            <div>
+              <div class="vis-bar-label" style="margin-bottom:8px"><span>دجاج</span><span style="color:var(--gold)">تحذير</span></div>
+              <div class="vis-bar-track"><div class="vis-bar-fill gold" data-w="22"></div></div>
+            </div>
+            <div>
+              <div class="vis-bar-label" style="margin-bottom:8px"><span>أرز</span><span style="color:#00ff88">جيد</span></div>
+              <div class="vis-bar-track"><div class="vis-bar-fill blue" data-w="78"></div></div>
+            </div>
+            <div>
+              <div class="vis-bar-label" style="margin-bottom:8px"><span>خضروات</span><span style="color:#00ff88">جيد</span></div>
+              <div class="vis-bar-track"><div class="vis-bar-fill" data-w="65"></div></div>
+            </div>
+          </div>
+          <div style="margin-top:24px;padding:14px;background:rgba(255,214,10,.08);border:1px solid rgba(255,214,10,.2);border-radius:4px;font-size:12px;color:var(--gold)">
+            ⚡ طلبية دجاج أُرسلت تلقائياً للمورد
+          </div>
+        </div>
+        <div class="vis-card float-2">
+          <div style="font-family:'Space Mono',monospace;font-size:28px;color:var(--white)">-28%</div>
+          <div style="font-size:11px;color:var(--grey);margin-top:4px">هدر هذا الشهر</div>
+        </div>
+      </div>
+      <div class="solution-text">
+        <h3>مخزن مؤتمت بالكامل</h3>
+        <p>النظام يراقب كل مادة خام، يحسب الاستهلاك تلقائياً، ويرسل الطلبيات للموردين قبل ما تنفد — بدون أي تدخل منك.</p>
+        <ul class="solution-features">
+          <li>خصم تلقائي عند كل طلب من المخزون</li>
+          <li>تنبيه عند اقتراب نفاد أي صنف</li>
+          <li>طلبية تلقائية للموردين</li>
+          <li>تقارير الهدر الأسبوعية</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Split 3 -->
+    <div class="solution-split" style="margin-top:120px;">
+      <div class="solution-text">
+        <h3>تحليلات استباقية</h3>
+        <p>بدل ما تعرف شو صار بعد ما فات — النظام يتوقع لك شو رح يصير. أكثر الأصناف مبيعاً، ساعات الذروة، وفرص الربح المخفية.</p>
+        <ul class="solution-features">
+          <li>تقارير يومية وأسبوعية وشهرية</li>
+          <li>توقع الطلب حسب الوقت والموسم</li>
+          <li>تحليل هامش ربح كل صنف</li>
+          <li>لوحة تحكم مباشرة من هاتفك</li>
+        </ul>
+      </div>
+      <div class="solution-visual" id="vis3">
+        <div class="vis-card main">
+          <div style="font-size:12px;color:var(--grey);letter-spacing:.1em;margin-bottom:16px">الأرباح — آخر ٧ أيام</div>
+          <div style="display:flex;align-items:flex-end;gap:6px;height:80px;">
+            <div style="flex:1;background:var(--pink-dim);border-radius:2px 2px 0 0;height:45%;border-top:2px solid var(--pink);"></div>
+            <div style="flex:1;background:var(--pink-dim);border-radius:2px 2px 0 0;height:60%;border-top:2px solid var(--pink);"></div>
+            <div style="flex:1;background:var(--pink-dim);border-radius:2px 2px 0 0;height:40%;border-top:2px solid var(--pink);"></div>
+            <div style="flex:1;background:var(--pink-dim);border-radius:2px 2px 0 0;height:75%;border-top:2px solid var(--pink);"></div>
+            <div style="flex:1;background:var(--pink-dim);border-radius:2px 2px 0 0;height:55%;border-top:2px solid var(--pink);"></div>
+            <div style="flex:1;background:var(--pink-dim);border-radius:2px 2px 0 0;height:85%;border-top:2px solid var(--pink);"></div>
+            <div style="flex:1;background:rgba(255,45,122,.3);border-radius:2px 2px 0 0;height:100%;border-top:2px solid var(--pink);box-shadow:0 0 10px var(--pink);"></div>
+          </div>
+          <div style="margin-top:20px">
+            <div class="vis-metric">+35% <span style="font-size:16px;color:var(--grey)">مقارنة بالشهر الماضي</span></div>
+          </div>
+        </div>
+        <div class="vis-card float-1">
+          <div style="font-size:11px;color:var(--grey);margin-bottom:6px">توقع الغد 🔮</div>
+          <div style="font-family:'Space Mono',monospace;font-size:18px;color:var(--gold)">ذروة 7-9م</div>
+          <div style="font-size:11px;color:var(--grey);margin-top:4px">↑ استعد مبكراً</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── SERVICES ── -->
+<section id="services">
+  <div class="services-header">
+    <div>
+      <div class="section-label">ما نقدمه</div>
+      <h2 class="section-h2">كل شي<br>يحتاجه<br><em>مطعمك</em></h2>
+    </div>
+    <p style="font-size:16px;color:var(--grey);line-height:1.9;">
+      لا نبيعك برنامجاً فقط — نبني معك منظومة عمل كاملة مخصصة لسوق المطاعم العراقي. من التشخيص إلى التطبيق والتدريب والتحسين المستمر.
+    </p>
+  </div>
+
+  <div class="services-grid">
+    <div class="service-card">
+      <div class="service-num">01</div>
+      <div class="service-icon-wrap">🎯</div>
+      <h3>تحليل عمليات المطعم</h3>
+      <p>نبدأ بفهم مطعمك من الداخل — نقاط الضعف، الفرص، والأولويات. خريطة كاملة للوضع الحالي وخطة عمل واضحة.</p>
+      <div class="service-arrow">←</div>
+    </div>
+    <div class="service-card">
+      <div class="service-num">02</div>
+      <div class="service-icon-wrap">⚙️</div>
+      <h3>تصميم نظام العمليات</h3>
+      <p>نبني لك نظاماً مخصصاً — سياسات واضحة، إجراءات موثقة، أدوار محددة لكل موظف. لا اجتهادات، كل شي مكتوب.</p>
+      <div class="service-arrow">←</div>
+    </div>
+    <div class="service-card">
+      <div class="service-num">03</div>
+      <div class="service-icon-wrap">📦</div>
+      <h3>نظام المخزون الذكي</h3>
+      <p>تتبع تلقائي للمواد الخام، حساب التكاليف الحقيقية، وتقارير الهدر. اعرف تكلفة كل طبق بالريال.</p>
+      <div class="service-arrow">←</div>
+    </div>
+    <div class="service-card">
+      <div class="service-num">04</div>
+      <div class="service-icon-wrap">🚀</div>
+      <h3>تحسين الربحية</h3>
+      <p>نحلل قائمة الأسعار، هوامش الربح، وفرص التسعير. نحدد أي أصناف تكلفك أكثر مما تجيب وكيف تصلحها.</p>
+      <div class="service-arrow">←</div>
+    </div>
+    <div class="service-card">
+      <div class="service-num">05</div>
+      <div class="service-icon-wrap">👨‍💼</div>
+      <h3>إدارة الموظفين والورديات</h3>
+      <p>جداول عمل ذكية، تقييم أداء الموظفين، وتدريب مخصص لكل دور. بناء فريق يشتغل بدون تدخل يومي منك.</p>
+      <div class="service-arrow">←</div>
+    </div>
+    <div class="service-card">
+      <div class="service-num">06</div>
+      <div class="service-icon-wrap">📊</div>
+      <h3>لوحة تحكم ومتابعة مستمرة</h3>
+      <p>داشبورد مباشر من هاتفك، تقارير أسبوعية، ومتابعة شهرية معنا. النظام يتطور مع مطعمك باستمرار.</p>
+      <div class="service-arrow">←</div>
+    </div>
+  </div>
+</section>
+
+<!-- ── PROCESS ── -->
+<section id="process">
+  <div class="process-inner">
+    <div class="section-label">كيف نعمل</div>
+    <h2 class="section-h2">من الفوضى<br>إلى <em>الدقة</em></h2>
+
+    <div class="process-steps">
+      <div class="process-step">
+        <div class="step-dot"></div>
+        <div class="step-num">01</div>
+        <h3>التشخيص</h3>
+        <p>نزور مطعمك، نحلل عملياتك الحالية، ونحدد أكبر مصادر الخسارة والفرص المهدرة.</p>
+      </div>
+      <div class="process-step">
+        <div class="step-dot" style="background:var(--blue);box-shadow:0 0 20px var(--blue)"></div>
+        <div class="step-num">02</div>
+        <h3>التصميم</h3>
+        <p>نبني نظام عمليات مخصص لمطعمك — ليس نظاماً جاهزاً، بل حل مصمم لطبيعة عملك تحديداً.</p>
+      </div>
+      <div class="process-step">
+        <div class="step-dot" style="background:var(--gold);box-shadow:0 0 20px var(--gold)"></div>
+        <div class="step-num">03</div>
+        <h3>التطبيق والتدريب</h3>
+        <p>ننفذ النظام معك خطوة بخطوة، وندرب فريقك على كل أداة وإجراء حتى يصبح طبيعياً.</p>
+      </div>
+      <div class="process-step">
+        <div class="step-dot" style="background:#00ff88;box-shadow:0 0 20px #00ff88"></div>
+        <div class="step-num">04</div>
+        <h3>المتابعة والتطوير</h3>
+        <p>نتابع معك شهرياً، نقيس النتائج، ونحدّث النظام باستمرار — لأن المطعم الناجح لا يتوقف عن التحسين.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── RESULTS ── -->
+<section id="results">
+  <div class="section-label">النتائج</div>
+  <h2 class="section-h2">أرقام <em>حقيقية</em><br><span class="dim">من عملاء حقيقيين</span></h2>
+
+  <div class="results-grid">
+    <div class="result-item">
+      <div class="result-big"><span class="n" data-target="35">0</span>%+</div>
+      <div class="result-desc">زيادة في الكفاءة التشغيلية خلال أول ٣ أشهر</div>
+    </div>
+    <div class="result-item">
+      <div class="result-big"><span class="pos" data-target="28">0</span>%-</div>
+      <div class="result-desc">تراجع في الهدر الغذائي وتكاليف المواد الخام</div>
+    </div>
+    <div class="result-item">
+      <div class="result-big"><span class="n" data-target="40">0</span>%+</div>
+      <div class="result-desc">ارتفاع في صافي الأرباح مقارنة بما قبل النظام</div>
+    </div>
+    <div class="result-item">
+      <div class="result-big"><span class="n" data-target="3">0</span>x</div>
+      <div class="result-desc">سرعة في معالجة الطلبات وتقليل أوقات الانتظار</div>
+    </div>
+  </div>
+</section>
+
+<!-- ── CTA ── -->
+<section id="cta-section">
+  <div class="cta-inner">
+    <div class="edit-banner">
+      <span>✏️</span>
+      <span>قيد التعديل — يُحدَّث باستمرار مع إضافة عملاء جدد ونتائج موثقة</span>
+    </div>
+    <div class="cta-badge">
+      <span class="cta-badge-dot"></span>
+      نقبل عملاء جدد الآن — العراق فقط
+    </div>
+    <h2>مطعمك يستحق<br><span style="color:var(--pink)">أكثر</span></h2>
+    <p>سواء كنت تفتح مطعمك الأول أو عندك فرع قائم تريد تطويره — نبدأ بمحادثة مجانية نفهم فيها وضعك. <strong style="color:var(--white)">الأسعار تختلف حسب حالة المطعم والسلسلة.</strong></p>
+
+    <!-- Contact Cards -->
+    <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-bottom:36px;">
+      <a href="https://wa.me/9647734383437" target="_blank" style="display:flex;align-items:center;gap:12px;background:rgba(37,211,102,0.1);border:1px solid rgba(37,211,102,0.3);border-radius:8px;padding:16px 28px;text-decoration:none;color:var(--white);transition:all .3s;cursor:none;" class="contact-card">
+        <span style="font-size:24px;">💬</span>
+        <div style="text-align:right;">
+          <div style="font-size:11px;color:rgba(37,211,102,0.8);letter-spacing:.15em;font-weight:700;margin-bottom:4px;">WHATSAPP</div>
+          <div style="font-family:'Space Mono',monospace;font-size:16px;font-weight:700;direction:ltr;">07734383437</div>
+        </div>
+      </a>
+      <a href="mailto:info@iqrhq.me" style="display:flex;align-items:center;gap:12px;background:rgba(0,195,255,0.08);border:1px solid rgba(0,195,255,0.25);border-radius:8px;padding:16px 28px;text-decoration:none;color:var(--white);transition:all .3s;cursor:none;" class="contact-card">
+        <span style="font-size:24px;">✉️</span>
+        <div style="text-align:right;">
+          <div style="font-size:11px;color:var(--blue);letter-spacing:.15em;font-weight:700;margin-bottom:4px;">EMAIL</div>
+          <div style="font-family:'Space Mono',monospace;font-size:14px;font-weight:700;direction:ltr;">info@iqrhq.me</div>
+        </div>
+      </a>
+      <a href="https://instagram.com/iqrhq_ops" target="_blank" style="display:flex;align-items:center;gap:12px;background:rgba(255,45,122,0.08);border:1px solid rgba(255,45,122,0.25);border-radius:8px;padding:16px 28px;text-decoration:none;color:var(--white);transition:all .3s;cursor:none;" class="contact-card">
+        <span style="font-size:24px;">📸</span>
+        <div style="text-align:right;">
+          <div style="font-size:11px;color:var(--pink);letter-spacing:.15em;font-weight:700;margin-bottom:4px;">INSTAGRAM / TIKTOK</div>
+          <div style="font-family:'Space Mono',monospace;font-size:14px;font-weight:700;direction:ltr;">@iqrhq_ops</div>
+        </div>
+      </a>
+    </div>
+
+    <div class="pricing-note">
+      💡 <strong>الأسعار حسب الحالة</strong> — كل مطعم وضعه مختلف. نحدد معك السعر المناسب بعد فهم احتياجاتك بالضبط، سواء كنت مطعم صغير أو سلسلة متعددة الفروع.
+    </div>
+
+    <div class="cta-actions">
+      <a href="https://wa.me/9647734383437?text=مرحبا،+أريد+استشارة+مجانية+لمطعمي" target="_blank" class="btn-main">📲 احجز استشارة مجانية على واتساب</a>
+      <a href="mailto:info@iqrhq.me" class="btn-outline">راسلنا على الإيميل</a>
+    </div>
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <span class="logo">IQR</span>
+      <p style="margin-bottom:16px;">لإدارة وتطوير المطاعم — نحول فوضى مطعمك إلى دقة هندسية ذاتية في العراق.</p>
+      <!-- Social links -->
+      <div style="display:flex;gap:12px;margin-top:8px;">
+        <a href="https://instagram.com/iqrhq_ops" target="_blank" title="Instagram" style="width:36px;height:36px;border:1px solid var(--border);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:16px;text-decoration:none;transition:border-color .3s,background .3s;cursor:none;" class="social-icon">📸</a>
+        <a href="https://www.facebook.com/iqrhq_ops" target="_blank" title="Facebook" style="width:36px;height:36px;border:1px solid var(--border);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:16px;text-decoration:none;transition:border-color .3s,background .3s;cursor:none;" class="social-icon">👤</a>
+        <a href="https://www.tiktok.com/@iqrhq_ops" target="_blank" title="TikTok" style="width:36px;height:36px;border:1px solid var(--border);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:16px;text-decoration:none;transition:border-color .3s,background .3s;cursor:none;" class="social-icon">🎵</a>
+        <a href="https://wa.me/9647734383437" target="_blank" title="WhatsApp" style="width:36px;height:36px;border:1px solid rgba(37,211,102,0.3);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:16px;text-decoration:none;transition:border-color .3s,background .3s;cursor:none;" class="social-icon">💬</a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>الخدمات</h4>
+      <a href="#services">تحليل العمليات</a>
+      <a href="#services">نظام المخزون الذكي</a>
+      <a href="#services">تحسين الربحية</a>
+      <a href="#services">إدارة الموظفين</a>
+      <a href="#services">لوحة التحكم</a>
+    </div>
+    <div class="footer-col">
+      <h4>من نحن</h4>
+      <a href="#problem">المشكلة</a>
+      <a href="#solution">الحل</a>
+      <a href="#process">كيف نعمل</a>
+      <a href="#results">النتائج</a>
+    </div>
+    <div class="footer-col">
+      <h4>تواصل معنا</h4>
+      <a href="https://wa.me/9647734383437" target="_blank">💬 واتساب: 07734383437</a>
+      <a href="mailto:info@iqrhq.me">✉️ info@iqrhq.me</a>
+      <a href="https://instagram.com/iqrhq_ops" target="_blank">📸 @iqrhq_ops</a>
+      <a href="https://www.tiktok.com/@iqrhq_ops" target="_blank">🎵 @iqrhq_ops</a>
+      <a href="https://www.facebook.com/iqrhq_ops" target="_blank">👤 @iqrhq_ops</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 IQR لإدارة وتطوير المطاعم — العراق — جميع الحقوق محفوظة</span>
+    <div class="status-dot">-</div>
+    <span style="font-family:'Space Mono',monospace;font-size:10px;">-</span>
+  </div>
+</footer>
+
+<script>
+// ── CURSOR ──────────────────────────────────────────────────────────────────
+const cur = document.getElementById('cur');
+const curR = document.getElementById('cur-ring');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.cssText+=`left:${mx}px;top:${my}px;`;});
+(function loop(){rx+=(mx-rx)*.1;ry+=(my-ry)*.1;curR.style.left=rx+'px';curR.style.top=ry+'px';requestAnimationFrame(loop);})();
+
+// ── THREE.JS PARTICLE BG ─────────────────────────────────────────────────────
+const canvas = document.getElementById('bg-canvas');
+const renderer = new THREE.WebGLRenderer({canvas, antialias:true, alpha:true});
+renderer.setPixelRatio(Math.min(devicePixelRatio,2));
+renderer.setSize(innerWidth,innerHeight);
+renderer.setClearColor(0x000000,0);
+
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(75, innerWidth/innerHeight, 0.1, 100);
+camera.position.z = 20;
+
+// Grid of dots
+const gridGeo = new THREE.BufferGeometry();
+const gPos=[], gCol=[];
+const GW=60,GH=35;
+for(let x=0;x<GW;x++){for(let y=0;y<GH;y++){
+  const px=(x/GW-.5)*80, py=(y/GH-.5)*45, pz=Math.random()*4-2;
+  gPos.push(px,py,pz);
+  const t=Math.random();
+  gCol.push(t>0.7?1:0, 0, t>0.7?0.48:t>0.4?0.76:0.15);
+}}
+gridGeo.setAttribute('position',new THREE.BufferAttribute(new Float32Array(gPos),3));
+gridGeo.setAttribute('color',new THREE.BufferAttribute(new Float32Array(gCol),3));
+const gridMat=new THREE.PointsMaterial({size:0.08,vertexColors:true,transparent:true,opacity:0.5});
+const grid=new THREE.Points(gridGeo,gridMat);
+scene.add(grid);
+
+// Floating lines (connections)
+const lineMat = new THREE.LineBasicMaterial({color:0x0a1f3c,transparent:true,opacity:0.3});
+for(let i=0;i<20;i++){
+  const lGeo=new THREE.BufferGeometry();
+  const x1=(Math.random()-.5)*80,y1=(Math.random()-.5)*45;
+  const x2=x1+(Math.random()-.5)*20,y2=y1+(Math.random()-.5)*10;
+  lGeo.setAttribute('position',new THREE.BufferAttribute(new Float32Array([x1,y1,0,x2,y2,0]),3));
+  scene.add(new THREE.Line(lGeo,lineMat));
+}
+
+let mx3=0,my3=0;
+document.addEventListener('mousemove',e=>{mx3=(e.clientX/innerWidth-.5)*2;my3=-(e.clientY/innerHeight-.5)*2;});
+
+window.addEventListener('resize',()=>{
+  camera.aspect=innerWidth/innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(innerWidth,innerHeight);
+});
+
+let t=0;
+(function animBG(){
+  requestAnimationFrame(animBG);
+  t+=0.003;
+  grid.rotation.y=mx3*.05;
+  grid.rotation.x=my3*.03;
+  gridMat.opacity=0.4+Math.sin(t)*0.1;
+  renderer.render(scene,camera);
+})();
+
+// ── GSAP SCROLL ANIMATIONS ───────────────────────────────────────────────────
+gsap.registerPlugin(ScrollTrigger);
+
+// Nav scroll
+ScrollTrigger.create({
+  start:'top -80',
+  onUpdate:(self)=>{
+    document.getElementById('navbar').classList.toggle('scrolled',self.scroll()>80);
+  }
+});
+
+// Hero
+const heroTl = gsap.timeline({defaults:{ease:'power4.out'}});
+heroTl
+  .to('.hero-eyebrow',{opacity:1,y:0,duration:1,delay:.3})
+  .to('.hero-h1 .line span',{
+    y:0, opacity:1, duration:1.2, stagger:.12, ease:'power3.out',
+    from:{y:'110%',opacity:0}
+  },'-=0.6')
+  .to('.hero-sub',{opacity:1,y:0,duration:.9},'-=0.4')
+  .to('.hero-actions',{opacity:1,y:0,duration:.9},'-=0.5');
+
+// Hero lines initial state
+gsap.set('.hero-h1 .line span',{y:'110%',opacity:0});
+gsap.set(['.hero-eyebrow','.hero-sub','.hero-actions'],{opacity:0,y:30});
+
+// Problem cards
+gsap.utils.toArray('.problem-card').forEach((card,i)=>{
+  gsap.to(card,{
+    opacity:1, y:0, duration:.8, ease:'power3.out',
+    scrollTrigger:{trigger:card, start:'top 85%'},
+    delay: i*0.12
+  });
+});
+
+// Solution visuals
+['#vis1','#vis2','#vis3'].forEach((id,i)=>{
+  const el=document.querySelector(id);
+  if(!el)return;
+  const isLeft=el.classList.contains('from-left');
+  gsap.to(el,{
+    opacity:1, x:0, duration:1.2, ease:'power3.out',
+    scrollTrigger:{trigger:el,start:'top 75%',
+      onEnter:()=>{
+        el.querySelectorAll('.vis-bar-fill').forEach(bar=>{
+          gsap.to(bar,{width:bar.dataset.w+'%',duration:1.5,ease:'power2.out',delay:.3});
+        });
+      }
+    }
+  });
+});
+
+// Service cards
+gsap.utils.toArray('.service-card').forEach((card,i)=>{
+  gsap.to(card,{
+    opacity:1, y:0, duration:.9, ease:'power3.out',
+    scrollTrigger:{trigger:card, start:'top 88%'},
+    delay:(i%3)*0.1
+  });
+});
+
+// Process steps
+gsap.utils.toArray('.process-step').forEach((step,i)=>{
+  gsap.to(step,{
+    opacity:1, y:0, duration:.9, ease:'power3.out',
+    scrollTrigger:{trigger:step, start:'top 85%'},
+    delay:i*0.15
+  });
+});
+
+// Results counter animation
+const results=document.querySelectorAll('.result-item');
+results.forEach((item,i)=>{
+  gsap.to(item,{
+    opacity:1, scale:1, duration:.8, ease:'back.out(1.5)',
+    scrollTrigger:{trigger:item, start:'top 85%'},
+    delay:i*0.1,
+    onComplete:()=>{
+      const num=item.querySelector('[data-target]');
+      if(!num)return;
+      const target=+num.dataset.target;
+      let current=0;
+      const step=target/40;
+      const int=setInterval(()=>{
+        current=Math.min(current+step,target);
+        num.textContent=Math.round(current);
+        if(current>=target)clearInterval(int);
+      },30);
+    }
+  });
+});
+
+// Horizontal pinned scroll effect for marquee section
+// (already CSS animated, but add scroll-triggered reveal)
+ScrollTrigger.create({
+  trigger:'.marquee-section',
+  start:'top 90%',
+  onEnter:()=>gsap.from('.marquee-section',{opacity:0,y:20,duration:.6})
+});
+
+// CTA section dramatic entrance
+gsap.from('#cta-section h2',{
+  opacity:0, y:60, duration:1.2, ease:'power4.out',
+  scrollTrigger:{trigger:'#cta-section', start:'top 70%'}
+});
+gsap.from(['.cta-badge','.edit-banner'],{
+  opacity:0, y:30, duration:.8, stagger:.15,
+  scrollTrigger:{trigger:'#cta-section', start:'top 70%'}
+});
+gsap.from(['#cta-section p','.cta-form-row','.cta-actions'],{
+  opacity:0, y:30, duration:.8, stagger:.1, delay:.3,
+  scrollTrigger:{trigger:'#cta-section', start:'top 70%'}
+});
+
+// Section labels
+gsap.utils.toArray('.section-label').forEach(el=>{
+  gsap.from(el,{opacity:0,x:20,duration:.6,scrollTrigger:{trigger:el,start:'top 90%'}});
+});
+
+// Section h2s
+gsap.utils.toArray('.section-h2').forEach(el=>{
+  gsap.from(el,{opacity:0,y:40,duration:1,ease:'power3.out',scrollTrigger:{trigger:el,start:'top 85%'}});
+});
+
+// Footer
+gsap.from('.footer-inner',{
+  opacity:0, y:30, duration:1,
+  scrollTrigger:{trigger:'footer',start:'top 90%'}
+});
+
+// ── FORM SUBMIT ──────────────────────────────────────────────────────────────
+document.querySelector('.cta-submit').addEventListener('click',function(){
+  const inp=document.querySelector('.cta-input');
+  if(inp.value.trim()){
+    this.textContent='✓ تم الإرسال';
+    this.style.background='#00aa55';
+    inp.value='';
+    setTimeout(()=>{this.textContent='ابعث →';this.style.background='';},3000);
+  } else {
+    inp.style.borderRight='2px solid var(--pink)';
+    inp.focus();
+    setTimeout(()=>inp.style.borderRight='',1500);
+  }
+});
+
+</script>
+</body>
+</html>
