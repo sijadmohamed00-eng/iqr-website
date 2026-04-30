@@ -168,7 +168,7 @@ function Nav() {
       </a>
       <div style={{ display: "flex", gap: 24, alignItems: "center" }}>
         <a href="/blog" style={{ fontFamily: "Cairo", fontSize: 13, fontWeight: 700, color: "rgba(240,244,255,.5)", textDecoration: "none" }}>â Ø§ÙÙØ¯ÙÙØ©</a>
-        <a href="https://wa.me/9647734383437" target="_blank" style={{ fontFamily: "Cairo", fontSize: 13, fontWeight: 700, padding: "8px 20px", background: "#ff2d7a", color: "#fff", borderRadius: 4, textDecoration: "none" }}>ØªÙØ§ØµÙ ð¬</a>
+        <a href="https://wa.me/9647734383431" target="_blank" style={{ fontFamily: "Cairo", fontSize: 13, fontWeight: 700, padding: "8px 20px", background: "#ff2d7a", color: "#fff", borderRadius: 4, textDecoration: "none" }}>ØªÙØ§ØµÙ ð¬</a>
       </div>
     </nav>
   );
@@ -203,7 +203,7 @@ export default function BlogPostClient({ params }) {
         <div style={{ marginTop: 60, padding: "40px", background: "linear-gradient(135deg,rgba(255,45,122,.08),rgba(0,195,255,.04))", border: "1px solid rgba(255,45,122,.2)", borderRadius: 16, textAlign: "center" }}>
           <h3 style={{ fontFamily: "Cairo", fontSize: 22, fontWeight: 900, color: "#f0f4ff", marginBottom: 12 }}>ØªØ¨Ù ØªØ·Ø¨Ù ÙØ°Ø§ ÙÙ ÙØ·Ø¹ÙÙØ</h3>
           <p style={{ fontFamily: "Cairo", fontSize: 14, color: "rgba(240,244,255,.45)", marginBottom: 24, lineHeight: 1.8 }}>ÙØ­Ø§Ø¯Ø«Ø© ÙØ¬Ø§ÙÙØ© ÙØ¹ ÙØ±ÙÙ IQR â ÙØ­ÙÙ ÙØ¶Ø¹Ù ÙÙØ­Ø¯Ø¯ ÙÙ Ø£ÙÙ ØªØ¨Ø¯Ø£</p>
-          <a href="https://wa.me/9647734383437" target="_blank" style={{ display: "inline-flex", alignItems: "center", gap: 10, fontFamily: "Cairo", fontSize: 14, fontWeight: 700, padding: "14px 36px", background: "#ff2d7a", color: "#fff", borderRadius: 8, textDecoration: "none", boxShadow: "0 0 30px rgba(255,45,122,.3)" }}>ð² ØªÙØ§ØµÙ Ø¹ÙÙ ÙØ§ØªØ³Ø§Ø¨</a>
+          <a href="https://wa.me/9647734383431" target="_blank" style={{ display: "inline-flex", alignItems: "center", gap: 10, fontFamily: "Cairo", fontSize: 14, fontWeight: 700, padding: "14px 36px", background: "#ff2d7a", color: "#fff", borderRadius: 8, textDecoration: "none", boxShadow: "0 0 30px rgba(255,45,122,.3)" }}>ð² ØªÙØ§ØµÙ Ø¹ÙÙ ÙØ§ØªØ³Ø§Ø¨</a>
         </div>
         <div style={{ marginTop: 40, textAlign: "center" }}>
           <a href="/blog" style={{ fontFamily: "Cairo", fontSize: 13, color: "rgba(240,244,255,.3)", textDecoration: "none" }}>â Ø§ÙØ¹ÙØ¯Ø© ÙÙÙØ¯ÙÙØ©</a>

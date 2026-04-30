@@ -98,7 +98,7 @@ function Nav() {
           <a key={n.h} href={n.h} style={{fontFamily:"Cairo",fontSize:13,fontWeight:700,color:n.h==="/blog"?"#ff2d7a":"rgba(240,244,255,.5)",textDecoration:"none",transition:"color .3s"}}
             onMouseEnter={e=>e.target.style.color="#f0f4ff"} onMouseLeave={e=>e.target.style.color=n.h==="/blog"?"#ff2d7a":"rgba(240,244,255,.5)"}>{n.l}</a>
         ))}
-        <a href="https://wa.me/9647734383437" target="_blank" style={{fontFamily:"Cairo",fontSize:13,fontWeight:700,padding:"8px 20px",background:"#ff2d7a",color:"#fff",borderRadius:4,textDecoration:"none",boxShadow:"0 0 16px rgba(255,45,122,.3)"}}>تواصل 💬</a>
+        <a href="https://wa.me/9647734383431" target="_blank" style={{fontFamily:"Cairo",fontSize:13,fontWeight:700,padding:"8px 20px",background:"#ff2d7a",color:"#fff",borderRadius:4,textDecoration:"none",boxShadow:"0 0 16px rgba(255,45,122,.3)"}}>تواصل 💬</a>
       </div>
     </nav>
   );
@@ -244,7 +244,7 @@ export default function BlogClient() {
           <div style={{fontSize:36,marginBottom:16}}>📬</div>
           <h2 style={{fontFamily:"Cairo",fontSize:28,fontWeight:900,color:"#f0f4ff",marginBottom:12}}>اشترك في نشرتنا</h2>
           <p style={{fontFamily:"Cairo",fontSize:14,color:"rgba(240,244,255,.4)",marginBottom:28,lineHeight:1.8}}>مقال أسبوعي عملي لتطوير مطعمك — مباشرة على واتساب</p>
-          <a href="https://wa.me/9647734383437?text=أريد+الاشتراك+في+نشرة+IQR+الأسبوعية" target="_blank" style={{display:"inline-flex",alignItems:"center",gap:10,fontFamily:"Cairo",fontSize:14,fontWeight:700,padding:"14px 36px",background:"#ff2d7a",color:"#fff",borderRadius:8,textDecoration:"none",boxShadow:"0 0 30px rgba(255,45,122,.3)"}}>
+          <a href="https://wa.me/9647734383431?text=أريد+الاشتراك+في+نشرة+IQR+الأسبوعية" target="_blank" style={{display:"inline-flex",alignItems:"center",gap:10,fontFamily:"Cairo",fontSize:14,fontWeight:700,padding:"14px 36px",background:"#ff2d7a",color:"#fff",borderRadius:8,textDecoration:"none",boxShadow:"0 0 30px rgba(255,45,122,.3)"}}>
             📲 اشترك عبر واتساب
           </a>
         </div>

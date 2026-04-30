@@ -281,18 +281,18 @@ function Nav() {
         <span style={{width:8,height:8,background:"#ff2d7a",borderRadius:"50%",animation:"blink 2s infinite"}}/>
         IQR<span style={{color:"#ff2d7a",fontSize:13,fontWeight:400,fontFamily:"Cairo",marginRight:6}}>لإدارة المطاعم</span>
       </a>
-      <div className="nav-links-wrap" style={{display:"flex",gap:32}}>
-        {["#problem:التحدي","#solution:الحل","#services:الخدمات","#results:النتائج"].map(s => {
-          const [h,l]=s.split(":");
-          return <a key={h} href={h} style={{fontFamily:"Cairo",fontSize:13,fontWeight:700,color:"rgba(240,244,255,.5)",textDecoration:"none",letterSpacing:".08em",cursor:"none",transition:"color .3s"}}
-            onMouseEnter={e=>e.target.style.color="#f0f4ff"} onMouseLeave={e=>e.target.style.color="rgba(240,244,255,.5)"}>{l}</a>;
-        })}
-        <span style={{width:1,height:16,background:"rgba(255,255,255,.1)",display:"inline-block",margin:"0 8px"}}/>
+      <div className="nav-links-wrap" style={{display:"flex",alignItems:"center",gap:8}}>
         {["/about/:من نحن","/blog/:المدونة","/contact/:تواصل"].map(s => {
           const [h,l]=s.split(":");
-          return <a key={h} href={h} style={{fontFamily:"Cairo",fontSize:13,fontWeight:700,color:"#ff2d7a",textDecoration:"none",letterSpacing:".08em",cursor:"none",transition:"all .3s",padding:"6px 14px",border:"1px solid rgba(255,45,122,.3)",borderRadius:4,background:"rgba(255,45,122,.06)"}}
-            onMouseEnter={e=>{e.currentTarget.style.background="rgba(255,45,122,.15)";e.currentTarget.style.borderColor="rgba(255,45,122,.7)";e.currentTarget.style.transform="translateY(-1px)"}}
-            onMouseLeave={e=>{e.currentTarget.style.background="rgba(255,45,122,.06)";e.currentTarget.style.borderColor="rgba(255,45,122,.3)";e.currentTarget.style.transform=""}}>{l}</a>;
+          return <a key={h} href={h} style={{fontFamily:"Cairo",fontSize:13,fontWeight:700,color:"#ff2d7a",textDecoration:"none",letterSpacing:".06em",cursor:"none",transition:"all .25s",padding:"7px 16px",border:"1px solid rgba(255,45,122,.35)",borderRadius:6,background:"rgba(255,45,122,.07)"}}
+            onMouseEnter={e=>{e.currentTarget.style.background="rgba(255,45,122,.18)";e.currentTarget.style.borderColor="#ff2d7a";e.currentTarget.style.transform="translateY(-1px)"}}
+            onMouseLeave={e=>{e.currentTarget.style.background="rgba(255,45,122,.07)";e.currentTarget.style.borderColor="rgba(255,45,122,.35)";e.currentTarget.style.transform=""}}>{l}</a>;
+        })}
+        <span style={{width:1,height:18,background:"rgba(255,255,255,.1)",display:"inline-block",margin:"0 12px"}}/>
+        {["#problem:التحدي","#solution:الحل","#services:الخدمات","#results:النتائج"].map(s => {
+          const [h,l]=s.split(":");
+          return <a key={h} href={h} style={{fontFamily:"Cairo",fontSize:13,fontWeight:600,color:"rgba(240,244,255,.45)",textDecoration:"none",letterSpacing:".06em",cursor:"none",transition:"color .25s",padding:"4px 8px"}}
+            onMouseEnter={e=>e.target.style.color="#f0f4ff"} onMouseLeave={e=>e.target.style.color="rgba(240,244,255,.45)"}>{l}</a>;
         })}
       </div>
       <div style={{display:"flex",gap:10,alignItems:"center"}}>

@@ -44,7 +44,7 @@ function Nav() {
           <a key={n.h} href={n.h} style={{ fontFamily: "Cairo", fontSize: 13, fontWeight: 700, color: n.h === "/about" ? "#ff2d7a" : "rgba(240,244,255,.5)", textDecoration: "none", transition: "color .3s" }}
             onMouseEnter={e => e.target.style.color = "#f0f4ff"} onMouseLeave={e => e.target.style.color = n.h === "/about" ? "#ff2d7a" : "rgba(240,244,255,.5)"}>{n.l}</a>
         ))}
-        <a href="https://wa.me/9647734383437" target="_blank" style={{ fontFamily: "Cairo", fontSize: 13, fontWeight: 700, padding: "8px 20px", background: "#ff2d7a", color: "#fff", borderRadius: 4, textDecoration: "none" }}>تواصل 💬</a>
+        <a href="https://wa.me/9647734383431" target="_blank" style={{ fontFamily: "Cairo", fontSize: 13, fontWeight: 700, padding: "8px 20px", background: "#ff2d7a", color: "#fff", borderRadius: 4, textDecoration: "none" }}>تواصل 💬</a>
       </div>
     </nav>
   );
@@ -163,7 +163,7 @@ export default function AboutClient() {
           <h2 style={{ fontFamily: "Cairo", fontSize: "clamp(32px,5vw,60px)", fontWeight: 900, lineHeight: .95, marginBottom: 24, color: "#f0f4ff" }}>جاهز تبدأ<br /><em style={{ fontStyle: "normal", color: "#ff2d7a" }}>معنا؟</em></h2>
           <p style={{ fontFamily: "Cairo", fontSize: 16, color: "rgba(240,244,255,.45)", marginBottom: 40, lineHeight: 1.8 }}>محادثة مجانية نفهم فيها وضعك — بدون التزام</p>
           <div style={{ display: "flex", gap: 16, justifyContent: "center", flexWrap: "wrap" }}>
-            <a href="https://wa.me/9647734383437" target="_blank" style={{ fontFamily: "Cairo", fontSize: 14, fontWeight: 700, padding: "16px 44px", background: "#ff2d7a", color: "#fff", borderRadius: 4, textDecoration: "none", boxShadow: "0 0 40px rgba(255,45,122,.4)" }}>📲 تواصل على واتساب</a>
+            <a href="https://wa.me/9647734383431" target="_blank" style={{ fontFamily: "Cairo", fontSize: 14, fontWeight: 700, padding: "16px 44px", background: "#ff2d7a", color: "#fff", borderRadius: 4, textDecoration: "none", boxShadow: "0 0 40px rgba(255,45,122,.4)" }}>📲 تواصل على واتساب</a>
             <a href="/contact" style={{ fontFamily: "Cairo", fontSize: 14, fontWeight: 700, padding: "15px 44px", background: "transparent", color: "rgba(240,244,255,.6)", border: "1px solid rgba(255,255,255,.1)", borderRadius: 4, textDecoration: "none" }}>راسلنا</a>
           </div>
         </div>
