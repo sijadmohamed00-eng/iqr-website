@@ -287,6 +287,12 @@ function Nav() {
           return <a key={h} href={h} style={{fontFamily:"Cairo",fontSize:13,fontWeight:700,color:"rgba(240,244,255,.5)",textDecoration:"none",letterSpacing:".08em",cursor:"none",transition:"color .3s"}}
             onMouseEnter={e=>e.target.style.color="#f0f4ff"} onMouseLeave={e=>e.target.style.color="rgba(240,244,255,.5)"}>{l}</a>;
         })}
+        <span style={{width:1,height:16,background:"rgba(255,255,255,.1)",display:"inline-block",margin:"0 8px"}}/>
+        {["/about/:من نحن","/blog/:المدونة","/contact/:تواصل"].map(s => {
+          const [h,l]=s.split(":");
+          return <a key={h} href={h} style={{fontFamily:"Cairo",fontSize:13,fontWeight:700,color:"rgba(240,244,255,.5)",textDecoration:"none",letterSpacing:".08em",cursor:"none",transition:"color .3s"}}
+            onMouseEnter={e=>e.target.style.color="#ff2d7a"} onMouseLeave={e=>e.target.style.color="rgba(240,244,255,.5)"}>{l}</a>;
+        })}
       </div>
       <div style={{display:"flex",gap:10,alignItems:"center"}}>
         <a href="/dashboard" style={{fontFamily:"Cairo",fontSize:13,fontWeight:700,padding:"10px 20px",background:"transparent",color:"rgba(240,244,255,.6)",border:"1px solid rgba(255,255,255,.1)",borderRadius:4,cursor:"none",letterSpacing:".06em",textDecoration:"none",transition:"all .2s"}}
