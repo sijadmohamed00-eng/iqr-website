@@ -1,11 +1,38 @@
-export default function sitemap() {
-  return [
-    { url: "https://iqrhq.me", lastModified: new Date(), changeFrequency: "weekly", priority: 1 },
-    { url: "https://iqrhq.me/about", lastModified: new Date(), changeFrequency: "monthly", priority: 0.8 },
-    { url: "https://iqrhq.me/contact", lastModified: new Date(), changeFrequency: "monthly", priority: 0.8 },
-    { url: "https://iqrhq.me/blog", lastModified: new Date(), changeFrequency: "weekly", priority: 0.7 },
-    { url: "https://iqrhq.me/blog/inventory-waste", lastModified: new Date(), changeFrequency: "monthly", priority: 0.6 },
-    { url: "https://iqrhq.me/blog/peak-hours", lastModified: new Date(), changeFrequency: "monthly", priority: 0.6 },
-    { url: "https://iqrhq.me/dashboard", lastModified: new Date(), changeFrequency: "weekly", priority: 0.5 },
-  ];
-}
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://iqrhq.me/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://iqrhq.me/about/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://iqrhq.me/contact/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://iqrhq.me/blog/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://iqrhq.me/blog/inventory-waste/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://iqrhq.me/blog/peak-hours/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://iqrhq.me/dashboard/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+</urlset>
