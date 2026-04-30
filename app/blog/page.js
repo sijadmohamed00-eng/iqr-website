@@ -1,68 +1,32 @@
-
-import { useState, useEffect } from "react";
-
-export function generateStaticParams() {
-  return [
-    { slug: "inventory-waste" },
-    { slug: "peak-hours" },
-    { slug: "staff-management" },
-    { slug: "menu-engineering" },
-    { slug: "order-routing" },
-    { slug: "iraq-restaurant-market" },
-  ];
-}
-
-const POSTS = {
-  "inventory-waste": {
-    title: "كيف تقلل هدر مطعمك بنسبة 30% خلال شهر واحد",
-    category: "المخزون", categoryColor: "#ffd60a", date: "15 أبريل 2026", readTime: "6 دقائق", icon: "📦",
-    content: `<h2>لماذا الهدر يدمر أرباحك؟</h2><p>في متوسط المطاعم العراقية، يصل الهدر الغذائي إلى <strong>25-35%</strong> من إجمالي تكاليف المواد الخام.</p><blockquote><p>الهدر ليس قدراً — هو نتيجة غياب النظام.</p></blockquote><h2>الأسباب الحقيقية</h2><ul><li>غياب نظام تتبع المخزون</li><li>الطلبيات العشوائية</li><li>سوء التخزين</li><li>عدم حساب استهلاك الأصناف</li></ul><h2>الحل خطوة بخطوة</h2><h3>1. جرد شامل</h3><p>ابدأ بجرد يدوي كامل لكل ما في مطبخك.</p><h3>2. احسب استهلاك كل طبق</h3><p>لكل صنف، حدد بالضبط كم يستهلك من كل مادة خام.</p><h3>3. اربط المخزون بالطلبات</h3><p>كل ما يُباع يُخصم تلقائياً من المخزون.</p><h3>4. تنبيهات الحد الأدنى</h3><p>حدد لكل مادة مستوى أدنى وتنبيه فوري.</p><h2>النتائج المتوقعة</h2><ul><li>تقليل الهدر 25-35% خلال شهر</li><li>توفير 15-20% من تكاليف المواد</li><li>القضاء على نفاد الأصناف المفاجئ</li></ul>`
-  },
-  "peak-hours": {
-    title: "ساعات الذروة: كيف تستعد وتضاعف إيراداتك",
-    category: "التحليلات", categoryColor: "#00c3ff", date: "8 أبريل 2026", readTime: "5 دقائق", icon: "📊",
-    content: `<h2>ما هي ساعات الذروة؟</h2><p>الفترات التي يرتفع فيها الطلب — الغداء 12-2 والعشاء 7-9. معظم المطاعم تخسر لأنها غير مستعدة.</p><h2>كيف تعرف ذروتك؟</h2><ul><li>حلّل بيانات مبيعاتك اليومية شهر كامل</li><li>حدد الساعات الأعلى طلباً</li><li>قارن بين أيام الأسبوع</li></ul><h2>الاستعداد الصح</h2><p>قبل ساعة من الذروة: جهوزية المطبخ، المواد الخام، الطاقم كامل.</p><blockquote><p>الذروة فرصة ذهبية — من يستعد يضاعف إيراداته.</p></blockquote>`
-  },
-  "staff-management": {
-    title: "إدارة موظفي المطعم: من الفوضى إلى النظام",
-    category: "الموظفون", categoryColor: "#00ff88", date: "1 أبريل 2026", readTime: "8 دقائق", icon: "👥",
-    content: `<h2>المشكلة الحقيقية</h2><p>فريق غير منظم يكلفك أكثر من فريق صغير منضبط.</p><h2>4 خطوات للنظام</h2><h3>1. حدد الأدوار</h3><p>كل موظف يعرف مهامه بالضبط.</p><h3>2. جداول ذكية</h3><p>مبنية على ساعات الذروة الفعلية.</p><h3>3. تقييم الأداء</h3><p>أرقام واضحة — طلبات، سرعة، رضا عملاء.</p><h3>4. تدريب مستمر</h3><p>تدريب أسبوعي قصير يحسن الأداء خلال شهر.</p>`
-  },
-  "menu-engineering": {
-    title: "هندسة قائمة الطعام: أي أصناف تجلب الربح؟",
-    category: "الربحية", categoryColor: "#ff2d7a", date: "24 مارس 2026", readTime: "7 دقائق", icon: "🍽️",
-    content: `<h2>ليس كل صنف يستحق مكانه</h2><p>هندسة القائمة علم يحدد أي الأصناف تجلب أكبر ربح.</p><h2>تصنيف الأصناف</h2><ul><li><strong>النجوم:</strong> مبيعات عالية + ربح عالي</li><li><strong>الأبقار:</strong> مبيعات عالية + ربح منخفض</li><li><strong>الألغاز:</strong> مبيعات منخفضة + ربح عالي</li><li><strong>الكلاب:</strong> مبيعات منخفضة + ربح منخفض — احذفها</li></ul><blockquote><p>حذف 3-5 أصناف غير مربحة يرفع أرباحك 15%.</p></blockquote>`
-  },
-  "order-routing": {
-    title: "توجيه الطلبات الذكي: كيف تنهي فوضى المطبخ",
-    category: "العمليات", categoryColor: "#00c3ff", date: "15 مارس 2026", readTime: "5 دقائق", icon: "⚡",
-    content: `<h2>الفوضى ليست قدراً</h2><p>نظام توجيه الطلبات الصحيح يقلل وقت التحضير 40%.</p><h2>عناصر النظام الذكي</h2><ul><li>توزيع تلقائي على المحطات</li><li>أولويات واضحة للطاولات</li><li>تنبيهات عند تجاوز وقت التحضير</li><li>تتبع كل طلب من الاستلام للتسليم</li></ul><blockquote><p>مطعم منظم يخدم 40% زبائن أكثر بنفس الفريق.</p></blockquote>`
-  },
-  "iraq-restaurant-market": {
-    title: "سوق المطاعم في العراق 2026: الفرص والتحديات",
-    category: "السوق العراقي", categoryColor: "#ffd60a", date: "5 مارس 2026", readTime: "10 دقائق", icon: "🇮🇶",
-    content: `<h2>واقع السوق العراقي</h2><p>قطاع المطاعم ينمو بسرعة — لكن معظمها يفتقر للأنظمة الاحترافية.</p><h2>الفرص</h2><ul><li>طبقة وسطى متنامية وإنفاق متزايد</li><li>انتشار التوصيل والطلب الإلكتروني</li><li>غياب المنافسة الاحترافية في معظم المدن</li></ul><h2>التحديات</h2><ul><li>غياب الكوادر المدربة</li><li>ارتفاع تكاليف المواد الخام</li><li>منافسة غير منظمة</li></ul><blockquote><p>المطعم الذي يمتلك نظاماً احترافياً اليوم سيكون رائداً غداً.</p></blockquote>`
-  },
-};
+"use client";
+import { useState, useEffect, useRef } from "react";
 
 const G = `
   @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&family=Space+Mono:wght@400;700&display=swap');
   *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
-  body{background:#000814;font-family:'Cairo',sans-serif;overflow-x:hidden}
-  ::-webkit-scrollbar{width:4px} ::-webkit-scrollbar-thumb{background:#ff2d7a;border-radius:99px}
+  html{scroll-behavior:smooth}
+  body{background:#000814;overflow-x:hidden;font-family:'Cairo',sans-serif}
+  ::-webkit-scrollbar{width:4px}
+  ::-webkit-scrollbar-thumb{background:#ff2d7a;border-radius:99px}
   @keyframes fadeUp{from{opacity:0;transform:translateY(40px)}to{opacity:1;transform:translateY(0)}}
-  @keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+  @keyframes fadeIn{from{opacity:0}to{opacity:1}}
   @keyframes orb{0%,100%{transform:translate(0,0)}50%{transform:translate(30px,-20px)}}
-  .prose p{font-size:16px;color:rgba(240,244,255,.6);line-height:2;margin-bottom:20px}
-  .prose h2{font-size:24px;font-weight:900;color:#f0f4ff;margin:40px 0 16px}
-  .prose h3{font-size:18px;font-weight:700;color:rgba(240,244,255,.8);margin:28px 0 12px}
-  .prose ul{padding-right:20px;margin-bottom:20px}
-  .prose li{font-size:15px;color:rgba(240,244,255,.55);line-height:1.9;margin-bottom:8px;list-style:none;padding-right:20px;position:relative}
-  .prose li::before{content:"◆";position:absolute;right:0;color:#ff2d7a;font-size:8px;top:8px}
-  .prose strong{color:#f0f4ff;font-weight:700}
-  .prose blockquote{border-right:3px solid #ff2d7a;padding:16px 24px;background:rgba(255,45,122,.06);border-radius:0 8px 8px 0;margin:24px 0}
-  .prose blockquote p{color:rgba(240,244,255,.7);font-style:italic;margin:0}
+  @keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+  @keyframes lineGrow{from{width:0}to{width:100%}}
+  .card-hover{transition:transform .2s ease,box-shadow .2s ease}
+  .card-hover:hover{transform:translateY(-4px);box-shadow:0 16px 48px rgba(255,45,122,.15)!important}
 `;
+
+function useVisible(ref) {
+  const [v, setV] = useState(false);
+  useEffect(() => {
+    const obs = new IntersectionObserver(([e]) => { if(e.isIntersecting){setV(true);obs.disconnect();} }, {threshold:.1});
+    if(ref.current) obs.observe(ref.current);
+    return () => obs.disconnect();
+  }, []);
+  return v;
+}
 
 function Nav() {
   const [scrolled, setScrolled] = useState(false);
@@ -72,59 +36,170 @@ function Nav() {
     return () => window.removeEventListener("scroll", fn);
   }, []);
   return (
-    <nav style={{position:"fixed",top:0,left:0,right:0,zIndex:100,padding:"16px 48px",display:"flex",alignItems:"center",justifyContent:"space-between",background:scrolled?"rgba(0,8,20,.95)":"rgba(0,8,20,.7)",backdropFilter:"blur(24px)",borderBottom:"1px solid rgba(255,255,255,.05)",direction:"rtl"}}>
-      <a href="/" style={{fontFamily:"Space Mono",fontSize:18,fontWeight:700,color:"#f0f4ff",textDecoration:"none",display:"flex",alignItems:"center",gap:8}}>
-        <span style={{width:8,height:8,background:"#ff2d7a",borderRadius:"50%",animation:"blink 2s infinite"}}/>IQR
+    <nav style={{position:"fixed",top:0,left:0,right:0,zIndex:100,padding:"20px 48px",display:"flex",alignItems:"center",justifyContent:"space-between",
+      background:scrolled?"rgba(0,8,20,.95)":"transparent",backdropFilter:scrolled?"blur(24px)":"none",
+      borderBottom:scrolled?"1px solid rgba(255,45,122,.1)":"none",transition:"all .4s ease",direction:"rtl"}}>
+      <a href="/" style={{fontFamily:"Space Mono",fontSize:20,fontWeight:700,color:"#f0f4ff",textDecoration:"none",display:"flex",alignItems:"center",gap:10}}>
+        <span style={{width:8,height:8,background:"#ff2d7a",borderRadius:"50%",animation:"blink 2s infinite"}}/>
+        IQR<span style={{color:"#ff2d7a",fontSize:13,fontWeight:400,fontFamily:"Cairo",marginRight:6}}>لإدارة المطاعم</span>
       </a>
-      <div style={{display:"flex",gap:20,alignItems:"center"}}>
-        <a href="/blog" style={{fontFamily:"Cairo",fontSize:13,fontWeight:700,color:"rgba(240,244,255,.5)",textDecoration:"none"}}>← المدونة</a>
-        <a href="https://wa.me/9647734383437" target="_blank" style={{fontFamily:"Cairo",fontSize:13,fontWeight:700,padding:"8px 20px",background:"#ff2d7a",color:"#fff",borderRadius:4,textDecoration:"none"}}>تواصل 💬</a>
+      <div style={{display:"flex",gap:24}}>
+        {[{h:"/",l:"الرئيسية"},{h:"/about",l:"من نحن"},{h:"/blog",l:"المدونة"},{h:"/contact",l:"تواصل"}].map(n=>(
+          <a key={n.h} href={n.h} style={{fontFamily:"Cairo",fontSize:13,fontWeight:700,color:n.h==="/about"?"#ff2d7a":"rgba(240,244,255,.5)",textDecoration:"none",transition:"color .3s"}}
+            onMouseEnter={e=>e.target.style.color="#f0f4ff"} onMouseLeave={e=>e.target.style.color=n.h==="/about"?"#ff2d7a":"rgba(240,244,255,.5)"}>{n.l}</a>
+        ))}
+        <a href="https://wa.me/9647734383437" target="_blank" style={{fontFamily:"Cairo",fontSize:13,fontWeight:700,padding:"8px 20px",background:"#ff2d7a",color:"#fff",borderRadius:4,textDecoration:"none",boxShadow:"0 0 16px rgba(255,45,122,.3)"}}>تواصل 💬</a>
       </div>
     </nav>
   );
 }
 
-export default function BlogPostPage({ params }) {
-  const post = POSTS[params.slug] || POSTS["inventory-waste"];
+export default function AboutPage() {
+  const ref1 = useRef(null); const v1 = useVisible(ref1);
+  const ref2 = useRef(null); const v2 = useVisible(ref2);
+  const ref3 = useRef(null); const v3 = useVisible(ref3);
+
+  const values = [
+    {icon:"🎯",title:"الدقة أولاً",desc:"كل قرار نتخذه مبني على بيانات حقيقية، لا على حدس أو تخمين. نقيس كل شيء لنحسّن كل شيء."},
+    {icon:"⚡",title:"السرعة في التنفيذ",desc:"لا نؤمن بالخطط الطويلة بلا نتائج. نطبق، نقيس، ونطور — بسرعة ودقة."},
+    {icon:"🤝",title:"شراكة حقيقية",desc:"لسنا موردين خدمة، نحن شريك استراتيجي. نجاحك هو نجاحنا، وفشلك يؤرقنا."},
+    {icon:"🔄",title:"التحسين المستمر",desc:"المطعم الناجح لا يتوقف عن التطور. نتابع معك شهرياً ونحدّث النظام باستمرار."},
+  ];
+
+  const team = [
+    {name:"فريق العمليات",role:"خبراء إدارة المطاعم",desc:"خبرة تتجاوز 10 سنوات في إدارة وتطوير المطاعم في العراق والمنطقة.",avatar:"⚙️"},
+    {name:"فريق التحليل",role:"محللو بيانات وأداء",desc:"متخصصون في تحليل بيانات المطاعم وتحويلها إلى قرارات ربحية.",avatar:"📊"},
+    {name:"فريق التدريب",role:"مدربون معتمدون",desc:"يدربون فريقك حتى يصبح النظام طبيعياً ويومياً بدون تدخل منك.",avatar:"🎓"},
+  ];
+
   return (
     <>
       <style>{G}</style>
+      {/* BG */}
       <div style={{position:"fixed",inset:0,zIndex:0,pointerEvents:"none"}}>
-        <div style={{position:"absolute",width:500,height:500,borderRadius:"50%",background:"radial-gradient(ellipse,rgba(255,45,122,.06),transparent 70%)",top:0,right:0,filter:"blur(80px)",animation:"orb 15s ease-in-out infinite"}}/>
+        <div style={{position:"absolute",width:600,height:600,borderRadius:"50%",background:"radial-gradient(ellipse,rgba(255,45,122,.08),transparent 70%)",top:"-10%",right:"-5%",animation:"orb 15s ease-in-out infinite",filter:"blur(60px)"}}/>
+        <div style={{position:"absolute",width:500,height:500,borderRadius:"50%",background:"radial-gradient(ellipse,rgba(0,195,255,.05),transparent 70%)",bottom:"20%",left:"-5%",animation:"orb 20s ease-in-out infinite reverse",filter:"blur(80px)"}}/>
       </div>
+
       <Nav/>
-      <article style={{maxWidth:760,margin:"0 auto",padding:"120px 48px 100px",position:"relative",zIndex:2,direction:"rtl",animation:"fadeUp .8s ease both"}}>
-        <div style={{marginBottom:48}}>
-          <div style={{display:"flex",gap:12,alignItems:"center",marginBottom:24}}>
-            <a href="/blog" style={{fontFamily:"Cairo",fontSize:12,color:"rgba(240,244,255,.3)",textDecoration:"none"}}>المدونة</a>
-            <span style={{color:"rgba(240,244,255,.2)"}}>›</span>
-            <span style={{fontFamily:"Cairo",fontSize:12,color:post.categoryColor,fontWeight:700}}>{post.category}</span>
+
+      {/* HERO */}
+      <section style={{minHeight:"70vh",display:"flex",alignItems:"center",justifyContent:"center",padding:"120px 48px 80px",textAlign:"center",position:"relative",zIndex:2,direction:"rtl"}}>
+        <div style={{maxWidth:800,animation:"fadeUp 1s ease both"}}>
+          <div style={{fontSize:11,fontWeight:700,letterSpacing:".4em",color:"#ff2d7a",textTransform:"uppercase",marginBottom:24,display:"flex",alignItems:"center",justifyContent:"center",gap:16,fontFamily:"Cairo"}}>
+            <span style={{flex:1,maxWidth:60,height:1,background:"linear-gradient(to right,transparent,#ff2d7a)"}}/>
+            من نحن
+            <span style={{flex:1,maxWidth:60,height:1,background:"linear-gradient(to left,transparent,#ff2d7a)"}}/>
           </div>
-          <div style={{fontSize:48,marginBottom:20}}>{post.icon}</div>
-          <h1 style={{fontFamily:"Cairo",fontSize:"clamp(26px,4vw,44px)",fontWeight:900,color:"#f0f4ff",lineHeight:1.2,marginBottom:20}}>{post.title}</h1>
-          <div style={{display:"flex",gap:20,alignItems:"center"}}>
-            <span style={{fontFamily:"Cairo",fontSize:13,color:"rgba(240,244,255,.3)"}}>{post.date}</span>
-            <span style={{width:4,height:4,borderRadius:"50%",background:"rgba(255,255,255,.2)"}}/>
-            <span style={{fontFamily:"Space Mono",fontSize:12,color:"rgba(240,244,255,.3)"}}>{post.readTime}</span>
+          <h1 style={{fontFamily:"Cairo",fontSize:"clamp(40px,6vw,80px)",fontWeight:900,lineHeight:.95,letterSpacing:"-.025em",marginBottom:28,color:"#f0f4ff"}}>
+            نحن لا نبيع<br/><em style={{fontStyle:"normal",color:"#ff2d7a"}}>خدمة</em><br/>نبني <em style={{fontStyle:"normal",color:"rgba(240,244,255,.3)"}}>مستقبل</em>
+          </h1>
+          <p style={{fontFamily:"Cairo",fontSize:18,color:"rgba(240,244,255,.5)",lineHeight:1.9,maxWidth:600,margin:"0 auto"}}>
+            IQR وُلدت من تجربة مباشرة مع مشاكل المطاعم في العراق — رأينا كيف تخسر المطاعم الجيدة بسبب غياب الأنظمة، فقررنا أن نكون الحل.
+          </p>
+        </div>
+      </section>
+
+      {/* STORY */}
+      <section ref={ref1} style={{padding:"80px 48px",maxWidth:1200,margin:"0 auto",position:"relative",zIndex:2,direction:"rtl"}}>
+        <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:80,alignItems:"center"}}>
+          <div style={{opacity:v1?1:0,transform:v1?"none":"translateY(40px)",transition:"all 1s ease"}}>
+            <div style={{fontSize:10,fontWeight:700,letterSpacing:".4em",color:"#ff2d7a",marginBottom:20,fontFamily:"Cairo",display:"flex",alignItems:"center",gap:12}}>
+              <span style={{width:30,height:1,background:"#ff2d7a"}}/>قصتنا
+            </div>
+            <h2 style={{fontFamily:"Cairo",fontSize:"clamp(28px,4vw,52px)",fontWeight:900,lineHeight:1,marginBottom:24,color:"#f0f4ff"}}>
+              من مشكلة حقيقية<br/><em style={{fontStyle:"normal",color:"#ff2d7a"}}>إلى حل حقيقي</em>
+            </h2>
+            <p style={{fontFamily:"Cairo",fontSize:16,color:"rgba(240,244,255,.45)",lineHeight:1.9,marginBottom:20}}>
+              بدأت IQR عندما رأى مؤسسوها مطاعم جيدة تغلق أبوابها — لا بسبب سوء الطعام أو قلة الزبائن، بل بسبب الفوضى التشغيلية وغياب الأنظمة.
+            </p>
+            <p style={{fontFamily:"Cairo",fontSize:16,color:"rgba(240,244,255,.45)",lineHeight:1.9,marginBottom:20}}>
+              قضينا أكثر من سنة ندرس أسباب فشل ونجاح المطاعم في العراق — نزور المطابخ، نحلل الأرقام، نتحدث مع الملاك والموظفين والزبائن.
+            </p>
+            <p style={{fontFamily:"Cairo",fontSize:16,color:"rgba(240,244,255,.45)",lineHeight:1.9}}>
+              النتيجة؟ نظام عمليات متكامل مبني على الواقع العراقي — ليس نسخة مستوردة من الخارج.
+            </p>
           </div>
-          <div style={{height:1,background:"linear-gradient(to left,transparent,#ff2d7a,transparent)",marginTop:32}}/>
+          <div style={{opacity:v1?1:0,transform:v1?"none":"translateX(40px)",transition:"all 1s ease .2s"}}>
+            <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:3}}>
+              {[
+                {n:"+35%",l:"متوسط زيادة الأرباح",c:"#ff2d7a"},
+                {n:"-28%",l:"تراجع الهدر الغذائي",c:"#ffd60a"},
+                {n:"3x",l:"سرعة معالجة الطلبات",c:"#00c3ff"},
+                {n:"99%",l:"رضا عملاء IQR",c:"#00ff88"},
+              ].map((s,i)=>(
+                <div key={i} className="card-hover" style={{background:"#0a1628",border:"1px solid rgba(255,255,255,.05)",borderRadius:12,padding:"32px 24px",textAlign:"center"}}>
+                  <div style={{fontFamily:"Space Mono",fontSize:36,fontWeight:700,color:s.c,marginBottom:8,textShadow:`0 0 30px ${s.c}50`}}>{s.n}</div>
+                  <div style={{fontFamily:"Cairo",fontSize:12,color:"rgba(240,244,255,.4)",fontWeight:600}}>{s.l}</div>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
-        <div className="prose" dangerouslySetInnerHTML={{__html:post.content}}/>
-        <div style={{marginTop:60,padding:"40px",background:"linear-gradient(135deg,rgba(255,45,122,.08),rgba(0,195,255,.04))",border:"1px solid rgba(255,45,122,.2)",borderRadius:16,textAlign:"center"}}>
-          <h3 style={{fontFamily:"Cairo",fontSize:22,fontWeight:900,color:"#f0f4ff",marginBottom:12}}>تبي تطبق هذا في مطعمك؟</h3>
-          <p style={{fontFamily:"Cairo",fontSize:14,color:"rgba(240,244,255,.45)",marginBottom:24,lineHeight:1.8}}>محادثة مجانية — نحلل وضعك ونحدد من أين تبدأ</p>
-          <a href="https://wa.me/9647734383437" target="_blank" style={{display:"inline-flex",alignItems:"center",gap:10,fontFamily:"Cairo",fontSize:14,fontWeight:700,padding:"14px 36px",background:"#ff2d7a",color:"#fff",borderRadius:8,textDecoration:"none",boxShadow:"0 0 30px rgba(255,45,122,.3)"}}>📲 تواصل على واتساب</a>
+      </section>
+
+      {/* VALUES */}
+      <section ref={ref2} style={{padding:"80px 48px",background:"#000510",position:"relative",zIndex:2}}>
+        <div style={{maxWidth:1200,margin:"0 auto",direction:"rtl"}}>
+          <div style={{textAlign:"center",marginBottom:64,opacity:v2?1:0,transform:v2?"none":"translateY(30px)",transition:"all .8s ease"}}>
+            <div style={{fontSize:10,fontWeight:700,letterSpacing:".4em",color:"#ff2d7a",marginBottom:20,fontFamily:"Cairo"}}>قيمنا</div>
+            <h2 style={{fontFamily:"Cairo",fontSize:"clamp(28px,4vw,52px)",fontWeight:900,color:"#f0f4ff",lineHeight:1}}>
+              ما الذي يحركنا<br/><em style={{fontStyle:"normal",color:"#ff2d7a"}}>كل يوم</em>
+            </h2>
+          </div>
+          <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(260px,1fr))",gap:3}}>
+            {values.map((v,i)=>(
+              <div key={i} className="card-hover" style={{background:"#0a1628",border:"1px solid rgba(255,255,255,.05)",borderRadius:12,padding:"40px 32px",
+                opacity:v2?1:0,transform:v2?"none":"translateY(30px)",transition:`all .8s ease ${i*.1}s`}}>
+                <span style={{fontSize:36,marginBottom:20,display:"block"}}>{v.icon}</span>
+                <h3 style={{fontFamily:"Cairo",fontSize:20,fontWeight:900,marginBottom:12,color:"#f0f4ff"}}>{v.title}</h3>
+                <p style={{fontFamily:"Cairo",fontSize:14,color:"rgba(240,244,255,.4)",lineHeight:1.8}}>{v.desc}</p>
+              </div>
+            ))}
+          </div>
         </div>
-        <div style={{marginTop:40,textAlign:"center"}}>
-          <a href="/blog" style={{fontFamily:"Cairo",fontSize:13,color:"rgba(240,244,255,.3)",textDecoration:"none"}}>← العودة للمدونة</a>
+      </section>
+
+      {/* TEAM */}
+      <section ref={ref3} style={{padding:"80px 48px",maxWidth:1200,margin:"0 auto",position:"relative",zIndex:2,direction:"rtl"}}>
+        <div style={{textAlign:"center",marginBottom:64,opacity:v3?1:0,transform:v3?"none":"translateY(30px)",transition:"all .8s ease"}}>
+          <div style={{fontSize:10,fontWeight:700,letterSpacing:".4em",color:"#ff2d7a",marginBottom:20,fontFamily:"Cairo"}}>الفريق</div>
+          <h2 style={{fontFamily:"Cairo",fontSize:"clamp(28px,4vw,52px)",fontWeight:900,color:"#f0f4ff",lineHeight:1}}>
+            من يقف خلف<br/><em style={{fontStyle:"normal",color:"#ff2d7a"}}>IQR</em>
+          </h2>
         </div>
-      </article>
+        <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(300px,1fr))",gap:16}}>
+          {team.map((t,i)=>(
+            <div key={i} className="card-hover" style={{background:"#0a1628",border:"1px solid rgba(255,255,255,.05)",borderRadius:12,padding:"40px 32px",textAlign:"center",
+              opacity:v3?1:0,transform:v3?"none":"translateY(30px)",transition:`all .8s ease ${i*.12}s`}}>
+              <div style={{width:72,height:72,borderRadius:16,background:"rgba(255,45,122,.1)",border:"1px solid rgba(255,45,122,.2)",
+                display:"flex",alignItems:"center",justifyContent:"center",fontSize:32,margin:"0 auto 20px"}}>{t.avatar}</div>
+              <h3 style={{fontFamily:"Cairo",fontSize:18,fontWeight:900,color:"#f0f4ff",marginBottom:6}}>{t.name}</h3>
+              <div style={{fontFamily:"Cairo",fontSize:13,color:"#ff2d7a",fontWeight:700,marginBottom:16}}>{t.role}</div>
+              <p style={{fontFamily:"Cairo",fontSize:13,color:"rgba(240,244,255,.4)",lineHeight:1.8}}>{t.desc}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* CTA */}
+      <section style={{padding:"100px 48px",textAlign:"center",position:"relative",zIndex:2,background:"#000510"}}>
+        <div style={{maxWidth:600,margin:"0 auto",direction:"rtl"}}>
+          <h2 style={{fontFamily:"Cairo",fontSize:"clamp(32px,5vw,60px)",fontWeight:900,lineHeight:.95,marginBottom:24,color:"#f0f4ff"}}>
+            جاهز تبدأ<br/><em style={{fontStyle:"normal",color:"#ff2d7a"}}>معنا؟</em>
+          </h2>
+          <p style={{fontFamily:"Cairo",fontSize:16,color:"rgba(240,244,255,.45)",marginBottom:40,lineHeight:1.8}}>محادثة مجانية نفهم فيها وضعك — بدون التزام</p>
+          <div style={{display:"flex",gap:16,justifyContent:"center",flexWrap:"wrap"}}>
+            <a href="https://wa.me/9647734383437" target="_blank" style={{fontFamily:"Cairo",fontSize:14,fontWeight:700,padding:"16px 44px",background:"#ff2d7a",color:"#fff",borderRadius:4,textDecoration:"none",boxShadow:"0 0 40px rgba(255,45,122,.4)"}}>📲 تواصل على واتساب</a>
+            <a href="/contact" style={{fontFamily:"Cairo",fontSize:14,fontWeight:700,padding:"15px 44px",background:"transparent",color:"rgba(240,244,255,.6)",border:"1px solid rgba(255,255,255,.1)",borderRadius:4,textDecoration:"none"}}>راسلنا</a>
+          </div>
+        </div>
+      </section>
+
+      {/* FOOTER */}
       <footer style={{background:"#000510",borderTop:"1px solid rgba(255,255,255,.05)",padding:"40px 48px",textAlign:"center",position:"relative",zIndex:2}}>
-        <p style={{fontFamily:"Cairo",fontSize:12,color:"rgba(240,244,255,.2)"}}>© 2026 IQR لإدارة وتطوير المطاعم — العراق</p>
+        <p style={{fontFamily:"Cairo",fontSize:12,color:"rgba(240,244,255,.2)"}}>© 2026 IQR لإدارة وتطوير المطاعم — العراق — جميع الحقوق محفوظة</p>
       </footer>
     </>
   );
 }
-
-
-شوفه بي مشلكة؟
