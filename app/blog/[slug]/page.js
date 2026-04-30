@@ -1,4 +1,4 @@
-// تأكد من عدم وجود "use client" في الأعلى
+// app/blog/[slug]/page.js
 
 export async function generateStaticParams() {
   return [
@@ -12,21 +12,6 @@ export async function generateStaticParams() {
 }
 
 export default function Page({ params }) {
-  return (
-    <div style={{
-      backgroundColor: '#000814',
-      color: '#fff',
-      minHeight: '100vh',
-      display: 'flex',
-      flexDirection: 'column',
-      justifyContent: 'center',
-      alignItems: 'center',
-      fontFamily: 'sans-serif',
-      direction: 'rtl'
-    }}>
-      <h1>مقال: {params.slug}</h1>
-      <p>براند IQRHQ - قيد التطوير</p>
-      <a href="/" style={{color: '#ff2d7a', marginTop: '20px'}}>العودة للرئيسية</a>
-    </div>
-  );
+  const BlogPostClient = require("./BlogPostClient").default;
+  return <BlogPostClient params={params} />;
 }
