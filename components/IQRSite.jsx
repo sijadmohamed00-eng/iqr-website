@@ -290,8 +290,9 @@ function Nav() {
         <span style={{width:1,height:16,background:"rgba(255,255,255,.1)",display:"inline-block",margin:"0 8px"}}/>
         {["/about/:من نحن","/blog/:المدونة","/contact/:تواصل"].map(s => {
           const [h,l]=s.split(":");
-          return <a key={h} href={h} style={{fontFamily:"Cairo",fontSize:13,fontWeight:700,color:"rgba(240,244,255,.5)",textDecoration:"none",letterSpacing:".08em",cursor:"none",transition:"color .3s"}}
-            onMouseEnter={e=>e.target.style.color="#ff2d7a"} onMouseLeave={e=>e.target.style.color="rgba(240,244,255,.5)"}>{l}</a>;
+          return <a key={h} href={h} style={{fontFamily:"Cairo",fontSize:13,fontWeight:700,color:"#ff2d7a",textDecoration:"none",letterSpacing:".08em",cursor:"none",transition:"all .3s",padding:"6px 14px",border:"1px solid rgba(255,45,122,.3)",borderRadius:4,background:"rgba(255,45,122,.06)"}}
+            onMouseEnter={e=>{e.currentTarget.style.background="rgba(255,45,122,.15)";e.currentTarget.style.borderColor="rgba(255,45,122,.7)";e.currentTarget.style.transform="translateY(-1px)"}}
+            onMouseLeave={e=>{e.currentTarget.style.background="rgba(255,45,122,.06)";e.currentTarget.style.borderColor="rgba(255,45,122,.3)";e.currentTarget.style.transform=""}}>{l}</a>;
         })}
       </div>
       <div style={{display:"flex",gap:10,alignItems:"center"}}>
@@ -300,11 +301,7 @@ function Nav() {
           onMouseLeave={e=>{e.currentTarget.style.borderColor="rgba(255,255,255,.1)";e.currentTarget.style.color="rgba(240,244,255,.6)"}}>
           ⬡ الداشبورد
         </a>
-        <a href="https://wa.me/9647734383437" target="_blank" style={{fontFamily:"Cairo",fontSize:13,fontWeight:700,padding:"10px 28px",background:"#ff2d7a",color:"#fff",border:"none",borderRadius:4,cursor:"none",letterSpacing:".06em",textDecoration:"none",transition:"all .2s",boxShadow:"0 0 20px rgba(255,45,122,.3)"}}
-          onMouseEnter={e=>{e.currentTarget.style.transform="translateY(-2px)";e.currentTarget.style.boxShadow="0 8px 30px rgba(255,45,122,.6)"}}
-          onMouseLeave={e=>{e.currentTarget.style.transform="";e.currentTarget.style.boxShadow="0 0 20px rgba(255,45,122,.3)"}}>
-          تواصل معنا 💬
-        </a>
+
       </div>
     </nav>
   );
@@ -363,7 +360,7 @@ function Hero() {
         </p>
 
         <div style={{display:"flex",gap:16,justifyContent:"center",opacity:loaded?1:0,transform:loaded?"none":"translateY(30px)",transition:"all 1s ease 1.3s",flexWrap:"wrap"}}>
-          <a href="https://wa.me/9647734383437" target="_blank"
+          <a href="https://wa.me/9647734383431" target="_blank"
             style={{fontFamily:"Cairo",fontSize:14,fontWeight:700,padding:"16px 44px",background:"#ff2d7a",color:"#fff",borderRadius:4,textDecoration:"none",cursor:"none",letterSpacing:".06em",position:"relative",overflow:"hidden",boxShadow:"0 0 40px rgba(255,45,122,.4)",transition:"all .2s"}}
             onMouseEnter={e=>{e.currentTarget.style.transform="translateY(-3px)";e.currentTarget.style.boxShadow="0 12px 50px rgba(255,45,122,.6)"}}
             onMouseLeave={e=>{e.currentTarget.style.transform="";e.currentTarget.style.boxShadow="0 0 40px rgba(255,45,122,.4)"}}>
@@ -754,7 +751,7 @@ function CTA() {
         <div style={{display:"flex",gap:16,justifyContent:"center",flexWrap:"wrap",marginBottom:36,
           opacity:visible?1:0,transform:visible?"none":"translateY(20px)",transition:"all 1s ease .4s"}}>
           {[
-            {icon:<WhatsAppIcon size={26} color="#25D366"/>,label:"WHATSAPP",val:"07734383437",link:"https://wa.me/9647734383437",color:"rgba(37,211,102,.3)",bg:"rgba(37,211,102,.08)",tc:"rgba(37,211,102,.8)"},
+            {icon:<WhatsAppIcon size={26} color="#25D366"/>,label:"WHATSAPP",val:"07734383431",link:"https://wa.me/9647734383431",color:"rgba(37,211,102,.3)",bg:"rgba(37,211,102,.08)",tc:"rgba(37,211,102,.8)"},
             {icon:<svg width={26} height={26} viewBox="0 0 24 24" fill="#00c3ff"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>,label:"EMAIL",val:"info@iqrhq.me",link:"mailto:info@iqrhq.me",color:"rgba(0,195,255,.25)",bg:"rgba(0,195,255,.07)",tc:"#00c3ff"},
             {icon:<InstagramIcon size={26} color="#E1306C"/>,label:"INSTAGRAM / TIKTOK",val:"@iqrhq_ops",link:"https://instagram.com/iqrhq_ops",color:"rgba(255,45,122,.25)",bg:"rgba(255,45,122,.07)",tc:"#ff2d7a"},
           ].map((c) => (
@@ -772,7 +769,7 @@ function CTA() {
 
         <div style={{display:"flex",gap:16,justifyContent:"center",flexWrap:"wrap",
           opacity:visible?1:0,transform:visible?"none":"translateY(20px)",transition:"all 1s ease .5s"}}>
-          <a href="https://wa.me/9647734383437?text=مرحبا،+أريد+استشارة+مجانية+لمطعمي" target="_blank"
+          <a href="https://wa.me/9647734383431?text=مرحبا،+أريد+استشارة+مجانية+لمطعمي" target="_blank"
             style={{fontFamily:"Cairo",fontSize:14,fontWeight:700,padding:"16px 44px",background:"#ff2d7a",color:"#fff",borderRadius:4,textDecoration:"none",cursor:"none",letterSpacing:".06em",boxShadow:"0 0 40px rgba(255,45,122,.4)",transition:"all .2s"}}
             onMouseEnter={e=>{e.currentTarget.style.transform="translateY(-3px)";e.currentTarget.style.boxShadow="0 12px 50px rgba(255,45,122,.6)"}}
             onMouseLeave={e=>{e.currentTarget.style.transform="";e.currentTarget.style.boxShadow="0 0 40px rgba(255,45,122,.4)"}}>
@@ -803,7 +800,7 @@ function Footer() {
               {l:"https://instagram.com/iqrhq_ops", icon:<InstagramIcon size={16}/>, hc:"rgba(193,53,132,.8)", hb:"rgba(193,53,132,.12)"},
               {l:"https://www.facebook.com/iqrhq_ops", icon:<FacebookIcon size={16}/>, hc:"rgba(66,103,178,.8)", hb:"rgba(66,103,178,.12)"},
               {l:"https://www.tiktok.com/@iqrhq_ops", icon:<TikTokIcon size={16}/>, hc:"rgba(255,255,255,.6)", hb:"rgba(255,255,255,.08)"},
-              {l:"https://wa.me/9647734383437", icon:<WhatsAppIcon size={16}/>, hc:"rgba(37,211,102,.8)", hb:"rgba(37,211,102,.12)"},
+              {l:"https://wa.me/9647734383431", icon:<WhatsAppIcon size={16}/>, hc:"rgba(37,211,102,.8)", hb:"rgba(37,211,102,.12)"},
             ].map((s,i) => (
               <a key={i} href={s.l} target="_blank" style={{width:36,height:36,border:"1px solid rgba(255,255,255,.08)",borderRadius:8,display:"flex",alignItems:"center",justifyContent:"center",textDecoration:"none",cursor:"none",transition:"all .3s",background:"rgba(255,255,255,.03)"}}
                 onMouseEnter={e=>{e.currentTarget.style.borderColor=s.hc;e.currentTarget.style.background=s.hb;e.currentTarget.style.transform="translateY(-2px)"}}
@@ -816,7 +813,7 @@ function Footer() {
         {[
           {h:"الخدمات",links:["تحليل العمليات","نظام المخزون الذكي","تحسين الربحية","إدارة الموظفين","لوحة التحكم"]},
           {h:"من نحن",links:["التحدي","الحل","كيف نعمل","النتائج"]},
-          {h:"تواصل معنا",links:["💬 07734383437","✉️ info@iqrhq.me","📸 @iqrhq_ops","🎵 @iqrhq_ops","👤 @iqrhq_ops"]},
+          
         ].map(col => (
           <div key={col.h}>
             <h4 style={{fontFamily:"Cairo",fontSize:11,fontWeight:700,letterSpacing:".2em",color:"rgba(240,244,255,.25)",textTransform:"uppercase",marginBottom:20}}>{col.h}</h4>
