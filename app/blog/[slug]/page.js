@@ -1,12 +1,14 @@
-export function generateStaticParams() {
-  return [
-    { slug: "inventory-waste" },
-    { slug: "peak-hours" },
-    { slug: "staff-management" },
-    { slug: "menu-engineering" },
-    { slug: "order-routing" },
-    { slug: "iraq-restaurant-market" },
+export async function generateStaticParams() {
+  const slugs = [
+    "inventory-waste",
+    "peak-hours",
+    "staff-management",
+    "menu-engineering",
+    "order-routing",
+    "iraq-restaurant-market"
   ];
-}
 
-export { default } from "./BlogPostClient";
+  return slugs.map((slug) => ({
+    slug: slug,
+  }));
+}
