@@ -5,6 +5,12 @@ export const metadata = {
   authors: [{ name: "IQR", url: "https://iqrhq.me" }],
   metadataBase: new URL("https://iqrhq.me"),
   alternates: { canonical: "/" },
+  manifest: "/manifest.json",
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "black-translucent",
+    title: "IQR",
+  },
   openGraph: {
     title: "IQR | الشركة الأولى لإدارة وتطوير المطاعم في العراق",
     description: "نحول فوضى مطعمك إلى دقة هندسية ذاتية — نظام متكامل لإدارة المطاعم في العراق",
@@ -12,14 +18,82 @@ export const metadata = {
     siteName: "IQR",
     locale: "ar_IQ",
     type: "website",
+    images: [{ url: "/icon-512x512.png", width: 512, height: 512 }],
   },
   twitter: {
     card: "summary_large_image",
     title: "IQR | إدارة وتطوير المطاعم في العراق",
     description: "نحول فوضى مطعمك إلى دقة هندسية ذاتية",
+    images: ["/icon-512x512.png"],
   },
   robots: { index: true, follow: true },
 };
+
+const themeScript = `
+(function() {
+  try {
+    var saved = localStorage.getItem('iqr-theme');
+    var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    var theme = saved || (prefersDark ? 'dark' : 'light');
+    document.documentElement.setAttribute('data-theme', theme);
+  } catch(e) {}
+})();
+`;
+
+const globalStyles = `
+  :root[data-theme="dark"] {
+    --bg-primary:    #000814;
+    --bg-secondary:  #060e22;
+    --bg-card:       rgba(255,255,255,0.03);
+    --bg-glass:      rgba(10,31,92,0.4);
+    --text-primary:  #f0f4ff;
+    --text-secondary:#8899cc;
+    --text-muted:    #3a4a6a;
+    --accent:        #ff2d7a;
+    --accent-glow:   rgba(255,45,122,0.25);
+    --accent-soft:   rgba(255,45,122,0.08);
+    --navy:          #0a1f5c;
+    --navy-light:    #162a7a;
+    --blue-accent:   #4a9eff;
+    --border:        rgba(74,158,255,0.12);
+    --border-accent: rgba(255,45,122,0.3);
+    --success:       #00e887;
+    --warning:       #ffb800;
+    color-scheme: dark;
+  }
+  :root[data-theme="light"] {
+    --bg-primary:    #f4f6fb;
+    --bg-secondary:  #ffffff;
+    --bg-card:       #ffffff;
+    --bg-glass:      rgba(255,255,255,0.85);
+    --text-primary:  #0a1133;
+    --text-secondary:#4a5580;
+    --text-muted:    #9aa3be;
+    --accent:        #cc1a5f;
+    --accent-glow:   rgba(204,26,95,0.15);
+    --accent-soft:   rgba(204,26,95,0.06);
+    --navy:          #0a1f5c;
+    --navy-light:    #162a7a;
+    --blue-accent:   #1a4fc4;
+    --border:        rgba(10,31,92,0.1);
+    --border-accent: rgba(204,26,95,0.2);
+    --success:       #0a9e5c;
+    --warning:       #c07800;
+    color-scheme: light;
+  }
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    font-family: 'Cairo', sans-serif;
+    overflow-x: hidden;
+    transition: background 0.35s ease, color 0.35s ease;
+  }
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 99px; }
+  ::selection { background: var(--accent-glow); color: var(--text-primary); }
+`;
 
 export default function RootLayout({ children }) {
   return (
@@ -27,11 +101,37 @@ export default function RootLayout({ children }) {
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        {/* PWA */}
+        <link rel="manifest" href="/manifest.json" />
+        <meta name="mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+        <meta name="apple-mobile-web-app-title" content="IQR" />
+        <meta name="theme-color" content="#0a1f5c" />
+        <meta name="msapplication-TileColor" content="#0a1f5c" />
+        <meta name="msapplication-TileImage" content="/icon-144x144.png" />
+
+        {/* Icons */}
+        <link rel="icon" href="/favicon.ico" sizes="any" />
+        <link rel="icon" href="/icon-32x32.png" type="image/png" sizes="32x32" />
+        <link rel="icon" href="/icon-16x16.png" type="image/png" sizes="16x16" />
+        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+        <link rel="apple-touch-icon" sizes="152x152" href="/icon-152x152.png" />
+        <link rel="apple-touch-icon" sizes="192x192" href="/icon-192x192.png" />
+
+        {/* Fonts */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+
+        {/* Theme init - no flash */}
+        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
+
+        {/* Global Design System */}
+        <style dangerouslySetInnerHTML={{ __html: globalStyles }} />
       </head>
-      <body style={{ margin: 0, padding: 0, background: "#000814" }}>
+      <body>
         {children}
       </body>
     </html>

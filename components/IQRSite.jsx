@@ -1,29 +1,54 @@
 "use client";
 import { useState, useEffect, useRef, useCallback } from "react";
 
+function ThemeToggle() {
+  const [dark, setDark] = useState(true);
+  useEffect(() => {
+    const saved = localStorage.getItem('iqr-theme');
+    const sys = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const t = saved || (sys ? 'dark' : 'light');
+    setDark(t === 'dark');
+    document.documentElement.setAttribute('data-theme', t);
+  }, []);
+  const toggle = () => {
+    const next = dark ? 'light' : 'dark';
+    setDark(!dark);
+    document.documentElement.setAttribute('data-theme', next);
+    localStorage.setItem('iqr-theme', next);
+  };
+  return (
+    <button className="theme-toggle" onClick={toggle} title={dark?"الوضع الفاتح":"الوضع الداكن"}>
+      {dark
+        ? <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ff2d7a" strokeWidth="2" strokeLinecap="round"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+        : <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0a1f5c" strokeWidth="2" strokeLinecap="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      }
+    </button>
+  );
+}
+
+
+
+
 const G = `
   @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&family=Space+Mono:wght@400;700&display=swap');
   *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
   html{scroll-behavior:smooth}
-  body{background:#000814;overflow-x:hidden;font-family:'Cairo',sans-serif}
+  body{background:var(--bg-primary,#000814);overflow-x:hidden;font-family:'Cairo',sans-serif;transition:background .35s,color .35s}
   ::-webkit-scrollbar{width:4px}
-  ::-webkit-scrollbar-thumb{background:#ff2d7a;border-radius:99px}
+  ::-webkit-scrollbar-thumb{background:var(--accent,#ff2d7a);border-radius:99px}
+  ::selection{background:var(--accent-glow,rgba(255,45,122,.25))}
   @keyframes fadeUp{from{opacity:0;transform:translateY(40px)}to{opacity:1;transform:translateY(0)}}
   @keyframes fadeIn{from{opacity:0}to{opacity:1}}
   @keyframes orb{0%,100%{transform:translate(0,0)}50%{transform:translate(30px,-20px)}}
   @keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
   @keyframes trailFade{from{opacity:.7;transform:translate(-50%,-50%) scale(1)}to{opacity:0;transform:translate(-50%,-50%) scale(.2)}}
+  .theme-toggle{position:fixed;bottom:24px;left:24px;z-index:999;width:44px;height:44px;border-radius:50%;background:var(--bg-secondary,#060e22);border:1px solid var(--border,rgba(74,158,255,.12));display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 4px 20px var(--accent-glow,rgba(255,45,122,.25));transition:all .3s}
+  .theme-toggle:hover{transform:scale(1.1);box-shadow:0 6px 28px var(--accent-glow,rgba(255,45,122,.4))}
   @media(max-width:900px){
     .nav-links-wrap{display:none!important}
     .mobile-menu-btn{display:flex!important}
-    .problem-grid-inner{grid-template-columns:1fr!important}
-    .solution-split-grid{grid-template-columns:1fr!important}
-    .services-grid-inner{grid-template-columns:1fr!important}
-    .process-steps-inner{grid-template-columns:1fr 1fr!important}
-    .results-grid-inner{grid-template-columns:1fr 1fr!important}
-    .footer-grid-inner{grid-template-columns:1fr!important}
   }
-`;
+`
 
 function CursorTrail() {
   const curRef = useRef(null);
@@ -838,6 +863,7 @@ export default function App() {
   return (
     <>
       <style>{G}</style>
+      <ThemeToggle />
       <ParticleBackground />
       <Noise />
       <CursorTrail />
@@ -853,4 +879,4 @@ export default function App() {
       <Footer />
     </>
   );
-}
+}// ─── THEME TOGGLE ────────────────────────────────────────────────────────────
