@@ -19,7 +19,7 @@ function ThemeToggle() {
   return (
     <button className="theme-toggle" onClick={toggle} title={dark?"الوضع الفاتح":"الوضع الداكن"}>
       {dark
-        ? <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ff2d7a" strokeWidth="2" strokeLinecap="round"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+        ? <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" strokeWidth="2" strokeLinecap="round"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
         : <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0a1f5c" strokeWidth="2" strokeLinecap="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
       }
     </button>
@@ -48,6 +48,22 @@ const G = `
     .nav-links-wrap{display:none!important}
     .mobile-menu-btn{display:flex!important}
   }
+  [data-theme="light"] #problem,
+  [data-theme="light"] #solution,
+  [data-theme="light"] #services,
+  [data-theme="light"] #process,
+  [data-theme="light"] #results,
+  [data-theme="light"] #cta,
+  [data-theme="light"] footer,
+  [data-theme="light"] nav {
+    background: var(--bg-primary) !important;
+  }
+  [data-theme="light"] nav {
+    background: var(--bg-secondary) !important;
+    border-bottom: 1px solid var(--border) !important;
+    box-shadow: 0 1px 20px rgba(10,31,92,0.06) !important;
+  }
+  [data-theme="light"] .particle-canvas { opacity: 0.08 !important; filter: hue-rotate(180deg) !important; }
 `
 
 function CursorTrail() {
@@ -88,7 +104,7 @@ function CursorTrail() {
 
   return (
     <>
-      <div ref={curRef} style={{position:"fixed",zIndex:9999,pointerEvents:"none",borderRadius:"50%",width:10,height:10,background:"#ff2d7a",transform:"translate(-50%,-50%)",transition:"width .15s,height .15s"}} />
+      <div ref={curRef} style={{position:"fixed",zIndex:9999,pointerEvents:"none",borderRadius:"50%",width:10,height:10,background:"var(--accent)",transform:"translate(-50%,-50%)",transition:"width .15s,height .15s"}} />
       <div ref={ringRef} style={{position:"fixed",zIndex:9999,pointerEvents:"none",borderRadius:"50%",width:38,height:38,border:"1px solid rgba(255,45,122,.5)",transform:"translate(-50%,-50%)",transition:"width .3s,height .3s"}} />
     </>
   );
@@ -113,7 +129,7 @@ function ParticleBackground() {
       z: Math.random() * 3 + 0.5,
       vx: (Math.random()-.5)*.3,
       vy: (Math.random()-.5)*.3,
-      color: Math.random() > .7 ? "#ff2d7a" : Math.random() > .5 ? "#00c3ff" : "rgba(240,244,255,.3)",
+      color: Math.random() > .7 ? "var(--accent)" : Math.random() > .5 ? "var(--blue-accent)" : "rgba(240,244,255,.3)",
       r: Math.random() * 1.5 + .5,
     }));
 
@@ -149,7 +165,7 @@ function ParticleBackground() {
         const alpha = (.3 + Math.sin(t * 2 + i) * .2) * p.z;
         ctx.globalAlpha = alpha;
         ctx.fillStyle = p.color;
-        ctx.shadowBlur = p.color === "#ff2d7a" ? 12 : 6;
+        ctx.shadowBlur = p.color === "var(--accent)" ? 12 : 6;
         ctx.shadowColor = p.color;
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.r * p.z, 0, Math.PI*2);
@@ -163,7 +179,7 @@ function ParticleBackground() {
           const dist = Math.sqrt(ddx*ddx + ddy*ddy);
           if (dist < 120) {
             ctx.globalAlpha = (1 - dist/120) * .15;
-            ctx.strokeStyle = "#ff2d7a";
+            ctx.strokeStyle = "var(--accent)";
             ctx.lineWidth = .5;
             ctx.beginPath(); ctx.moveTo(p.x, p.y); ctx.lineTo(p2.x, p2.y); ctx.stroke();
           }
@@ -176,7 +192,7 @@ function ParticleBackground() {
     return () => { cancelAnimationFrame(raf); window.removeEventListener("mousemove", onMove); window.removeEventListener("resize", onResize); };
   }, []);
 
-  return <canvas ref={canvasRef} style={{position:"fixed",top:0,left:0,width:"100%",height:"100%",zIndex:0,pointerEvents:"none"}} />;
+  return <canvas ref={canvasRef} className="particle-canvas" style={{position:"fixed",top:0,left:0,width:"100%",height:"100%",zIndex:0,pointerEvents:"none",transition:"opacity .4s"}} />;
 }
 
 // ─── USE INTERSECTION OBSERVER ─────────────────────────────────────────────────
@@ -236,22 +252,22 @@ function Counter({target, suffix=""}) {
 }
 
 // ─── SOCIAL ICONS SVG ─────────────────────────────────────────────────────────
-const WhatsAppIcon = ({size=20,color="#fff"}) => (
+const WhatsAppIcon = ({size=20,color="var(--text-primary)"}) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill={color}>
     <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
   </svg>
 );
-const InstagramIcon = ({size=20,color="#fff"}) => (
+const InstagramIcon = ({size=20,color="var(--text-primary)"}) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill={color}>
     <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/>
   </svg>
 );
-const TikTokIcon = ({size=20,color="#fff"}) => (
+const TikTokIcon = ({size=20,color="var(--text-primary)"}) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill={color}>
     <path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.27 6.27 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.18 8.18 0 004.78 1.52V6.74a4.85 4.85 0 01-1.01-.05z"/>
   </svg>
 );
-const FacebookIcon = ({size=20,color="#fff"}) => (
+const FacebookIcon = ({size=20,color="var(--text-primary)"}) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill={color}>
     <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
   </svg>
@@ -284,22 +300,22 @@ function Nav() {
             onMouseEnter={e=>{e.currentTarget.style.background="rgba(110,168,254,.18)";e.currentTarget.style.borderColor="#6ea8fe";e.currentTarget.style.transform="translateY(-1px)"}}
             onMouseLeave={e=>{e.currentTarget.style.background="rgba(110,168,254,.07)";e.currentTarget.style.borderColor="rgba(110,168,254,.35)";e.currentTarget.style.transform=""}}>{l}</a>
         ))}
-        <span style={{width:1,height:18,background:"rgba(255,255,255,.1)",display:"inline-block",margin:"0 12px"}}/>
+        <span style={{width:1,height:18,background:"var(--border)",display:"inline-block",margin:"0 12px"}}/>
         {scrollLinks.map(({h,l}) => (
-          <a key={h} href={h} style={{fontFamily:"Cairo",fontSize:13,fontWeight:600,color:"rgba(240,244,255,.45)",textDecoration:"none",letterSpacing:".06em",cursor:"none",transition:"color .25s",padding:"4px 8px"}}
-            onMouseEnter={e=>e.target.style.color="#f0f4ff"} onMouseLeave={e=>e.target.style.color="rgba(240,244,255,.45)"}>{l}</a>
+          <a key={h} href={h} style={{fontFamily:"Cairo",fontSize:13,fontWeight:600,color:"var(--text-secondary)",textDecoration:"none",letterSpacing:".06em",cursor:"none",transition:"color .25s",padding:"4px 8px"}}
+            onMouseEnter={e=>e.target.style.color="var(--text-primary)"} onMouseLeave={e=>e.target.style.color="var(--text-secondary)"}>{l}</a>
         ))}
       </div>
       <div style={{display:"flex",gap:10,alignItems:"center"}}>
         <a href="/dashboard" className="nav-links-wrap" style={{fontFamily:"Cairo",fontSize:13,fontWeight:700,padding:"10px 20px",background:"transparent",color:"rgba(240,244,255,.6)",border:"1px solid rgba(255,255,255,.1)",borderRadius:4,cursor:"none",letterSpacing:".06em",textDecoration:"none",transition:"all .2s"}}
-          onMouseEnter={e=>{e.currentTarget.style.borderColor="#00c3ff";e.currentTarget.style.color="#00c3ff"}}
-          onMouseLeave={e=>{e.currentTarget.style.borderColor="rgba(255,255,255,.1)";e.currentTarget.style.color="rgba(240,244,255,.6)"}}>
+          onMouseEnter={e=>{e.currentTarget.style.borderColor="var(--blue-accent)";e.currentTarget.style.color="var(--blue-accent)"}}
+          onMouseLeave={e=>{e.currentTarget.style.borderColor="var(--border)";e.currentTarget.style.color="rgba(240,244,255,.6)"}}>
           ⬡ الداشبورد
         </a>
         <button onClick={()=>setMobileOpen(o=>!o)} className="mobile-menu-btn" style={{display:"none",flexDirection:"column",justifyContent:"center",gap:5,background:"transparent",border:"1px solid rgba(255,255,255,.15)",borderRadius:8,padding:"10px 12px",cursor:"pointer"}}>
-          <span style={{width:20,height:2,background:mobileOpen?"#ff2d7a":"#f0f4ff",transition:"all .3s",transform:mobileOpen?"rotate(45deg) translate(5px,5px)":"none",display:"block"}}/>
-          <span style={{width:20,height:2,background:"#f0f4ff",opacity:mobileOpen?0:1,transition:"all .2s",display:"block"}}/>
-          <span style={{width:20,height:2,background:mobileOpen?"#ff2d7a":"#f0f4ff",transition:"all .3s",transform:mobileOpen?"rotate(-45deg) translate(5px,-5px)":"none",display:"block"}}/>
+          <span style={{width:20,height:2,background:mobileOpen?"var(--accent)":"var(--text-primary)",transition:"all .3s",transform:mobileOpen?"rotate(45deg) translate(5px,5px)":"none",display:"block"}}/>
+          <span style={{width:20,height:2,background:"var(--text-primary)",opacity:mobileOpen?0:1,transition:"all .2s",display:"block"}}/>
+          <span style={{width:20,height:2,background:mobileOpen?"var(--accent)":"var(--text-primary)",transition:"all .3s",transform:mobileOpen?"rotate(-45deg) translate(5px,-5px)":"none",display:"block"}}/>
         </button>
       </div>
     </nav>
@@ -308,12 +324,12 @@ function Nav() {
         {pageLinks.map(({h,l}) => (
           <a key={h} href={h} onClick={()=>setMobileOpen(false)} style={{fontFamily:"Cairo",fontSize:15,fontWeight:700,color:"#6ea8fe",textDecoration:"none",padding:"12px 16px",border:"1px solid rgba(110,168,254,.3)",borderRadius:8,background:"rgba(110,168,254,.07)",textAlign:"right"}}>{l}</a>
         ))}
-        <div style={{height:1,background:"rgba(255,255,255,.07)",margin:"4px 0"}}/>
+        <div style={{height:1,background:"var(--border)",margin:"4px 0"}}/>
         {scrollLinks.map(({h,l}) => (
-          <a key={h} href={h} onClick={()=>setMobileOpen(false)} style={{fontFamily:"Cairo",fontSize:14,fontWeight:600,color:"rgba(240,244,255,.55)",textDecoration:"none",padding:"10px 16px",borderRadius:8,background:"rgba(255,255,255,.03)",textAlign:"right"}}>{l}</a>
+          <a key={h} href={h} onClick={()=>setMobileOpen(false)} style={{fontFamily:"Cairo",fontSize:14,fontWeight:600,color:"rgba(240,244,255,.55)",textDecoration:"none",padding:"10px 16px",borderRadius:8,background:"var(--bg-card)",textAlign:"right"}}>{l}</a>
         ))}
-        <div style={{height:1,background:"rgba(255,255,255,.07)",margin:"4px 0"}}/>
-        <a href="/dashboard" onClick={()=>setMobileOpen(false)} style={{fontFamily:"Cairo",fontSize:14,fontWeight:700,color:"#00c3ff",textDecoration:"none",padding:"12px 16px",border:"1px solid rgba(0,195,255,.25)",borderRadius:8,background:"rgba(0,195,255,.07)",textAlign:"right"}}>⬡ الداشبورد</a>
+        <div style={{height:1,background:"var(--border)",margin:"4px 0"}}/>
+        <a href="/dashboard" onClick={()=>setMobileOpen(false)} style={{fontFamily:"Cairo",fontSize:14,fontWeight:700,color:"var(--blue-accent)",textDecoration:"none",padding:"12px 16px",border:"1px solid rgba(0,195,255,.25)",borderRadius:8,background:"rgba(var(--blue-rgb,0,195,255),.07)",textAlign:"right"}}>⬡ الداشبورد</a>
       </div>
     )}
     </>
@@ -335,7 +351,7 @@ function Hero() {
 
       <div style={{textAlign:"center",position:"relative",zIndex:5,padding:"0 20px",direction:"rtl"}}>
         <div style={{
-          fontSize:11,fontWeight:700,letterSpacing:".4em",color:"#ff2d7a",textTransform:"uppercase",
+          fontSize:11,fontWeight:700,letterSpacing:".4em",color:"var(--accent)",textTransform:"uppercase",
           marginBottom:32,display:"flex",alignItems:"center",justifyContent:"center",gap:16,
           opacity: loaded ? 1 : 0, transform: loaded ? "none" : "translateY(30px)",
           transition:"all 1s ease .3s", fontFamily:"Cairo"
@@ -350,7 +366,7 @@ function Hero() {
             <div style={{
               fontFamily:"Cairo",fontSize:"clamp(64px,12vw,150px)",fontWeight:900,lineHeight:.88,
               letterSpacing:"-.03em",display:"block",
-              color: line.cls === "accent" ? "#ff2d7a" : line.cls === "stroke" ? "transparent" : "#f0f4ff",
+              color: line.cls === "accent" ? "var(--accent)" : line.cls === "stroke" ? "transparent" : "var(--text-primary)",
               WebkitTextStroke: line.cls === "stroke" ? "2px rgba(255,255,255,.3)" : "none",
               opacity: loaded ? 1 : 0,
               transform: loaded ? "none" : "translateY(110%)",
@@ -373,21 +389,21 @@ function Hero() {
 
         <div style={{display:"flex",gap:16,justifyContent:"center",opacity:loaded?1:0,transform:loaded?"none":"translateY(30px)",transition:"all 1s ease 1.3s",flexWrap:"wrap"}}>
           <a href="https://wa.me/9647734383431" target="_blank"
-            style={{fontFamily:"Cairo",fontSize:14,fontWeight:700,padding:"16px 44px",background:"#ff2d7a",color:"#fff",borderRadius:4,textDecoration:"none",cursor:"none",letterSpacing:".06em",position:"relative",overflow:"hidden",boxShadow:"0 0 40px rgba(255,45,122,.4)",transition:"all .2s"}}
+            style={{fontFamily:"Cairo",fontSize:14,fontWeight:700,padding:"16px 44px",background:"var(--accent)",color:"var(--text-primary)",borderRadius:4,textDecoration:"none",cursor:"none",letterSpacing:".06em",position:"relative",overflow:"hidden",boxShadow:"0 0 40px rgba(255,45,122,.4)",transition:"all .2s"}}
             onMouseEnter={e=>{e.currentTarget.style.transform="translateY(-3px)";e.currentTarget.style.boxShadow="0 12px 50px rgba(255,45,122,.6)"}}
             onMouseLeave={e=>{e.currentTarget.style.transform="";e.currentTarget.style.boxShadow="0 0 40px rgba(255,45,122,.4)"}}>
             📲 تواصل على واتساب
           </a>
           <a href="/dashboard"
-            style={{fontFamily:"Cairo",fontSize:14,fontWeight:700,padding:"15px 44px",background:"rgba(0,195,255,.08)",color:"#00c3ff",border:"1px solid rgba(0,195,255,.3)",borderRadius:4,textDecoration:"none",cursor:"none",letterSpacing:".06em",transition:"all .3s",boxShadow:"0 0 20px rgba(0,195,255,.1)"}}
-            onMouseEnter={e=>{e.currentTarget.style.background="rgba(0,195,255,.15)";e.currentTarget.style.boxShadow="0 8px 30px rgba(0,195,255,.25)";e.currentTarget.style.transform="translateY(-2px)"}}
-            onMouseLeave={e=>{e.currentTarget.style.background="rgba(0,195,255,.08)";e.currentTarget.style.boxShadow="0 0 20px rgba(0,195,255,.1)";e.currentTarget.style.transform=""}}>
+            style={{fontFamily:"Cairo",fontSize:14,fontWeight:700,padding:"15px 44px",background:"rgba(var(--blue-rgb,0,195,255),.08)",color:"var(--blue-accent)",border:"1px solid rgba(0,195,255,.3)",borderRadius:4,textDecoration:"none",cursor:"none",letterSpacing:".06em",transition:"all .3s",boxShadow:"0 0 20px rgba(0,195,255,.1)"}}
+            onMouseEnter={e=>{e.currentTarget.style.background="rgba(var(--blue-rgb,0,195,255),.15)";e.currentTarget.style.boxShadow="0 8px 30px rgba(0,195,255,.25)";e.currentTarget.style.transform="translateY(-2px)"}}
+            onMouseLeave={e=>{e.currentTarget.style.background="rgba(var(--blue-rgb,0,195,255),.08)";e.currentTarget.style.boxShadow="0 0 20px rgba(0,195,255,.1)";e.currentTarget.style.transform=""}}>
             ⬡ جرب الداشبورد
           </a>
           <a href="#solution"
-            style={{fontFamily:"Cairo",fontSize:14,fontWeight:700,padding:"15px 28px",background:"transparent",color:"rgba(240,244,255,.4)",border:"1px solid rgba(255,255,255,.07)",borderRadius:4,textDecoration:"none",cursor:"none",letterSpacing:".06em",transition:"all .3s"}}
-            onMouseEnter={e=>{e.currentTarget.style.borderColor="rgba(255,255,255,.2)";e.currentTarget.style.color="rgba(240,244,255,.7)"}}
-            onMouseLeave={e=>{e.currentTarget.style.borderColor="rgba(255,255,255,.07)";e.currentTarget.style.color="rgba(240,244,255,.4)"}}>
+            style={{fontFamily:"Cairo",fontSize:14,fontWeight:700,padding:"15px 28px",background:"transparent",color:"var(--text-secondary)",border:"1px solid rgba(255,255,255,.07)",borderRadius:4,textDecoration:"none",cursor:"none",letterSpacing:".06em",transition:"all .3s"}}
+            onMouseEnter={e=>{e.currentTarget.style.borderColor="var(--text-muted)";e.currentTarget.style.color="rgba(240,244,255,.7)"}}
+            onMouseLeave={e=>{e.currentTarget.style.borderColor="var(--border)";e.currentTarget.style.color="var(--text-secondary)"}}>
             اكتشف الحل
           </a>
         </div>
@@ -410,8 +426,8 @@ function Marquee() {
     <div style={{padding:"24px 0",overflow:"hidden",borderTop:"1px solid rgba(255,255,255,.05)",borderBottom:"1px solid rgba(255,255,255,.05)",background:"rgba(255,45,122,.02)",position:"relative",zIndex:2}}>
       <div style={{display:"flex",gap:0,width:"max-content",animation:"marquee 30s linear infinite"}}>
         {doubled.map((item, i) => (
-          <div key={i} style={{fontFamily:"Space Mono",fontSize:11,fontWeight:700,color:"rgba(240,244,255,.35)",letterSpacing:".2em",textTransform:"uppercase",padding:"0 40px",whiteSpace:"nowrap",display:"flex",alignItems:"center",gap:16}}>
-            {item}<span style={{color:"#ff2d7a",fontSize:7}}>◆</span>
+          <div key={i} style={{fontFamily:"Space Mono",fontSize:11,fontWeight:700,color:"var(--text-muted)",letterSpacing:".2em",textTransform:"uppercase",padding:"0 40px",whiteSpace:"nowrap",display:"flex",alignItems:"center",gap:16}}>
+            {item}<span style={{color:"var(--accent)",fontSize:7}}>◆</span>
           </div>
         ))}
       </div>
@@ -431,30 +447,30 @@ function Problem() {
 
   return (
     <section id="problem" ref={ref} style={{padding:"160px 48px",maxWidth:1400,margin:"0 auto",position:"relative",zIndex:2,direction:"rtl"}}>
-      <div style={{fontSize:10,fontWeight:700,letterSpacing:".4em",color:"#ff2d7a",textTransform:"uppercase",marginBottom:24,display:"flex",alignItems:"center",gap:12,fontFamily:"Cairo",
+      <div style={{fontSize:10,fontWeight:700,letterSpacing:".4em",color:"var(--accent)",textTransform:"uppercase",marginBottom:24,display:"flex",alignItems:"center",gap:12,fontFamily:"Cairo",
         opacity:visible?1:0,transform:visible?"none":"translateX(20px)",transition:"all .7s ease"}}>
-        <span style={{width:30,height:1,background:"#ff2d7a"}}/>التحدي
+        <span style={{width:30,height:1,background:"var(--accent)"}}/>التحدي
       </div>
-      <h2 style={{fontFamily:"Cairo",fontSize:"clamp(36px,5vw,72px)",fontWeight:900,lineHeight:.95,letterSpacing:"-.025em",marginBottom:80,color:"#f0f4ff",
+      <h2 style={{fontFamily:"Cairo",fontSize:"clamp(36px,5vw,72px)",fontWeight:900,lineHeight:.95,letterSpacing:"-.025em",marginBottom:80,color:"var(--text-primary)",
         opacity:visible?1:0,transform:visible?"none":"translateY(40px)",transition:"all 1s ease .2s"}}>
         المطاعم تخسر<br/>
-        <em style={{fontStyle:"normal",color:"#ff2d7a"}}>يومياً</em> بدون<br/>
+        <em style={{fontStyle:"normal",color:"var(--accent)"}}>يومياً</em> بدون<br/>
         <span style={{color:"rgba(240,244,255,.2)"}}>نظام حقيقي</span>
       </h2>
 
       <div className="problem-grid-inner" style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:3}}>
         {cards.map((c, i) => (
           <Card3D key={i} style={{
-            background:"#0a1628",padding:"52px 44px",position:"relative",overflow:"hidden",
+            background:"var(--bg-secondary)",padding:"52px 44px",position:"relative",overflow:"hidden",
             opacity:visible?1:0,transform:visible?"none":"translateY(40px)",
             transition:`all .8s ease ${.3 + i*.12}s`
           }}>
-            <div style={{position:"absolute",top:0,right:0,width:"0%",height:2,background:"#ff2d7a",transition:"width .6s ease",pointerEvents:"none"}} />
+            <div style={{position:"absolute",top:0,right:0,width:"0%",height:2,background:"var(--accent)",transition:"width .6s ease",pointerEvents:"none"}} />
             <div style={{position:"absolute",inset:0,background:"radial-gradient(ellipse at 50% 0%, rgba(255,45,122,.06), transparent 60%)",opacity:0,transition:"opacity .3s",pointerEvents:"none"}}/>
             <span style={{fontSize:36,marginBottom:24,display:"block"}}>{c.icon}</span>
             <h3 style={{fontFamily:"Cairo",fontSize:22,fontWeight:900,marginBottom:12,color:"rgba(240,244,255,.85)"}}>{c.title}</h3>
-            <p style={{fontFamily:"Cairo",fontSize:15,color:"rgba(240,244,255,.4)",lineHeight:1.8}}>{c.desc}</p>
-            <span style={{position:"absolute",bottom:28,right:44,fontFamily:"Space Mono",fontSize:11,color:"rgba(255,45,122,.6)",letterSpacing:".1em"}}>{c.stat}</span>
+            <p style={{fontFamily:"Cairo",fontSize:15,color:"var(--text-secondary)",lineHeight:1.8}}>{c.desc}</p>
+            <span style={{position:"absolute",bottom:28,right:44,fontFamily:"Space Mono",fontSize:11,color:"var(--accent)",letterSpacing:".1em"}}>{c.stat}</span>
           </Card3D>
         ))}
       </div>
@@ -469,25 +485,25 @@ function Solution() {
   const [ref3, v3] = useVisible(.1);
 
   return (
-    <section id="solution" style={{padding:"160px 0",background:"#000510",overflow:"hidden",position:"relative",zIndex:2}}>
+    <section id="solution" style={{padding:"160px 0",background:"var(--bg-primary)",overflow:"hidden",position:"relative",zIndex:2}}>
       {/* Glow */}
       <div style={{position:"absolute",top:"30%",right:"-10%",width:500,height:500,borderRadius:"50%",background:"radial-gradient(ellipse, rgba(255,45,122,.08), transparent 70%)",filter:"blur(60px)",pointerEvents:"none"}}/>
       <div style={{maxWidth:1400,margin:"0 auto",padding:"0 48px",direction:"rtl"}}>
-        <div style={{fontSize:10,fontWeight:700,letterSpacing:".4em",color:"#ff2d7a",textTransform:"uppercase",marginBottom:24,display:"flex",alignItems:"center",gap:12,fontFamily:"Cairo"}}>
-          <span style={{width:30,height:1,background:"#ff2d7a"}}/>الحل
+        <div style={{fontSize:10,fontWeight:700,letterSpacing:".4em",color:"var(--accent)",textTransform:"uppercase",marginBottom:24,display:"flex",alignItems:"center",gap:12,fontFamily:"Cairo"}}>
+          <span style={{width:30,height:1,background:"var(--accent)"}}/>الحل
         </div>
-        <h2 style={{fontFamily:"Cairo",fontSize:"clamp(36px,5vw,72px)",fontWeight:900,lineHeight:.95,letterSpacing:"-.025em",marginBottom:80,color:"#f0f4ff"}}>
-          نظام كامل.<br/><em style={{fontStyle:"normal",color:"#ff2d7a"}}>يعمل وأنت نايم.</em>
+        <h2 style={{fontFamily:"Cairo",fontSize:"clamp(36px,5vw,72px)",fontWeight:900,lineHeight:.95,letterSpacing:"-.025em",marginBottom:80,color:"var(--text-primary)"}}>
+          نظام كامل.<br/><em style={{fontStyle:"normal",color:"var(--accent)"}}>يعمل وأنت نايم.</em>
         </h2>
 
         {/* Split 1 */}
         <div ref={ref1} className="solution-split-grid" style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:80,alignItems:"center",marginBottom:120}}>
           <div style={{opacity:v1?1:0,transform:v1?"none":"translateY(40px)",transition:"all 1s ease"}}>
-            <h3 style={{fontFamily:"Cairo",fontSize:"clamp(28px,3.5vw,48px)",fontWeight:900,lineHeight:1,marginBottom:20,color:"#f0f4ff"}}>توجيه ذكي للطلبات</h3>
-            <p style={{fontFamily:"Cairo",fontSize:16,color:"rgba(240,244,255,.45)",lineHeight:1.9,marginBottom:32}}>كل طلب يصل للشخص الصح، في الوقت الصح، بدون فوضى وبدون ضياع — نظام يتعلم مطعمك ويتكيف تلقائياً.</p>
+            <h3 style={{fontFamily:"Cairo",fontSize:"clamp(28px,3.5vw,48px)",fontWeight:900,lineHeight:1,marginBottom:20,color:"var(--text-primary)"}}>توجيه ذكي للطلبات</h3>
+            <p style={{fontFamily:"Cairo",fontSize:16,color:"var(--text-secondary)",lineHeight:1.9,marginBottom:32}}>كل طلب يصل للشخص الصح، في الوقت الصح، بدون فوضى وبدون ضياع — نظام يتعلم مطعمك ويتكيف تلقائياً.</p>
             {["توزيع تلقائي للطلبات على المحطات","تنبيهات فورية عند التأخر","تتبع زمن تحضير كل صنف","أولويات ذكية حسب الطاولة"].map((f,i) => (
               <div key={i} style={{display:"flex",alignItems:"center",gap:14,fontFamily:"Cairo",fontSize:14,fontWeight:600,color:"rgba(240,244,255,.65)",marginBottom:14}}>
-                <span style={{width:20,height:20,background:"rgba(255,45,122,.1)",border:"1px solid rgba(255,45,122,.3)",borderRadius:4,flexShrink:0,display:"flex",alignItems:"center",justifyContent:"center",fontSize:10,color:"#ff2d7a"}}>✓</span>
+                <span style={{width:20,height:20,background:"var(--accent-glow)",border:"1px solid rgba(255,45,122,.3)",borderRadius:4,flexShrink:0,display:"flex",alignItems:"center",justifyContent:"center",fontSize:10,color:"var(--accent)"}}>✓</span>
                 {f}
               </div>
             ))}
@@ -499,11 +515,11 @@ function Solution() {
         <div ref={ref2} className="solution-split-grid" style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:80,alignItems:"center",marginBottom:120,direction:"ltr"}}>
           <VisualCard2 visible={v2} />
           <div style={{direction:"rtl",opacity:v2?1:0,transform:v2?"none":"translateY(40px)",transition:"all 1s ease .2s"}}>
-            <h3 style={{fontFamily:"Cairo",fontSize:"clamp(28px,3.5vw,48px)",fontWeight:900,lineHeight:1,marginBottom:20,color:"#f0f4ff"}}>مخزن مؤتمت بالكامل</h3>
-            <p style={{fontFamily:"Cairo",fontSize:16,color:"rgba(240,244,255,.45)",lineHeight:1.9,marginBottom:32}}>النظام يراقب كل مادة خام، يحسب الاستهلاك تلقائياً، ويرسل الطلبيات للموردين قبل ما تنفد — بدون أي تدخل منك.</p>
+            <h3 style={{fontFamily:"Cairo",fontSize:"clamp(28px,3.5vw,48px)",fontWeight:900,lineHeight:1,marginBottom:20,color:"var(--text-primary)"}}>مخزن مؤتمت بالكامل</h3>
+            <p style={{fontFamily:"Cairo",fontSize:16,color:"var(--text-secondary)",lineHeight:1.9,marginBottom:32}}>النظام يراقب كل مادة خام، يحسب الاستهلاك تلقائياً، ويرسل الطلبيات للموردين قبل ما تنفد — بدون أي تدخل منك.</p>
             {["خصم تلقائي عند كل طلب من المخزون","تنبيه عند اقتراب نفاد أي صنف","طلبية تلقائية للموردين","تقارير الهدر الأسبوعية"].map((f,i) => (
               <div key={i} style={{display:"flex",alignItems:"center",gap:14,fontFamily:"Cairo",fontSize:14,fontWeight:600,color:"rgba(240,244,255,.65)",marginBottom:14}}>
-                <span style={{width:20,height:20,background:"rgba(255,45,122,.1)",border:"1px solid rgba(255,45,122,.3)",borderRadius:4,flexShrink:0,display:"flex",alignItems:"center",justifyContent:"center",fontSize:10,color:"#ff2d7a"}}>✓</span>
+                <span style={{width:20,height:20,background:"var(--accent-glow)",border:"1px solid rgba(255,45,122,.3)",borderRadius:4,flexShrink:0,display:"flex",alignItems:"center",justifyContent:"center",fontSize:10,color:"var(--accent)"}}>✓</span>
                 {f}
               </div>
             ))}
@@ -513,11 +529,11 @@ function Solution() {
         {/* Split 3 */}
         <div ref={ref3} className="solution-split-grid" style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:80,alignItems:"center"}}>
           <div style={{direction:"rtl",opacity:v3?1:0,transform:v3?"none":"translateY(40px)",transition:"all 1s ease"}}>
-            <h3 style={{fontFamily:"Cairo",fontSize:"clamp(28px,3.5vw,48px)",fontWeight:900,lineHeight:1,marginBottom:20,color:"#f0f4ff"}}>تحليلات وتقارير ذكية</h3>
-            <p style={{fontFamily:"Cairo",fontSize:16,color:"rgba(240,244,255,.45)",lineHeight:1.9,marginBottom:32}}>بيانات حية من مطعمك لحظة بلحظة — كل قرار مبني على أرقام حقيقية، لا على حدس وتخمين.</p>
+            <h3 style={{fontFamily:"Cairo",fontSize:"clamp(28px,3.5vw,48px)",fontWeight:900,lineHeight:1,marginBottom:20,color:"var(--text-primary)"}}>تحليلات وتقارير ذكية</h3>
+            <p style={{fontFamily:"Cairo",fontSize:16,color:"var(--text-secondary)",lineHeight:1.9,marginBottom:32}}>بيانات حية من مطعمك لحظة بلحظة — كل قرار مبني على أرقام حقيقية، لا على حدس وتخمين.</p>
             {["داشبورد مباشر من هاتفك","تقارير يومية وأسبوعية وشهرية","تحديد أفضل وأسوأ الأصناف أداءً","مقارنة الأداء بين الفروع"].map((f,i) => (
               <div key={i} style={{display:"flex",alignItems:"center",gap:14,fontFamily:"Cairo",fontSize:14,fontWeight:600,color:"rgba(240,244,255,.65)",marginBottom:14}}>
-                <span style={{width:20,height:20,background:"rgba(255,45,122,.1)",border:"1px solid rgba(255,45,122,.3)",borderRadius:4,flexShrink:0,display:"flex",alignItems:"center",justifyContent:"center",fontSize:10,color:"#ff2d7a"}}>✓</span>
+                <span style={{width:20,height:20,background:"var(--accent-glow)",border:"1px solid rgba(255,45,122,.3)",borderRadius:4,flexShrink:0,display:"flex",alignItems:"center",justifyContent:"center",fontSize:10,color:"var(--accent)"}}>✓</span>
                 {f}
               </div>
             ))}
@@ -533,21 +549,21 @@ function VisualCard1({visible}) {
   return (
     <div style={{position:"relative",height:420,opacity:visible?1:0,transform:visible?"none":"translateX(60px)",transition:"all 1.2s ease .3s"}}>
       <Card3D style={{position:"absolute",inset:0,background:"linear-gradient(135deg, rgba(10,22,40,.97), rgba(0,8,20,.85))",border:"1px solid rgba(255,255,255,.06)",borderRadius:12,padding:"32px 36px",display:"flex",flexDirection:"column",justifyContent:"center"}}>
-        <div style={{fontFamily:"Space Mono",fontSize:36,fontWeight:700,color:"#f0f4ff"}}>6.2 <span style={{color:"#ff2d7a"}}>د</span></div>
-        <div style={{fontFamily:"Cairo",fontSize:12,color:"rgba(240,244,255,.4)",marginTop:6,letterSpacing:".1em"}}>متوسط وقت التحضير</div>
-        {[{label:"الكفاءة",pct:92,color:"#ff2d7a"},{label:"الدقة",pct:99,color:"#00c3ff"}].map(b => (
+        <div style={{fontFamily:"Space Mono",fontSize:36,fontWeight:700,color:"var(--text-primary)"}}>6.2 <span style={{color:"var(--accent)"}}>د</span></div>
+        <div style={{fontFamily:"Cairo",fontSize:12,color:"var(--text-secondary)",marginTop:6,letterSpacing:".1em"}}>متوسط وقت التحضير</div>
+        {[{label:"الكفاءة",pct:92,color:"var(--accent)"},{label:"الدقة",pct:99,color:"var(--blue-accent)"}].map(b => (
           <div key={b.label} style={{marginTop:20}}>
-            <div style={{display:"flex",justifyContent:"space-between",fontFamily:"Cairo",fontSize:11,color:"rgba(240,244,255,.4)",marginBottom:8}}><span>{b.label}</span><span>{b.pct}%</span></div>
-            <div style={{height:4,background:"rgba(255,255,255,.05)",borderRadius:99,overflow:"hidden"}}>
+            <div style={{display:"flex",justifyContent:"space-between",fontFamily:"Cairo",fontSize:11,color:"var(--text-secondary)",marginBottom:8}}><span>{b.label}</span><span>{b.pct}%</span></div>
+            <div style={{height:4,background:"var(--border)",borderRadius:99,overflow:"hidden"}}>
               <div className="vis-bar-fill" style={{height:"100%",borderRadius:99,background:b.color,width:visible?`${b.pct}%`:"0%",boxShadow:`0 0 10px ${b.color}`}}/>
             </div>
           </div>
         ))}
       </Card3D>
-      <div style={{position:"absolute",bottom:-20,left:-20,width:180,background:"rgba(255,45,122,.08)",border:"1px solid rgba(255,45,122,.3)",borderRadius:10,padding:"20px 24px",animation:"floatA 4s ease-in-out infinite"}}>
-        <div style={{fontFamily:"Cairo",fontSize:12,color:"rgba(240,244,255,.4)",marginBottom:8}}>طلب جديد ←</div>
-        <div style={{fontFamily:"Space Mono",fontSize:20,color:"#f0f4ff",fontWeight:700}}>طاولة 7</div>
-        <div style={{fontFamily:"Cairo",fontSize:11,color:"#ff2d7a",marginTop:6}}>✓ وُجِّه لمحطة B</div>
+      <div style={{position:"absolute",bottom:-20,left:-20,width:180,background:"var(--accent-soft)",border:"1px solid rgba(255,45,122,.3)",borderRadius:10,padding:"20px 24px",animation:"floatA 4s ease-in-out infinite"}}>
+        <div style={{fontFamily:"Cairo",fontSize:12,color:"var(--text-secondary)",marginBottom:8}}>طلب جديد ←</div>
+        <div style={{fontFamily:"Space Mono",fontSize:20,color:"var(--text-primary)",fontWeight:700}}>طاولة 7</div>
+        <div style={{fontFamily:"Cairo",fontSize:11,color:"var(--accent)",marginTop:6}}>✓ وُجِّه لمحطة B</div>
       </div>
     </div>
   );
@@ -557,11 +573,11 @@ function VisualCard2({visible}) {
   return (
     <div style={{position:"relative",height:420,opacity:visible?1:0,transform:visible?"none":"translateX(-60px)",transition:"all 1.2s ease .2s"}}>
       <Card3D style={{position:"absolute",inset:0,background:"linear-gradient(135deg, rgba(10,22,40,.97), rgba(0,8,20,.85))",border:"1px solid rgba(255,255,255,.06)",borderRadius:12,padding:"32px 36px",display:"flex",flexDirection:"column",justifyContent:"center"}}>
-        <div style={{fontFamily:"Cairo",fontSize:12,color:"rgba(240,244,255,.4)",letterSpacing:".1em",marginBottom:20,direction:"rtl"}}>حالة المخزن — اليوم</div>
+        <div style={{fontFamily:"Cairo",fontSize:12,color:"var(--text-secondary)",letterSpacing:".1em",marginBottom:20,direction:"rtl"}}>حالة المخزن — اليوم</div>
         {[{label:"دجاج",pct:22,status:"تحذير",sc:"#ffd60a"},{label:"أرز",pct:78,status:"جيد",sc:"#00ff88"},{label:"خضروات",pct:65,status:"جيد",sc:"#00ff88"}].map(b => (
           <div key={b.label} style={{marginBottom:18,direction:"rtl"}}>
-            <div style={{display:"flex",justifyContent:"space-between",fontFamily:"Cairo",fontSize:11,color:"rgba(240,244,255,.4)",marginBottom:8}}><span>{b.label}</span><span style={{color:b.sc}}>{b.status}</span></div>
-            <div style={{height:4,background:"rgba(255,255,255,.05)",borderRadius:99,overflow:"hidden"}}>
+            <div style={{display:"flex",justifyContent:"space-between",fontFamily:"Cairo",fontSize:11,color:"var(--text-secondary)",marginBottom:8}}><span>{b.label}</span><span style={{color:b.sc}}>{b.status}</span></div>
+            <div style={{height:4,background:"var(--border)",borderRadius:99,overflow:"hidden"}}>
               <div className="vis-bar-fill" style={{height:"100%",borderRadius:99,background:b.sc,width:visible?`${b.pct}%`:"0%",boxShadow:`0 0 10px ${b.sc}`}}/>
             </div>
           </div>
@@ -571,8 +587,8 @@ function VisualCard2({visible}) {
         </div>
       </Card3D>
       <div style={{position:"absolute",top:-20,right:-20,width:170,background:"rgba(0,195,255,.06)",border:"1px solid rgba(0,195,255,.25)",borderRadius:10,padding:"20px 24px",animation:"floatB 5s ease-in-out infinite reverse"}}>
-        <div style={{fontFamily:"Space Mono",fontSize:28,color:"#f0f4ff",fontWeight:700}}>-28%</div>
-        <div style={{fontFamily:"Cairo",fontSize:11,color:"rgba(240,244,255,.4)",marginTop:4}}>هدر هذا الشهر</div>
+        <div style={{fontFamily:"Space Mono",fontSize:28,color:"var(--text-primary)",fontWeight:700}}>-28%</div>
+        <div style={{fontFamily:"Cairo",fontSize:11,color:"var(--text-secondary)",marginTop:4}}>هدر هذا الشهر</div>
       </div>
     </div>
   );
@@ -582,12 +598,12 @@ function VisualCard3({visible}) {
   return (
     <div style={{position:"relative",height:420,opacity:visible?1:0,transform:visible?"none":"translateX(60px)",transition:"all 1.2s ease .3s"}}>
       <Card3D style={{position:"absolute",inset:0,background:"linear-gradient(135deg, rgba(10,22,40,.97), rgba(0,8,20,.85))",border:"1px solid rgba(255,255,255,.06)",borderRadius:12,padding:"32px 36px",display:"flex",flexDirection:"column",justifyContent:"center",direction:"rtl"}}>
-        <div style={{fontFamily:"Cairo",fontSize:12,color:"rgba(240,244,255,.4)",marginBottom:16}}>الأداء هذا الأسبوع</div>
+        <div style={{fontFamily:"Cairo",fontSize:12,color:"var(--text-secondary)",marginBottom:16}}>الأداء هذا الأسبوع</div>
         <div style={{display:"flex",gap:16,marginBottom:24}}>
-          {[{n:"+٤٢%",l:"الأرباح",c:"#ff2d7a"},{n:"-٢٨%",l:"الهدر",c:"#ffd60a"},{n:"٩٩%",l:"الدقة",c:"#00c3ff"}].map(m => (
-            <div key={m.l} style={{flex:1,padding:"14px 10px",background:"rgba(255,255,255,.03)",borderRadius:8,border:"1px solid rgba(255,255,255,.05)",textAlign:"center"}}>
+          {[{n:"+٤٢%",l:"الأرباح",c:"var(--accent)"},{n:"-٢٨%",l:"الهدر",c:"#ffd60a"},{n:"٩٩%",l:"الدقة",c:"var(--blue-accent)"}].map(m => (
+            <div key={m.l} style={{flex:1,padding:"14px 10px",background:"var(--bg-card)",borderRadius:8,border:"1px solid rgba(255,255,255,.05)",textAlign:"center"}}>
               <div style={{fontFamily:"Space Mono",fontSize:18,fontWeight:700,color:m.c}}>{m.n}</div>
-              <div style={{fontFamily:"Cairo",fontSize:10,color:"rgba(240,244,255,.35)",marginTop:4}}>{m.l}</div>
+              <div style={{fontFamily:"Cairo",fontSize:10,color:"var(--text-muted)",marginTop:4}}>{m.l}</div>
             </div>
           ))}
         </div>
@@ -596,7 +612,7 @@ function VisualCard3({visible}) {
             <div key={i} style={{position:"absolute",bottom:0,left:`${i*15}%`,width:"10%",background:`rgba(255,45,122,${.3 + h*.005})`,height:visible?`${h}%`:"0%",borderRadius:"3px 3px 0 0",transition:`height 1s ease ${.8 + i*.1}s`}}/>
           ))}
         </div>
-        <div style={{fontFamily:"Cairo",fontSize:11,color:"rgba(240,244,255,.25)",letterSpacing:".1em",marginTop:12}}>الأداء اليومي — الأسبوع الأخير</div>
+        <div style={{fontFamily:"Cairo",fontSize:11,color:"var(--text-muted)",letterSpacing:".1em",marginTop:12}}>الأداء اليومي — الأسبوع الأخير</div>
       </Card3D>
     </div>
   );
@@ -618,16 +634,16 @@ function Services() {
     <section id="services" ref={ref} style={{padding:"160px 48px",maxWidth:1400,margin:"0 auto",position:"relative",zIndex:2,direction:"rtl"}}>
       <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:80,alignItems:"end",marginBottom:80}}>
         <div>
-          <div style={{fontSize:10,fontWeight:700,letterSpacing:".4em",color:"#ff2d7a",textTransform:"uppercase",marginBottom:24,display:"flex",alignItems:"center",gap:12,fontFamily:"Cairo",
+          <div style={{fontSize:10,fontWeight:700,letterSpacing:".4em",color:"var(--accent)",textTransform:"uppercase",marginBottom:24,display:"flex",alignItems:"center",gap:12,fontFamily:"Cairo",
             opacity:visible?1:0,transform:visible?"none":"translateX(20px)",transition:"all .7s ease"}}>
-            <span style={{width:30,height:1,background:"#ff2d7a"}}/>الخدمات
+            <span style={{width:30,height:1,background:"var(--accent)"}}/>الخدمات
           </div>
-          <h2 style={{fontFamily:"Cairo",fontSize:"clamp(36px,5vw,72px)",fontWeight:900,lineHeight:.95,letterSpacing:"-.025em",color:"#f0f4ff",
+          <h2 style={{fontFamily:"Cairo",fontSize:"clamp(36px,5vw,72px)",fontWeight:900,lineHeight:.95,letterSpacing:"-.025em",color:"var(--text-primary)",
             opacity:visible?1:0,transform:visible?"none":"translateY(40px)",transition:"all 1s ease .2s"}}>
-            كل ما يحتاجه<br/><em style={{fontStyle:"normal",color:"#ff2d7a"}}>مطعمك</em>
+            كل ما يحتاجه<br/><em style={{fontStyle:"normal",color:"var(--accent)"}}>مطعمك</em>
           </h2>
         </div>
-        <p style={{fontFamily:"Cairo",fontSize:16,color:"rgba(240,244,255,.4)",lineHeight:1.9,
+        <p style={{fontFamily:"Cairo",fontSize:16,color:"var(--text-secondary)",lineHeight:1.9,
           opacity:visible?1:0,transform:visible?"none":"translateY(30px)",transition:"all 1s ease .3s"}}>
           من التشخيص الأولي حتى المتابعة الشهرية — نحن شريكك الكامل في بناء مطعم يعمل بدقة هندسية.
         </p>
@@ -636,17 +652,17 @@ function Services() {
       <div className="services-grid-inner" style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:3}}>
         {svcs.map((s, i) => (
           <Card3D key={i} style={{
-            background:"#0a1628",padding:"48px 36px",position:"relative",overflow:"hidden",
+            background:"var(--bg-secondary)",padding:"48px 36px",position:"relative",overflow:"hidden",
             opacity:visible?1:0,transform:visible?"none":"translateY(50px)",
             transition:`all .9s ease ${.2 + (i%3)*.12}s`,
             borderBottom:"2px solid transparent"
           }}>
             <div style={{position:"absolute",bottom:0,left:0,right:0,height:2,background:"linear-gradient(to left, #ff2d7a, transparent)",transform:"scaleX(0)",transformOrigin:"right",transition:"transform .5s ease",pointerEvents:"none"}} className="svc-line"/>
-            <div style={{fontFamily:"Space Mono",fontSize:11,color:"rgba(255,45,122,.35)",letterSpacing:".2em",marginBottom:32}}>{s.n}</div>
-            <div style={{width:52,height:52,background:"rgba(255,45,122,.1)",border:"1px solid rgba(255,45,122,.2)",borderRadius:8,display:"flex",alignItems:"center",justifyContent:"center",fontSize:22,marginBottom:24,transition:"all .3s"}}>{s.icon}</div>
-            <h3 style={{fontFamily:"Cairo",fontSize:20,fontWeight:900,marginBottom:14,lineHeight:1.2,color:"#f0f4ff"}}>{s.t}</h3>
-            <p style={{fontFamily:"Cairo",fontSize:14,color:"rgba(240,244,255,.4)",lineHeight:1.8}}>{s.d}</p>
-            <span style={{position:"absolute",bottom:36,right:36,fontFamily:"Space Mono",fontSize:16,color:"#ff2d7a",opacity:0,transition:"all .3s"}}>←</span>
+            <div style={{fontFamily:"Space Mono",fontSize:11,color:"var(--border-accent)",letterSpacing:".2em",marginBottom:32}}>{s.n}</div>
+            <div style={{width:52,height:52,background:"var(--accent-glow)",border:"1px solid rgba(255,45,122,.2)",borderRadius:8,display:"flex",alignItems:"center",justifyContent:"center",fontSize:22,marginBottom:24,transition:"all .3s"}}>{s.icon}</div>
+            <h3 style={{fontFamily:"Cairo",fontSize:20,fontWeight:900,marginBottom:14,lineHeight:1.2,color:"var(--text-primary)"}}>{s.t}</h3>
+            <p style={{fontFamily:"Cairo",fontSize:14,color:"var(--text-secondary)",lineHeight:1.8}}>{s.d}</p>
+            <span style={{position:"absolute",bottom:36,right:36,fontFamily:"Space Mono",fontSize:16,color:"var(--accent)",opacity:0,transition:"all .3s"}}>←</span>
           </Card3D>
         ))}
       </div>
@@ -658,22 +674,22 @@ function Services() {
 function Process() {
   const [ref, visible] = useVisible(.1);
   const steps = [
-    {n:"01",t:"التشخيص",d:"نزور مطعمك، نحلل عملياتك الحالية، ونحدد أكبر مصادر الخسارة والفرص المهدرة.",color:"#ff2d7a"},
-    {n:"02",t:"التصميم",d:"نبني نظام عمليات مخصص لمطعمك — ليس نظاماً جاهزاً، بل حل مصمم لطبيعة عملك تحديداً.",color:"#00c3ff"},
+    {n:"01",t:"التشخيص",d:"نزور مطعمك، نحلل عملياتك الحالية، ونحدد أكبر مصادر الخسارة والفرص المهدرة.",color:"var(--accent)"},
+    {n:"02",t:"التصميم",d:"نبني نظام عمليات مخصص لمطعمك — ليس نظاماً جاهزاً، بل حل مصمم لطبيعة عملك تحديداً.",color:"var(--blue-accent)"},
     {n:"03",t:"التطبيق والتدريب",d:"ننفذ النظام معك خطوة بخطوة، وندرب فريقك على كل أداة وإجراء حتى يصبح طبيعياً.",color:"#ffd60a"},
     {n:"04",t:"المتابعة والتطوير",d:"نتابع معك شهرياً، نقيس النتائج، ونحدّث النظام باستمرار — لأن المطعم الناجح لا يتوقف عن التحسين.",color:"#00ff88"},
   ];
 
   return (
-    <section id="process" ref={ref} style={{padding:"160px 48px",background:"#000510",overflow:"hidden",position:"relative",zIndex:2}}>
+    <section id="process" ref={ref} style={{padding:"160px 48px",background:"var(--bg-primary)",overflow:"hidden",position:"relative",zIndex:2}}>
       <div style={{maxWidth:1400,margin:"0 auto",direction:"rtl"}}>
-        <div style={{fontSize:10,fontWeight:700,letterSpacing:".4em",color:"#ff2d7a",textTransform:"uppercase",marginBottom:24,display:"flex",alignItems:"center",gap:12,fontFamily:"Cairo",
+        <div style={{fontSize:10,fontWeight:700,letterSpacing:".4em",color:"var(--accent)",textTransform:"uppercase",marginBottom:24,display:"flex",alignItems:"center",gap:12,fontFamily:"Cairo",
           opacity:visible?1:0,transition:"all .7s ease"}}>
-          <span style={{width:30,height:1,background:"#ff2d7a"}}/>كيف نعمل
+          <span style={{width:30,height:1,background:"var(--accent)"}}/>كيف نعمل
         </div>
-        <h2 style={{fontFamily:"Cairo",fontSize:"clamp(36px,5vw,72px)",fontWeight:900,lineHeight:.95,letterSpacing:"-.025em",marginBottom:80,color:"#f0f4ff",
+        <h2 style={{fontFamily:"Cairo",fontSize:"clamp(36px,5vw,72px)",fontWeight:900,lineHeight:.95,letterSpacing:"-.025em",marginBottom:80,color:"var(--text-primary)",
           opacity:visible?1:0,transform:visible?"none":"translateY(40px)",transition:"all 1s ease .2s"}}>
-          من الفوضى<br/>إلى <em style={{fontStyle:"normal",color:"#ff2d7a"}}>الدقة</em>
+          من الفوضى<br/>إلى <em style={{fontStyle:"normal",color:"var(--accent)"}}>الدقة</em>
         </h2>
 
         <div className="process-steps-inner" style={{display:"grid",gridTemplateColumns:"repeat(4,1fr)",gap:1,position:"relative"}}>
@@ -686,8 +702,8 @@ function Process() {
                 <div style={{position:"absolute",inset:-4,borderRadius:"50%",border:`1px solid ${s.color}40`,animation:"ripple 2s infinite"}}/>
               </div>
               <div style={{fontFamily:"Space Mono",fontSize:10,color:`${s.color}60`,letterSpacing:".25em",marginBottom:16}}>{s.n}</div>
-              <h3 style={{fontFamily:"Cairo",fontSize:18,fontWeight:900,marginBottom:12,color:"#f0f4ff"}}>{s.t}</h3>
-              <p style={{fontFamily:"Cairo",fontSize:13,color:"rgba(240,244,255,.4)",lineHeight:1.8}}>{s.d}</p>
+              <h3 style={{fontFamily:"Cairo",fontSize:18,fontWeight:900,marginBottom:12,color:"var(--text-primary)"}}>{s.t}</h3>
+              <p style={{fontFamily:"Cairo",fontSize:13,color:"var(--text-secondary)",lineHeight:1.8}}>{s.d}</p>
             </div>
           ))}
         </div>
@@ -700,27 +716,27 @@ function Process() {
 function Results() {
   const [ref, visible] = useVisible(.1);
   const nums = [
-    {n:35,suffix:"%+",label:"زيادة في الكفاءة التشغيلية خلال أول ٣ أشهر",color:"#ff2d7a"},
+    {n:35,suffix:"%+",label:"زيادة في الكفاءة التشغيلية خلال أول ٣ أشهر",color:"var(--accent)"},
     {n:28,suffix:"%-",label:"تراجع في الهدر الغذائي وتكاليف المواد الخام",color:"#ffd60a"},
-    {n:40,suffix:"%+",label:"ارتفاع في صافي الأرباح مقارنة بما قبل النظام",color:"#ff2d7a"},
-    {n:3,suffix:"x",label:"سرعة في معالجة الطلبات وتقليل أوقات الانتظار",color:"#00c3ff"},
+    {n:40,suffix:"%+",label:"ارتفاع في صافي الأرباح مقارنة بما قبل النظام",color:"var(--accent)"},
+    {n:3,suffix:"x",label:"سرعة في معالجة الطلبات وتقليل أوقات الانتظار",color:"var(--blue-accent)"},
   ];
 
   return (
     <section id="results" ref={ref} style={{padding:"140px 48px",maxWidth:1400,margin:"0 auto",position:"relative",zIndex:2,direction:"rtl"}}>
-      <div style={{fontSize:10,fontWeight:700,letterSpacing:".4em",color:"#ff2d7a",textTransform:"uppercase",marginBottom:24,display:"flex",alignItems:"center",gap:12,fontFamily:"Cairo",
+      <div style={{fontSize:10,fontWeight:700,letterSpacing:".4em",color:"var(--accent)",textTransform:"uppercase",marginBottom:24,display:"flex",alignItems:"center",gap:12,fontFamily:"Cairo",
         opacity:visible?1:0,transition:"all .7s ease"}}>
-        <span style={{width:30,height:1,background:"#ff2d7a"}}/>النتائج
+        <span style={{width:30,height:1,background:"var(--accent)"}}/>النتائج
       </div>
-      <h2 style={{fontFamily:"Cairo",fontSize:"clamp(36px,5vw,72px)",fontWeight:900,lineHeight:.95,letterSpacing:"-.025em",marginBottom:80,color:"#f0f4ff",
+      <h2 style={{fontFamily:"Cairo",fontSize:"clamp(36px,5vw,72px)",fontWeight:900,lineHeight:.95,letterSpacing:"-.025em",marginBottom:80,color:"var(--text-primary)",
         opacity:visible?1:0,transform:visible?"none":"translateY(40px)",transition:"all 1s ease .2s"}}>
-        أرقام <em style={{fontStyle:"normal",color:"#ff2d7a"}}>حقيقية</em><br/><span style={{color:"rgba(240,244,255,.2)"}}>من عملاء حقيقيين</span>
+        أرقام <em style={{fontStyle:"normal",color:"var(--accent)"}}>حقيقية</em><br/><span style={{color:"rgba(240,244,255,.2)"}}>من عملاء حقيقيين</span>
       </h2>
 
       <div className="results-grid-inner" style={{display:"grid",gridTemplateColumns:"repeat(4,1fr)",gap:3}}>
         {nums.map((n, i) => (
           <Card3D key={i} style={{
-            padding:"52px 36px",background:"#0a1628",textAlign:"center",position:"relative",overflow:"hidden",
+            padding:"52px 36px",background:"var(--bg-secondary)",textAlign:"center",position:"relative",overflow:"hidden",
             opacity:visible?1:0,transform:visible?"none":"scale(.9)",
             transition:`all .8s cubic-bezier(.34,1.56,.64,1) ${.2+i*.1}s`
           }}>
@@ -728,7 +744,7 @@ function Results() {
             <div style={{fontFamily:"Space Mono",fontSize:"clamp(40px,5vw,64px)",fontWeight:700,lineHeight:1,marginBottom:12,color:n.color,textShadow:`0 0 40px ${n.color}50`}}>
               {visible ? <Counter target={n.n} suffix={n.suffix}/> : `0${n.suffix}`}
             </div>
-            <div style={{fontFamily:"Cairo",fontSize:13,color:"rgba(240,244,255,.45)",lineHeight:1.7,fontWeight:600,letterSpacing:".04em"}}>{n.label}</div>
+            <div style={{fontFamily:"Cairo",fontSize:13,color:"var(--text-secondary)",lineHeight:1.7,fontWeight:600,letterSpacing:".04em"}}>{n.label}</div>
           </Card3D>
         ))}
       </div>
@@ -740,34 +756,34 @@ function Results() {
 function CTA() {
   const [ref, visible] = useVisible(.1);
   return (
-    <section id="cta" ref={ref} style={{padding:"160px 48px",background:"#000510",textAlign:"center",position:"relative",overflow:"hidden",zIndex:2}}>
+    <section id="cta" ref={ref} style={{padding:"160px 48px",background:"var(--bg-primary)",textAlign:"center",position:"relative",overflow:"hidden",zIndex:2}}>
       <div style={{position:"absolute",top:"50%",left:"50%",transform:"translate(-50%,-50%)",width:700,height:700,borderRadius:"50%",background:"radial-gradient(ellipse, rgba(255,45,122,.12), transparent 65%)",pointerEvents:"none",filter:"blur(40px)"}}/>
       <div style={{position:"absolute",top:"30%",right:"20%",width:400,height:400,borderRadius:"50%",background:"radial-gradient(ellipse, rgba(0,195,255,.07), transparent 65%)",pointerEvents:"none",filter:"blur(60px)"}}/>
 
       <div style={{position:"relative",zIndex:2,maxWidth:800,margin:"0 auto",direction:"rtl"}}>
-        <div style={{display:"inline-flex",alignItems:"center",gap:10,background:"rgba(255,45,122,.08)",border:"1px solid rgba(255,45,122,.25)",borderRadius:99,padding:"8px 20px",fontFamily:"Cairo",fontSize:12,fontWeight:700,letterSpacing:".1em",color:"#ff2d7a",marginBottom:40,
+        <div style={{display:"inline-flex",alignItems:"center",gap:10,background:"var(--accent-soft)",border:"1px solid rgba(255,45,122,.25)",borderRadius:99,padding:"8px 20px",fontFamily:"Cairo",fontSize:12,fontWeight:700,letterSpacing:".1em",color:"var(--accent)",marginBottom:40,
           opacity:visible?1:0,transform:visible?"none":"translateY(20px)",transition:"all .7s ease"}}>
-          <span style={{width:6,height:6,background:"#ff2d7a",borderRadius:"50%",animation:"blink 1.5s infinite"}}/>
+          <span style={{width:6,height:6,background:"var(--accent)",borderRadius:"50%",animation:"blink 1.5s infinite"}}/>
           نقبل عملاء جدد الآن — العراق فقط
         </div>
 
-        <h2 style={{fontFamily:"Cairo",fontSize:"clamp(40px,6vw,80px)",fontWeight:900,lineHeight:.95,letterSpacing:"-.025em",marginBottom:28,color:"#f0f4ff",
+        <h2 style={{fontFamily:"Cairo",fontSize:"clamp(40px,6vw,80px)",fontWeight:900,lineHeight:.95,letterSpacing:"-.025em",marginBottom:28,color:"var(--text-primary)",
           opacity:visible?1:0,transform:visible?"none":"translateY(30px)",transition:"all 1s ease .2s"}}>
-          مطعمك يستحق<br/><span style={{color:"#ff2d7a",textShadow:"0 0 60px rgba(255,45,122,.5)"}}>أكثر</span>
+          مطعمك يستحق<br/><span style={{color:"var(--accent)",textShadow:"0 0 60px rgba(255,45,122,.5)"}}>أكثر</span>
         </h2>
-        <p style={{fontFamily:"Cairo",fontSize:17,color:"rgba(240,244,255,.45)",lineHeight:1.8,marginBottom:48,
+        <p style={{fontFamily:"Cairo",fontSize:17,color:"var(--text-secondary)",lineHeight:1.8,marginBottom:48,
           opacity:visible?1:0,transform:visible?"none":"translateY(20px)",transition:"all 1s ease .3s"}}>
-          سواء كنت تفتح مطعمك الأول أو عندك فرع قائم تريد تطويره — نبدأ بمحادثة مجانية نفهم فيها وضعك. <strong style={{color:"#f0f4ff"}}>الأسعار تختلف حسب حالة المطعم والسلسلة.</strong>
+          سواء كنت تفتح مطعمك الأول أو عندك فرع قائم تريد تطويره — نبدأ بمحادثة مجانية نفهم فيها وضعك. <strong style={{color:"var(--text-primary)"}}>الأسعار تختلف حسب حالة المطعم والسلسلة.</strong>
         </p>
 
         <div style={{display:"flex",gap:16,justifyContent:"center",flexWrap:"wrap",marginBottom:36,
           opacity:visible?1:0,transform:visible?"none":"translateY(20px)",transition:"all 1s ease .4s"}}>
           {[
             {icon:<WhatsAppIcon size={26} color="#25D366"/>,label:"WHATSAPP",val:"07734383431",link:"https://wa.me/9647734383431",color:"rgba(37,211,102,.3)",bg:"rgba(37,211,102,.08)",tc:"rgba(37,211,102,.8)"},
-            {icon:<svg width={26} height={26} viewBox="0 0 24 24" fill="#00c3ff"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>,label:"EMAIL",val:"info@iqrhq.me",link:"mailto:info@iqrhq.me",color:"rgba(0,195,255,.25)",bg:"rgba(0,195,255,.07)",tc:"#00c3ff"},
-            {icon:<InstagramIcon size={26} color="#E1306C"/>,label:"INSTAGRAM / TIKTOK",val:"@iqrhq_ops",link:"https://instagram.com/iqrhq_ops",color:"rgba(255,45,122,.25)",bg:"rgba(255,45,122,.07)",tc:"#ff2d7a"},
+            {icon:<svg width={26} height={26} viewBox="0 0 24 24" fill="var(--blue-accent)"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>,label:"EMAIL",val:"info@iqrhq.me",link:"mailto:info@iqrhq.me",color:"rgba(var(--blue-rgb,0,195,255),.25)",bg:"rgba(var(--blue-rgb,0,195,255),.07)",tc:"var(--blue-accent)"},
+            {icon:<InstagramIcon size={26} color="#E1306C"/>,label:"INSTAGRAM / TIKTOK",val:"@iqrhq_ops",link:"https://instagram.com/iqrhq_ops",color:"var(--accent-glow)",bg:"var(--accent-soft)",tc:"var(--accent)"},
           ].map((c) => (
-            <a key={c.label} href={c.link} target="_blank" style={{display:"flex",alignItems:"center",gap:12,background:c.bg,border:`1px solid ${c.color}`,borderRadius:10,padding:"16px 28px",textDecoration:"none",color:"#f0f4ff",cursor:"none",transition:"all .3s",fontFamily:"Cairo"}}
+            <a key={c.label} href={c.link} target="_blank" style={{display:"flex",alignItems:"center",gap:12,background:c.bg,border:`1px solid ${c.color}`,borderRadius:10,padding:"16px 28px",textDecoration:"none",color:"var(--text-primary)",cursor:"none",transition:"all .3s",fontFamily:"Cairo"}}
               onMouseEnter={e=>{e.currentTarget.style.transform="translateY(-3px)";e.currentTarget.style.boxShadow=`0 8px 30px ${c.color}`}}
               onMouseLeave={e=>{e.currentTarget.style.transform="";e.currentTarget.style.boxShadow=""}}>
               <span style={{display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}>{c.icon}</span>
@@ -782,15 +798,15 @@ function CTA() {
         <div style={{display:"flex",gap:16,justifyContent:"center",flexWrap:"wrap",
           opacity:visible?1:0,transform:visible?"none":"translateY(20px)",transition:"all 1s ease .5s"}}>
           <a href="https://wa.me/9647734383431?text=مرحبا،+أريد+استشارة+مجانية+لمطعمي" target="_blank"
-            style={{fontFamily:"Cairo",fontSize:14,fontWeight:700,padding:"16px 44px",background:"#ff2d7a",color:"#fff",borderRadius:4,textDecoration:"none",cursor:"none",letterSpacing:".06em",boxShadow:"0 0 40px rgba(255,45,122,.4)",transition:"all .2s"}}
+            style={{fontFamily:"Cairo",fontSize:14,fontWeight:700,padding:"16px 44px",background:"var(--accent)",color:"var(--text-primary)",borderRadius:4,textDecoration:"none",cursor:"none",letterSpacing:".06em",boxShadow:"0 0 40px rgba(255,45,122,.4)",transition:"all .2s"}}
             onMouseEnter={e=>{e.currentTarget.style.transform="translateY(-3px)";e.currentTarget.style.boxShadow="0 12px 50px rgba(255,45,122,.6)"}}
             onMouseLeave={e=>{e.currentTarget.style.transform="";e.currentTarget.style.boxShadow="0 0 40px rgba(255,45,122,.4)"}}>
             📲 احجز استشارة مجانية على واتساب
           </a>
           <a href="mailto:info@iqrhq.me"
             style={{fontFamily:"Cairo",fontSize:14,fontWeight:700,padding:"15px 44px",background:"transparent",color:"rgba(240,244,255,.6)",border:"1px solid rgba(255,255,255,.1)",borderRadius:4,textDecoration:"none",cursor:"none",letterSpacing:".06em",transition:"all .3s"}}
-            onMouseEnter={e=>{e.currentTarget.style.borderColor="#00c3ff";e.currentTarget.style.color="#00c3ff"}}
-            onMouseLeave={e=>{e.currentTarget.style.borderColor="rgba(255,255,255,.1)";e.currentTarget.style.color="rgba(240,244,255,.6)"}}>
+            onMouseEnter={e=>{e.currentTarget.style.borderColor="var(--blue-accent)";e.currentTarget.style.color="var(--blue-accent)"}}
+            onMouseLeave={e=>{e.currentTarget.style.borderColor="var(--border)";e.currentTarget.style.color="rgba(240,244,255,.6)"}}>
             راسلنا على الإيميل
           </a>
         </div>
@@ -802,23 +818,23 @@ function CTA() {
 // ─── FOOTER ───────────────────────────────────────────────────────────────────
 function Footer() {
   return (
-    <footer style={{background:"#000510",borderTop:"1px solid rgba(255,255,255,.05)",padding:"60px 48px",position:"relative",zIndex:2}}>
+    <footer style={{background:"var(--bg-primary)",borderTop:"1px solid rgba(255,255,255,.05)",padding:"60px 48px",position:"relative",zIndex:2}}>
       <div className="footer-grid-inner" style={{maxWidth:1400,margin:"0 auto",display:"grid",gridTemplateColumns:"1.5fr 1fr 1fr 1fr",gap:60,alignItems:"start",direction:"rtl"}}>
         <div>
           <a href="/" style={{display:"block",marginBottom:16,textDecoration:"none",cursor:"none"}}>
             <img src="/logo.png" alt="IQR" style={{height:32,width:"auto",filter:"brightness(0) invert(1) sepia(1) saturate(5) hue-rotate(290deg)"}}/>
           </a>
-          <p style={{fontFamily:"Cairo",fontSize:13,color:"rgba(240,244,255,.35)",lineHeight:1.8,marginBottom:16}}>لإدارة وتطوير المطاعم — نحول فوضى مطعمك إلى دقة هندسية ذاتية في العراق.</p>
+          <p style={{fontFamily:"Cairo",fontSize:13,color:"var(--text-muted)",lineHeight:1.8,marginBottom:16}}>لإدارة وتطوير المطاعم — نحول فوضى مطعمك إلى دقة هندسية ذاتية في العراق.</p>
           <div style={{display:"flex",gap:10,marginTop:8}}>
             {[
               {l:"https://instagram.com/iqrhq_ops", icon:<InstagramIcon size={16}/>, hc:"rgba(193,53,132,.8)", hb:"rgba(193,53,132,.12)"},
               {l:"https://www.facebook.com/iqrhq_ops", icon:<FacebookIcon size={16}/>, hc:"rgba(66,103,178,.8)", hb:"rgba(66,103,178,.12)"},
-              {l:"https://www.tiktok.com/@iqrhq_ops", icon:<TikTokIcon size={16}/>, hc:"rgba(255,255,255,.6)", hb:"rgba(255,255,255,.08)"},
+              {l:"https://www.tiktok.com/@iqrhq_ops", icon:<TikTokIcon size={16}/>, hc:"var(--text-secondary)", hb:"var(--border)"},
               {l:"https://wa.me/9647734383431", icon:<WhatsAppIcon size={16}/>, hc:"rgba(37,211,102,.8)", hb:"rgba(37,211,102,.12)"},
             ].map((s,i) => (
-              <a key={i} href={s.l} target="_blank" style={{width:36,height:36,border:"1px solid rgba(255,255,255,.08)",borderRadius:8,display:"flex",alignItems:"center",justifyContent:"center",textDecoration:"none",cursor:"none",transition:"all .3s",background:"rgba(255,255,255,.03)"}}
+              <a key={i} href={s.l} target="_blank" style={{width:36,height:36,border:"1px solid rgba(255,255,255,.08)",borderRadius:8,display:"flex",alignItems:"center",justifyContent:"center",textDecoration:"none",cursor:"none",transition:"all .3s",background:"var(--bg-card)"}}
                 onMouseEnter={e=>{e.currentTarget.style.borderColor=s.hc;e.currentTarget.style.background=s.hb;e.currentTarget.style.transform="translateY(-2px)"}}
-                onMouseLeave={e=>{e.currentTarget.style.borderColor="rgba(255,255,255,.08)";e.currentTarget.style.background="rgba(255,255,255,.03)";e.currentTarget.style.transform=""}}>
+                onMouseLeave={e=>{e.currentTarget.style.borderColor="var(--border)";e.currentTarget.style.background="var(--bg-card)";e.currentTarget.style.transform=""}}>
                 {s.icon}
               </a>
             ))}
@@ -830,16 +846,16 @@ function Footer() {
           
         ].map(col => (
           <div key={col.h}>
-            <h4 style={{fontFamily:"Cairo",fontSize:11,fontWeight:700,letterSpacing:".2em",color:"rgba(240,244,255,.25)",textTransform:"uppercase",marginBottom:20}}>{col.h}</h4>
+            <h4 style={{fontFamily:"Cairo",fontSize:11,fontWeight:700,letterSpacing:".2em",color:"var(--text-muted)",textTransform:"uppercase",marginBottom:20}}>{col.h}</h4>
             {col.links.map(l => (
-              <a key={l} href="#" style={{display:"block",fontFamily:"Cairo",fontSize:14,fontWeight:600,color:"rgba(240,244,255,.4)",textDecoration:"none",marginBottom:12,cursor:"none",transition:"color .3s"}}
-                onMouseEnter={e=>e.target.style.color="#f0f4ff"} onMouseLeave={e=>e.target.style.color="rgba(240,244,255,.4)"}>{l}</a>
+              <a key={l} href="#" style={{display:"block",fontFamily:"Cairo",fontSize:14,fontWeight:600,color:"var(--text-secondary)",textDecoration:"none",marginBottom:12,cursor:"none",transition:"color .3s"}}
+                onMouseEnter={e=>e.target.style.color="var(--text-primary)"} onMouseLeave={e=>e.target.style.color="var(--text-secondary)"}>{l}</a>
             ))}
           </div>
         ))}
       </div>
       <div style={{maxWidth:1400,margin:"40px auto 0",paddingTop:28,borderTop:"1px solid rgba(255,255,255,.05)",display:"flex",justifyContent:"space-between",alignItems:"center",direction:"rtl"}}>
-        <span style={{fontFamily:"Cairo",fontSize:12,color:"rgba(240,244,255,.15)",letterSpacing:".08em"}}>© 2026 IQR لإدارة وتطوير المطاعم — العراق — جميع الحقوق محفوظة</span>
+        <span style={{fontFamily:"Cairo",fontSize:12,color:"var(--text-muted)",letterSpacing:".08em"}}>© 2026 IQR لإدارة وتطوير المطاعم — العراق — جميع الحقوق محفوظة</span>
         <div style={{display:"flex",alignItems:"center",gap:8,fontFamily:"Space Mono",fontSize:11,color:"rgba(240,244,255,.2)"}}>
           <span style={{width:6,height:6,background:"#00ff88",borderRadius:"50%",animation:"blink 2s infinite"}}/>
           ONLINE

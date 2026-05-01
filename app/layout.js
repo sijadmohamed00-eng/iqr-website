@@ -44,39 +44,41 @@ const globalStyles = `
   :root[data-theme="dark"] {
     --bg-primary:    #000814;
     --bg-secondary:  #060e22;
-    --bg-card:       rgba(255,255,255,0.03);
+    --bg-card:       rgba(10,20,50,0.6);
     --bg-glass:      rgba(10,31,92,0.4);
     --text-primary:  #f0f4ff;
-    --text-secondary:#8899cc;
-    --text-muted:    #3a4a6a;
+    --text-secondary:rgba(240,244,255,0.5);
+    --text-muted:    rgba(240,244,255,0.2);
     --accent:        #ff2d7a;
-    --accent-glow:   rgba(255,45,122,0.25);
+    --accent-glow:   rgba(255,45,122,0.2);
     --accent-soft:   rgba(255,45,122,0.08);
     --navy:          #0a1f5c;
     --navy-light:    #162a7a;
-    --blue-accent:   #4a9eff;
-    --border:        rgba(74,158,255,0.12);
+    --blue-accent:   #00c3ff;
+    --blue-rgb:      0,195,255;
+    --border:        rgba(255,255,255,0.07);
     --border-accent: rgba(255,45,122,0.3);
     --success:       #00e887;
     --warning:       #ffb800;
     color-scheme: dark;
   }
   :root[data-theme="light"] {
-    --bg-primary:    #f4f6fb;
+    --bg-primary:    #f0f3fa;
     --bg-secondary:  #ffffff;
-    --bg-card:       #ffffff;
+    --bg-card:       rgba(255,255,255,0.9);
     --bg-glass:      rgba(255,255,255,0.85);
     --text-primary:  #0a1133;
     --text-secondary:#4a5580;
     --text-muted:    #9aa3be;
-    --accent:        #cc1a5f;
-    --accent-glow:   rgba(204,26,95,0.15);
-    --accent-soft:   rgba(204,26,95,0.06);
+    --accent:        #c0134f;
+    --accent-glow:   rgba(192,19,79,0.12);
+    --accent-soft:   rgba(192,19,79,0.06);
     --navy:          #0a1f5c;
     --navy-light:    #162a7a;
     --blue-accent:   #1a4fc4;
+    --blue-rgb:      26,79,196;
     --border:        rgba(10,31,92,0.1);
-    --border-accent: rgba(204,26,95,0.2);
+    --border-accent: rgba(192,19,79,0.2);
     --success:       #0a9e5c;
     --warning:       #c07800;
     color-scheme: light;
@@ -90,6 +92,21 @@ const globalStyles = `
     overflow-x: hidden;
     transition: background 0.35s ease, color 0.35s ease;
   }
+  [data-theme="light"] section,
+  [data-theme="light"] nav,
+  [data-theme="light"] footer {
+    background: var(--bg-primary) !important;
+    border-color: var(--border) !important;
+  }
+  [data-theme="light"] h1,
+  [data-theme="light"] h2,
+  [data-theme="light"] h3,
+  [data-theme="light"] p,
+  [data-theme="light"] span,
+  [data-theme="light"] a:not([style]) {
+    color: var(--text-primary);
+  }
+  [data-theme="light"] .particle-bg { opacity: 0.15 !important; }
   ::-webkit-scrollbar { width: 4px; }
   ::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 99px; }
   ::selection { background: var(--accent-glow); color: var(--text-primary); }
