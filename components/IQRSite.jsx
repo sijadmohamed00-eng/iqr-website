@@ -5,8 +5,7 @@ function ThemeToggle() {
   const [dark, setDark] = useState(true);
   useEffect(() => {
     const saved = localStorage.getItem('iqr-theme');
-    const sys = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    const t = saved || (sys ? 'dark' : 'light');
+    const t = saved || 'dark';
     setDark(t === 'dark');
     document.documentElement.setAttribute('data-theme', t);
   }, []);
@@ -15,6 +14,9 @@ function ThemeToggle() {
     setDark(!dark);
     document.documentElement.setAttribute('data-theme', next);
     localStorage.setItem('iqr-theme', next);
+    // تبديل الشعار
+    const logos = document.querySelectorAll('#nav-logo, #footer-logo');
+    logos.forEach(l => { l.src = next === 'dark' ? '/logo-white.png' : '/logo-navy.png'; });
   };
   return (
     <button className="theme-toggle" onClick={toggle} title={dark?"الوضع الفاتح":"الوضع الداكن"}>
@@ -54,16 +56,25 @@ const G = `
   [data-theme="light"] #process,
   [data-theme="light"] #results,
   [data-theme="light"] #cta,
-  [data-theme="light"] footer,
-  [data-theme="light"] nav {
+  [data-theme="light"] footer {
     background: var(--bg-primary) !important;
   }
   [data-theme="light"] nav {
-    background: var(--bg-secondary) !important;
-    border-bottom: 1px solid var(--border) !important;
-    box-shadow: 0 1px 20px rgba(10,31,92,0.06) !important;
+    background: rgba(255,255,255,0.95) !important;
+    border-bottom: 1px solid rgba(10,31,92,0.1) !important;
+    box-shadow: 0 2px 24px rgba(10,31,92,0.08) !important;
+    backdrop-filter: blur(20px) !important;
   }
-  [data-theme="light"] .particle-canvas { opacity: 0.08 !important; filter: hue-rotate(180deg) !important; }
+  [data-theme="light"] .particle-canvas {
+    opacity: 0.18 !important;
+    filter: invert(1) hue-rotate(180deg) brightness(0.4) !important;
+  }
+  [data-theme="light"] h1, [data-theme="light"] h2, [data-theme="light"] h3 {
+    color: var(--text-primary) !important;
+  }
+  [data-theme="light"] .mobile-menu-btn span {
+    background: #0a1f5c !important;
+  }
 `
 
 function CursorTrail() {
@@ -290,9 +301,7 @@ function Nav() {
       background:scrolled||mobileOpen?"rgba(0,8,20,.97)":"transparent",backdropFilter:scrolled||mobileOpen?"blur(24px)":"none",
       borderBottom:scrolled||mobileOpen?"1px solid rgba(255,45,122,.1)":"none",transition:"all .4s ease",direction:"rtl"}}>
       <a href="/" style={{textDecoration:"none",display:"flex",alignItems:"center",gap:10,cursor:"none"}}>
-        <img src="/logo.png" alt="IQR" style={{height:38,width:"auto",filter:"brightness(0) invert(1) sepia(1) saturate(5) hue-rotate(290deg)",transition:"filter .3s"}}
-          onMouseEnter={e=>e.currentTarget.style.filter="brightness(0) invert(1)"}
-          onMouseLeave={e=>e.currentTarget.style.filter="brightness(0) invert(1) sepia(1) saturate(5) hue-rotate(290deg)"}/>
+        <img src="/logo-white.png" id="nav-logo" alt="IQR" style={{height:38,width:"auto",transition:"opacity .3s"}}/>
       </a>
       <div className="nav-links-wrap" style={{display:"flex",alignItems:"center",gap:8}}>
         {pageLinks.map(({h,l}) => (
@@ -822,7 +831,7 @@ function Footer() {
       <div className="footer-grid-inner" style={{maxWidth:1400,margin:"0 auto",display:"grid",gridTemplateColumns:"1.5fr 1fr 1fr 1fr",gap:60,alignItems:"start",direction:"rtl"}}>
         <div>
           <a href="/" style={{display:"block",marginBottom:16,textDecoration:"none",cursor:"none"}}>
-            <img src="/logo.png" alt="IQR" style={{height:32,width:"auto",filter:"brightness(0) invert(1) sepia(1) saturate(5) hue-rotate(290deg)"}}/>
+            <img src="/logo-white.png" id="footer-logo" alt="IQR" style={{height:32,width:"auto",transition:"opacity .3s"}}/>
           </a>
           <p style={{fontFamily:"Cairo",fontSize:13,color:"var(--text-muted)",lineHeight:1.8,marginBottom:16}}>لإدارة وتطوير المطاعم — نحول فوضى مطعمك إلى دقة هندسية ذاتية في العراق.</p>
           <div style={{display:"flex",gap:10,marginTop:8}}>

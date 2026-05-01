@@ -33,10 +33,11 @@ const themeScript = `
 (function() {
   try {
     var saved = localStorage.getItem('iqr-theme');
-    var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    var theme = saved || (prefersDark ? 'dark' : 'light');
+    var theme = saved || 'dark';
     document.documentElement.setAttribute('data-theme', theme);
-  } catch(e) {}
+  } catch(e) {
+    document.documentElement.setAttribute('data-theme', 'dark');
+  }
 })();
 `;
 
@@ -63,22 +64,22 @@ const globalStyles = `
     color-scheme: dark;
   }
   :root[data-theme="light"] {
-    --bg-primary:    #f0f3fa;
+    --bg-primary:    #f0f4fb;
     --bg-secondary:  #ffffff;
-    --bg-card:       rgba(255,255,255,0.9);
-    --bg-glass:      rgba(255,255,255,0.85);
-    --text-primary:  #0a1133;
-    --text-secondary:#4a5580;
-    --text-muted:    #9aa3be;
-    --accent:        #c0134f;
-    --accent-glow:   rgba(192,19,79,0.12);
-    --accent-soft:   rgba(192,19,79,0.06);
+    --bg-card:       rgba(255,255,255,0.95);
+    --bg-glass:      rgba(255,255,255,0.9);
+    --text-primary:  #0a1f5c;
+    --text-secondary:#2a4a8a;
+    --text-muted:    #7a96cc;
+    --accent:        #0a1f5c;
+    --accent-glow:   rgba(10,31,92,0.12);
+    --accent-soft:   rgba(10,31,92,0.06);
     --navy:          #0a1f5c;
     --navy-light:    #162a7a;
     --blue-accent:   #1a4fc4;
     --blue-rgb:      26,79,196;
     --border:        rgba(10,31,92,0.1);
-    --border-accent: rgba(192,19,79,0.2);
+    --border-accent: rgba(10,31,92,0.25);
     --success:       #0a9e5c;
     --warning:       #c07800;
     color-scheme: light;
