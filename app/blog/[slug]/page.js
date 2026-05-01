@@ -1,5 +1,7 @@
 // app/blog/[slug]/page.js
-// استبدل محتوى هذا الملف بالكود أدناه
+// ضع هذا الملف في: app/blog/[slug]/page.js
+
+import BlogPostClient from "./BlogPostClient";
 
 export async function generateStaticParams() {
   return [
@@ -15,4 +17,6 @@ export async function generateStaticParams() {
   ];
 }
 
-export { default } from "./BlogPostClient";
+export default function Page({ params }) {
+  return <BlogPostClient params={params} />;
+}
