@@ -7,7 +7,7 @@ const G = `
   html{scroll-behavior:smooth}
   body{background:#000814;overflow-x:hidden;font-family:'Cairo',sans-serif}
   ::-webkit-scrollbar{width:4px}
-  ::-webkit-scrollbar-thumb{background:#ff2d7a;border-radius:99px}
+  ::-webkit-scrollbar-thumb{background:#1a4fc4;border-radius:99px}
   @keyframes fadeUp{from{opacity:0;transform:translateY(40px)}to{opacity:1;transform:translateY(0)}}
   @keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
   @keyframes orb{0%,100%{transform:translate(0,0)}50%{transform:translate(30px,-20px)}}
@@ -16,9 +16,9 @@ const G = `
   .prose h3{font-family:'Cairo',sans-serif;font-size:18px;font-weight:700;color:rgba(240,244,255,.8);margin:28px 0 12px}
   .prose ul{padding-right:20px;margin-bottom:20px}
   .prose ul li{font-family:'Cairo',sans-serif;font-size:15px;color:rgba(240,244,255,.55);line-height:1.9;margin-bottom:8px;list-style:none;padding-right:20px;position:relative}
-  .prose ul li::before{content:"â";position:absolute;right:0;color:#ff2d7a;font-size:8px;top:8px}
+  .prose ul li::before{content:"â";position:absolute;right:0;color:#1a4fc4;font-size:8px;top:8px}
   .prose strong{color:#f0f4ff;font-weight:700}
-  .prose blockquote{border-right:3px solid #ff2d7a;padding:16px 24px;background:rgba(255,45,122,.06);border-radius:0 8px 8px 0;margin:24px 0}
+  .prose blockquote{border-right:3px solid #1a4fc4;padding:16px 24px;background:rgba(26,79,196,.06);border-radius:0 8px 8px 0;margin:24px 0}
   .prose blockquote p{color:rgba(240,244,255,.7);font-style:italic;margin:0}
 `;
 
@@ -95,7 +95,7 @@ const POSTS = {
   },
   "menu-engineering": {
     title: "ÙÙØ¯Ø³Ø© ÙØ§Ø¦ÙØ© Ø§ÙØ·Ø¹Ø§Ù: Ø£Ù Ø£ØµÙØ§Ù ØªØ¬ÙØ¨ Ø§ÙØ±Ø¨Ø­Ø",
-    category: "Ø§ÙØ±Ø¨Ø­ÙØ©", categoryColor: "#ff2d7a",
+    category: "Ø§ÙØ±Ø¨Ø­ÙØ©", categoryColor: "#1a4fc4",
     date: "24 ÙØ§Ø±Ø³ 2026", readTime: "7 Ø¯ÙØ§Ø¦Ù", icon: "ð½ï¸",
     content: `
       <h2>ÙÙØ³ ÙÙ ØµÙÙ ÙØ³ØªØ­Ù ÙÙØ§ÙÙ</h2>
@@ -164,11 +164,11 @@ function Nav() {
   return (
     <nav style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 100, padding: "20px 48px", display: "flex", alignItems: "center", justifyContent: "space-between", background: scrolled ? "rgba(0,8,20,.95)" : "rgba(0,8,20,.7)", backdropFilter: "blur(24px)", borderBottom: "1px solid rgba(255,255,255,.05)", transition: "all .4s ease", direction: "rtl" }}>
       <a href="/" style={{ fontFamily: "Space Mono", fontSize: 20, fontWeight: 700, color: "#f0f4ff", textDecoration: "none", display: "flex", alignItems: "center", gap: 10 }}>
-        <span style={{ width: 8, height: 8, background: "#ff2d7a", borderRadius: "50%", animation: "blink 2s infinite" }} />IQR
+        <span style={{ width: 8, height: 8, background: "#1a4fc4", borderRadius: "50%", animation: "blink 2s infinite" }} />IQR
       </a>
       <div style={{ display: "flex", gap: 24, alignItems: "center" }}>
         <a href="/blog" style={{ fontFamily: "Cairo", fontSize: 13, fontWeight: 700, color: "rgba(240,244,255,.5)", textDecoration: "none" }}>â Ø§ÙÙØ¯ÙÙØ©</a>
-        <a href="https://wa.me/9647734383431" target="_blank" style={{ fontFamily: "Cairo", fontSize: 13, fontWeight: 700, padding: "8px 20px", background: "#ff2d7a", color: "#fff", borderRadius: 4, textDecoration: "none" }}>ØªÙØ§ØµÙ ð¬</a>
+        <a href="https://wa.me/9647734383431" target="_blank" style={{ fontFamily: "Cairo", fontSize: 13, fontWeight: 700, padding: "8px 20px", background: "#1a4fc4", color: "#fff", borderRadius: 4, textDecoration: "none" }}>ØªÙØ§ØµÙ ð¬</a>
       </div>
     </nav>
   );
@@ -180,7 +180,7 @@ export default function BlogPostClient({ params }) {
     <>
       <style>{G}</style>
       <div style={{ position: "fixed", inset: 0, zIndex: 0, pointerEvents: "none" }}>
-        <div style={{ position: "absolute", width: 500, height: 500, borderRadius: "50%", background: "radial-gradient(ellipse,rgba(255,45,122,.06),transparent 70%)", top: 0, right: 0, filter: "blur(80px)", animation: "orb 15s ease-in-out infinite" }} />
+        <div style={{ position: "absolute", width: 500, height: 500, borderRadius: "50%", background: "radial-gradient(ellipse,rgba(26,79,196,.06),transparent 70%)", top: 0, right: 0, filter: "blur(80px)", animation: "orb 15s ease-in-out infinite" }} />
       </div>
       <Nav />
       <article style={{ maxWidth: 760, margin: "0 auto", padding: "120px 48px 100px", position: "relative", zIndex: 2, direction: "rtl", animation: "fadeUp .8s ease both" }}>
@@ -197,13 +197,13 @@ export default function BlogPostClient({ params }) {
             <span style={{ width: 4, height: 4, borderRadius: "50%", background: "rgba(255,255,255,.2)" }} />
             <span style={{ fontFamily: "Space Mono", fontSize: 12, color: "rgba(240,244,255,.3)" }}>{post.readTime}</span>
           </div>
-          <div style={{ height: 1, background: "linear-gradient(to left,transparent,#ff2d7a,transparent)", marginTop: 32 }} />
+          <div style={{ height: 1, background: "linear-gradient(to left,transparent,#1a4fc4,transparent)", marginTop: 32 }} />
         </div>
         <div className="prose" dangerouslySetInnerHTML={{ __html: post.content }} />
-        <div style={{ marginTop: 60, padding: "40px", background: "linear-gradient(135deg,rgba(255,45,122,.08),rgba(0,195,255,.04))", border: "1px solid rgba(255,45,122,.2)", borderRadius: 16, textAlign: "center" }}>
+        <div style={{ marginTop: 60, padding: "40px", background: "linear-gradient(135deg,rgba(26,79,196,.08),rgba(0,195,255,.04))", border: "1px solid rgba(26,79,196,.2)", borderRadius: 16, textAlign: "center" }}>
           <h3 style={{ fontFamily: "Cairo", fontSize: 22, fontWeight: 900, color: "#f0f4ff", marginBottom: 12 }}>ØªØ¨Ù ØªØ·Ø¨Ù ÙØ°Ø§ ÙÙ ÙØ·Ø¹ÙÙØ</h3>
           <p style={{ fontFamily: "Cairo", fontSize: 14, color: "rgba(240,244,255,.45)", marginBottom: 24, lineHeight: 1.8 }}>ÙØ­Ø§Ø¯Ø«Ø© ÙØ¬Ø§ÙÙØ© ÙØ¹ ÙØ±ÙÙ IQR â ÙØ­ÙÙ ÙØ¶Ø¹Ù ÙÙØ­Ø¯Ø¯ ÙÙ Ø£ÙÙ ØªØ¨Ø¯Ø£</p>
-          <a href="https://wa.me/9647734383431" target="_blank" style={{ display: "inline-flex", alignItems: "center", gap: 10, fontFamily: "Cairo", fontSize: 14, fontWeight: 700, padding: "14px 36px", background: "#ff2d7a", color: "#fff", borderRadius: 8, textDecoration: "none", boxShadow: "0 0 30px rgba(255,45,122,.3)" }}>ð² ØªÙØ§ØµÙ Ø¹ÙÙ ÙØ§ØªØ³Ø§Ø¨</a>
+          <a href="https://wa.me/9647734383431" target="_blank" style={{ display: "inline-flex", alignItems: "center", gap: 10, fontFamily: "Cairo", fontSize: 14, fontWeight: 700, padding: "14px 36px", background: "#1a4fc4", color: "#fff", borderRadius: 8, textDecoration: "none", boxShadow: "0 0 30px rgba(26,79,196,.3)" }}>ð² ØªÙØ§ØµÙ Ø¹ÙÙ ÙØ§ØªØ³Ø§Ø¨</a>
         </div>
         <div style={{ marginTop: 40, textAlign: "center" }}>
           <a href="/blog" style={{ fontFamily: "Cairo", fontSize: 13, color: "rgba(240,244,255,.3)", textDecoration: "none" }}>â Ø§ÙØ¹ÙØ¯Ø© ÙÙÙØ¯ÙÙØ©</a>

@@ -6,7 +6,7 @@ import { useState, useEffect, useRef, useCallback } from "react";
 // ═══════════════════════════════════════════════════════════════
 const MOCK = {
   stats: [
-    { id:"revenue", label:"الإيرادات اليوم", value:847500, prev:712000, unit:"د.ع", icon:"💰", color:"#ff2d7a" },
+    { id:"revenue", label:"الإيرادات اليوم", value:847500, prev:712000, unit:"د.ع", icon:"💰", color:"#1a4fc4" },
     { id:"orders",  label:"الطلبات",         value:143,    prev:118,    unit:"طلب", icon:"🧾", color:"#00c3ff" },
     { id:"waste",   label:"الهدر",           value:4.2,    prev:6.8,    unit:"%",   icon:"♻️", color:"#ffd60a" },
     { id:"rating",  label:"رضا العملاء",     value:94,     prev:91,     unit:"%",   icon:"⭐", color:"#00ff88" },
@@ -67,26 +67,26 @@ const G = `
   body{background:#000814;overflow-x:hidden;cursor:default;font-family:'Cairo',sans-serif}
   ::-webkit-scrollbar{width:4px}
   ::-webkit-scrollbar-track{background:#000814}
-  ::-webkit-scrollbar-thumb{background:#ff2d7a;border-radius:99px}
+  ::-webkit-scrollbar-thumb{background:#1a4fc4;border-radius:99px}
   @keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
   @keyframes fadeIn{from{opacity:0}to{opacity:1}}
   @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
   @keyframes spin{to{transform:rotate(360deg)}}
   @keyframes slideIn{from{opacity:0;transform:translateX(20px)}to{opacity:1;transform:translateX(0)}}
-  @keyframes glowPulse{0%,100%{box-shadow:0 0 20px rgba(255,45,122,.3)}50%{box-shadow:0 0 40px rgba(255,45,122,.6)}}
+  @keyframes glowPulse{0%,100%{box-shadow:0 0 20px rgba(26,79,196,.3)}50%{box-shadow:0 0 40px rgba(26,79,196,.6)}}
   @keyframes barGrow{from{height:0}to{height:var(--h)}}
   @keyframes countUp{from{opacity:0;transform:scale(.8)}to{opacity:1;transform:scale(1)}}
   @keyframes notifSlide{from{opacity:0;transform:translateX(40px)}to{opacity:1;transform:translateX(0)}}
   @keyframes orb{0%,100%{transform:translate(0,0)}50%{transform:translate(30px,-20px)}}
   .card-hover{transition:transform .2s ease,box-shadow .2s ease}
-  .card-hover:hover{transform:translateY(-3px);box-shadow:0 12px 40px rgba(255,45,122,.15)!important}
+  .card-hover:hover{transform:translateY(-3px);box-shadow:0 12px 40px rgba(26,79,196,.15)!important}
   .btn-hover{transition:all .2s ease}
   .btn-hover:hover{transform:translateY(-2px);filter:brightness(1.1)}
   .row-hover{transition:background .15s ease}
-  .row-hover:hover{background:rgba(255,45,122,.04)!important}
+  .row-hover:hover{background:rgba(26,79,196,.04)!important}
   .nav-item{transition:all .2s ease;cursor:pointer}
   .nav-item:hover{background:rgba(255,255,255,.05)!important}
-  .nav-item.active{background:rgba(255,45,122,.1)!important;border-right:2px solid #ff2d7a}
+  .nav-item.active{background:rgba(26,79,196,.1)!important;border-right:2px solid #1a4fc4}
 `;
 
 // ═══════════════════════════════════════════════════════════════
@@ -143,7 +143,7 @@ function Badge({type}) {
 // ═══════════════════════════════════════════════════════════════
 // MINI SPARKLINE
 // ═══════════════════════════════════════════════════════════════
-function Sparkline({data, color="#ff2d7a", h=36}) {
+function Sparkline({data, color="#1a4fc4", h=36}) {
   const max = Math.max(...data), min = Math.min(...data);
   const pts = data.map((v,i) => {
     const x = (i/(data.length-1))*100;
@@ -166,7 +166,7 @@ function Sparkline({data, color="#ff2d7a", h=36}) {
 // ═══════════════════════════════════════════════════════════════
 // BAR CHART
 // ═══════════════════════════════════════════════════════════════
-function BarChart({data, labels, color="#ff2d7a", active}) {
+function BarChart({data, labels, color="#1a4fc4", active}) {
   const max = Math.max(...data);
   return (
     <div style={{display:"flex",alignItems:"flex-end",gap:6,height:120,padding:"0 4px"}}>
@@ -195,7 +195,7 @@ function PeakHours({data, active}) {
     <div style={{display:"flex",gap:3,alignItems:"flex-end",height:60}}>
       {data.map((v,i) => {
         const pct = v/max;
-        const color = pct > .8 ? "#ff2d7a" : pct > .5 ? "#ffd60a" : pct > .2 ? "#00c3ff" : "rgba(255,255,255,.1)";
+        const color = pct > .8 ? "#1a4fc4" : pct > .5 ? "#ffd60a" : pct > .2 ? "#00c3ff" : "rgba(255,255,255,.1)";
         return (
           <div key={i} title={`${i}:00 — ${v} طلب`} style={{flex:1,borderRadius:2,background:color,
             height:active?`${Math.max(pct*100,4)}%`:"4%",transition:`height .8s ease ${i*.02}s`,
@@ -227,8 +227,8 @@ function StatCard({stat, idx}) {
       <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start",marginBottom:16}}>
         <div style={{width:44,height:44,borderRadius:10,background:`${stat.color}15`,border:`1px solid ${stat.color}30`,
           display:"flex",alignItems:"center",justifyContent:"center",fontSize:20}}>{stat.icon}</div>
-        <span style={{fontSize:12,fontWeight:700,color:up?"#00ff88":"#ff2d7a",
-          background:up?"rgba(0,255,136,.08)":"rgba(255,45,122,.08)",padding:"4px 10px",borderRadius:99}}>
+        <span style={{fontSize:12,fontWeight:700,color:up?"#00ff88":"#1a4fc4",
+          background:up?"rgba(0,255,136,.08)":"rgba(26,79,196,.08)",padding:"4px 10px",borderRadius:99}}>
           {up?"+":""}{diff}%
         </span>
       </div>
@@ -268,7 +268,7 @@ function OrdersPanel({orders, setOrders}) {
           {["all","pending","preparing","done"].map(f => (
             <button key={f} onClick={()=>setFilter(f)} style={{
               fontFamily:"Cairo",fontSize:12,fontWeight:700,padding:"6px 14px",borderRadius:6,border:"none",cursor:"pointer",
-              background:filter===f?"#ff2d7a":"rgba(255,255,255,.05)",
+              background:filter===f?"#1a4fc4":"rgba(255,255,255,.05)",
               color:filter===f?"#fff":"rgba(240,244,255,.5)",transition:"all .2s"
             }}>
               {f==="all"?"الكل":f==="pending"?"انتظار":f==="preparing"?"يُحضَّر":"منجز"}
@@ -308,8 +308,8 @@ function OrdersPanel({orders, setOrders}) {
                   {o.status!=="done" && (
                     <button onClick={()=>nextStatus(o.id)} className="btn-hover" style={{
                       fontFamily:"Cairo",fontSize:11,fontWeight:700,padding:"6px 14px",borderRadius:6,
-                      border:"1px solid rgba(255,45,122,.3)",background:"rgba(255,45,122,.08)",
-                      color:"#ff2d7a",cursor:"pointer",whiteSpace:"nowrap"
+                      border:"1px solid rgba(26,79,196,.3)",background:"rgba(26,79,196,.08)",
+                      color:"#1a4fc4",cursor:"pointer",whiteSpace:"nowrap"
                     }}>
                       {o.status==="pending"?"→ تحضير":"→ أنجز"}
                     </button>
@@ -377,7 +377,7 @@ function InventoryPanel() {
                 const pct = item.current/item.max;
                 const low = item.current <= item.min;
                 const critical = item.current <= item.min*0.6;
-                const color = critical?"#ff2d7a":low?"#ffd60a":"#00ff88";
+                const color = critical?"#1a4fc4":low?"#ffd60a":"#00ff88";
                 return (
                   <tr key={item.id} className="row-hover" style={{borderBottom:"1px solid rgba(255,255,255,.03)"}}>
                     <td style={{padding:"14px 16px"}}>
@@ -493,10 +493,10 @@ function AnalyticsPanel() {
         {/* Weekly Revenue */}
         <div style={{background:"#0a1628",border:"1px solid rgba(255,255,255,.05)",borderRadius:12,padding:"24px"}}>
           <div style={{fontSize:13,fontWeight:700,color:"rgba(240,244,255,.5)",marginBottom:4}}>الإيرادات الأسبوعية</div>
-          <div style={{fontFamily:"Space Mono",fontSize:24,fontWeight:700,color:"#ff2d7a",marginBottom:16}}>
+          <div style={{fontFamily:"Space Mono",fontSize:24,fontWeight:700,color:"#1a4fc4",marginBottom:16}}>
             {visible ? fmt(MOCK.weeklyRevenue.reduce((a,b)=>a+b,0)) : "—"} د.ع
           </div>
-          <BarChart data={MOCK.weeklyRevenue} labels={MOCK.weekDays} color="#ff2d7a" active={visible}/>
+          <BarChart data={MOCK.weeklyRevenue} labels={MOCK.weekDays} color="#1a4fc4" active={visible}/>
         </div>
 
         {/* Peak Hours */}
@@ -505,7 +505,7 @@ function AnalyticsPanel() {
           <div style={{fontSize:12,color:"rgba(240,244,255,.35)",marginBottom:16}}>التوزيع على 24 ساعة</div>
           <PeakHours data={MOCK.peakHours} active={visible}/>
           <div style={{display:"flex",gap:12,marginTop:12}}>
-            {[{c:"#ff2d7a",l:"ذروة"},{c:"#ffd60a",l:"مرتفع"},{c:"#00c3ff",l:"متوسط"},{c:"rgba(255,255,255,.1)",l:"منخفض"}].map(l=>(
+            {[{c:"#1a4fc4",l:"ذروة"},{c:"#ffd60a",l:"مرتفع"},{c:"#00c3ff",l:"متوسط"},{c:"rgba(255,255,255,.1)",l:"منخفض"}].map(l=>(
               <div key={l.l} style={{display:"flex",alignItems:"center",gap:6}}>
                 <div style={{width:8,height:8,borderRadius:2,background:l.c}}/>
                 <span style={{fontSize:10,color:"rgba(240,244,255,.3)"}}>{l.l}</span>
@@ -528,13 +528,13 @@ function AnalyticsPanel() {
                   <div style={{display:"flex",gap:16}}>
                     <span style={{fontFamily:"Space Mono",fontSize:12,color:"rgba(240,244,255,.4)"}}>{item.orders} طلب</span>
                     <span style={{fontFamily:"Space Mono",fontSize:12,color:"#00ff88"}}>{item.margin}% ربح</span>
-                    <span style={{fontFamily:"Space Mono",fontSize:12,color:"#ff2d7a"}}>{fmt(item.revenue)} د.ع</span>
+                    <span style={{fontFamily:"Space Mono",fontSize:12,color:"#1a4fc4"}}>{fmt(item.revenue)} د.ع</span>
                   </div>
                 </div>
                 <div style={{height:3,background:"rgba(255,255,255,.04)",borderRadius:99}}>
-                  <div style={{height:"100%",borderRadius:99,background:`linear-gradient(to left, #ff2d7a, #00c3ff)`,
+                  <div style={{height:"100%",borderRadius:99,background:`linear-gradient(to left, #1a4fc4, #00c3ff)`,
                     width:visible?`${(item.orders/MOCK.topItems[0].orders)*100}%`:"0%",
-                    transition:`width 1s ease ${i*.15}s`,boxShadow:"0 0 8px rgba(255,45,122,.4)"}}/>
+                    transition:`width 1s ease ${i*.15}s`,boxShadow:"0 0 8px rgba(26,79,196,.4)"}}/>
                 </div>
               </div>
             </div>
@@ -545,7 +545,7 @@ function AnalyticsPanel() {
       {/* AI Insight Cards */}
       <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(240px,1fr))",gap:12}}>
         {[
-          {icon:"🤖",title:"توصية الذكاء",text:"زيادة طلبيات الدجاج والجبن الموزاريلا — يُتوقع ارتفاع 35% في الطلب خلال ساعتين",color:"#ff2d7a"},
+          {icon:"🤖",title:"توصية الذكاء",text:"زيادة طلبيات الدجاج والجبن الموزاريلا — يُتوقع ارتفاع 35% في الطلب خلال ساعتين",color:"#1a4fc4"},
           {icon:"📈",title:"توقع الذروة",text:"ذروة قادمة 7-9 م — يُنصح بتجهيز 3 طباخين وفتح محطة D",color:"#00c3ff"},
           {icon:"💡",title:"فرصة ربح",text:"ستيك ريب آي: هامش ربح 48% — رفع السعر 5% لن يؤثر على الطلب",color:"#ffd60a"},
         ].map((c,i)=>(
@@ -606,7 +606,7 @@ function SettingsPanel() {
         width:"100%",fontFamily:"Cairo",fontSize:14,padding:"10px 14px",background:"rgba(255,255,255,.04)",
         border:"1px solid rgba(255,255,255,.08)",borderRadius:8,color:"#f0f4ff",outline:"none",
         transition:"border .2s"
-      }} onFocus={e=>e.target.style.borderColor="#ff2d7a"} onBlur={e=>e.target.style.borderColor="rgba(255,255,255,.08)"}/>
+      }} onFocus={e=>e.target.style.borderColor="#1a4fc4"} onBlur={e=>e.target.style.borderColor="rgba(255,255,255,.08)"}/>
     </div>
   );
 
@@ -624,8 +624,8 @@ function SettingsPanel() {
       </div>
       <button onClick={save} className="btn-hover" style={{
         fontFamily:"Cairo",fontSize:14,fontWeight:700,padding:"12px 32px",borderRadius:8,border:"none",cursor:"pointer",
-        background:saved?"#00ff88":"#ff2d7a",color:saved?"#000":"#fff",
-        boxShadow:saved?"0 0 20px rgba(0,255,136,.4)":"0 0 20px rgba(255,45,122,.3)",
+        background:saved?"#00ff88":"#1a4fc4",color:saved?"#000":"#fff",
+        boxShadow:saved?"0 0 20px rgba(0,255,136,.4)":"0 0 20px rgba(26,79,196,.3)",
         transition:"all .3s",alignSelf:"flex-start"
       }}>
         {saved?"✓ تم الحفظ":"حفظ الإعدادات"}
@@ -655,9 +655,9 @@ function Sidebar({active, setActive, collapsed, setCollapsed}) {
     }}>
       {/* Logo */}
       <div style={{padding:"20px 16px",borderBottom:"1px solid rgba(255,255,255,.04)",display:"flex",alignItems:"center",gap:12,cursor:"pointer"}} onClick={()=>setCollapsed(c=>!c)}>
-        <div style={{width:36,height:36,borderRadius:8,background:"linear-gradient(135deg,#ff2d7a,#ff6b9d)",
+        <div style={{width:36,height:36,borderRadius:8,background:"linear-gradient(135deg,#1a4fc4,#ff6b9d)",
           display:"flex",alignItems:"center",justifyContent:"center",fontFamily:"Space Mono",fontSize:13,fontWeight:700,color:"#fff",flexShrink:0}}>IQ</div>
-        {!collapsed && <span style={{fontFamily:"Space Mono",fontSize:14,fontWeight:700,color:"#f0f4ff",whiteSpace:"nowrap"}}>IQR<span style={{color:"#ff2d7a",fontSize:10,marginRight:4}}>داشبورد</span></span>}
+        {!collapsed && <span style={{fontFamily:"Space Mono",fontSize:14,fontWeight:700,color:"#f0f4ff",whiteSpace:"nowrap"}}>IQR<span style={{color:"#1a4fc4",fontSize:10,marginRight:4}}>داشبورد</span></span>}
       </div>
 
       {/* Nav */}
@@ -670,7 +670,7 @@ function Sidebar({active, setActive, collapsed, setCollapsed}) {
               transition:"all .2s",textAlign:"right",direction:"rtl",position:"relative"}}>
             <span style={{fontSize:18,flexShrink:0,lineHeight:1}}>{item.icon}</span>
             {!collapsed && <span style={{fontFamily:"Cairo",fontSize:13,fontWeight:700,whiteSpace:"nowrap"}}>{item.label}</span>}
-            {active===item.id && <div style={{position:"absolute",right:0,top:"20%",bottom:"20%",width:2,background:"#ff2d7a",borderRadius:99}}/>}
+            {active===item.id && <div style={{position:"absolute",right:0,top:"20%",bottom:"20%",width:2,background:"#1a4fc4",borderRadius:99}}/>}
           </button>
         ))}
       </nav>
@@ -678,8 +678,8 @@ function Sidebar({active, setActive, collapsed, setCollapsed}) {
       {/* Footer */}
       <div style={{padding:"16px",borderTop:"1px solid rgba(255,255,255,.04)"}}>
         <div style={{display:"flex",alignItems:"center",gap:10}}>
-          <div style={{width:32,height:32,borderRadius:8,background:"rgba(255,45,122,.2)",
-            display:"flex",alignItems:"center",justifyContent:"center",fontFamily:"Space Mono",fontSize:11,color:"#ff2d7a",flexShrink:0}}>AD</div>
+          <div style={{width:32,height:32,borderRadius:8,background:"rgba(26,79,196,.2)",
+            display:"flex",alignItems:"center",justifyContent:"center",fontFamily:"Space Mono",fontSize:11,color:"#1a4fc4",flexShrink:0}}>AD</div>
           {!collapsed && (
             <div>
               <div style={{fontSize:12,fontWeight:700,color:"#f0f4ff"}}>المدير</div>
@@ -718,10 +718,10 @@ function TopBar({activePage, showNotif, setShowNotif}) {
           <span style={{fontFamily:"Cairo",fontSize:11,fontWeight:700,color:"#00ff88"}}>مباشر</span>
         </div>
         <button onClick={()=>setShowNotif(v=>!v)} style={{position:"relative",background:"rgba(255,255,255,.05)",border:"1px solid rgba(255,255,255,.08)",borderRadius:8,width:38,height:38,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",fontSize:16,transition:"all .2s"}}
-          onMouseEnter={e=>e.currentTarget.style.borderColor="#ff2d7a"}
+          onMouseEnter={e=>e.currentTarget.style.borderColor="#1a4fc4"}
           onMouseLeave={e=>e.currentTarget.style.borderColor="rgba(255,255,255,.08)"}>
           🔔
-          <span style={{position:"absolute",top:6,right:6,width:8,height:8,borderRadius:"50%",background:"#ff2d7a",border:"2px solid #030d1a",animation:"pulse 2s infinite"}}/>
+          <span style={{position:"absolute",top:6,right:6,width:8,height:8,borderRadius:"50%",background:"#1a4fc4",border:"2px solid #030d1a",animation:"pulse 2s infinite"}}/>
         </button>
       </div>
     </header>
@@ -745,20 +745,20 @@ function OverviewPage({orders, setOrders}) {
           <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:16}}>
             <div>
               <div style={{fontSize:13,fontWeight:700,color:"rgba(240,244,255,.5)"}}>الإيرادات الأسبوعية</div>
-              <div style={{fontFamily:"Space Mono",fontSize:22,fontWeight:700,color:"#ff2d7a",marginTop:4}}>
+              <div style={{fontFamily:"Space Mono",fontSize:22,fontWeight:700,color:"#1a4fc4",marginTop:4}}>
                 {fmt(MOCK.weeklyRevenue.reduce((a,b)=>a+b,0))} د.ع
               </div>
             </div>
             <span style={{fontSize:12,color:"#00ff88",background:"rgba(0,255,136,.08)",padding:"4px 12px",borderRadius:99,fontWeight:700}}>+19% ↑</span>
           </div>
-          <BarChart data={MOCK.weeklyRevenue} labels={MOCK.weekDays} color="#ff2d7a" active={true}/>
+          <BarChart data={MOCK.weeklyRevenue} labels={MOCK.weekDays} color="#1a4fc4" active={true}/>
         </div>
         <div style={{background:"#0a1628",border:"1px solid rgba(255,255,255,.05)",borderRadius:12,padding:"24px"}}>
           <div style={{fontSize:13,fontWeight:700,color:"rgba(240,244,255,.5)",marginBottom:4}}>ساعات الذروة</div>
           <div style={{fontSize:12,color:"rgba(240,244,255,.25)",marginBottom:16}}>اليوم — 24 ساعة</div>
           <PeakHours data={MOCK.peakHours} active={true}/>
-          <div style={{marginTop:16,padding:"12px",background:"rgba(255,45,122,.06)",borderRadius:8,border:"1px solid rgba(255,45,122,.15)"}}>
-            <div style={{fontSize:12,color:"#ff2d7a",fontWeight:700,marginBottom:2}}>⚡ ذروة قادمة</div>
+          <div style={{marginTop:16,padding:"12px",background:"rgba(26,79,196,.06)",borderRadius:8,border:"1px solid rgba(26,79,196,.15)"}}>
+            <div style={{fontSize:12,color:"#1a4fc4",fontWeight:700,marginBottom:2}}>⚡ ذروة قادمة</div>
             <div style={{fontSize:11,color:"rgba(240,244,255,.4)"}}>7:00 — 9:00 م · جهّز 3 طباخين</div>
           </div>
         </div>
@@ -776,7 +776,7 @@ function OverviewPage({orders, setOrders}) {
 function DashBg() {
   return (
     <div style={{position:"fixed",inset:0,zIndex:0,pointerEvents:"none",overflow:"hidden"}}>
-      <div style={{position:"absolute",width:600,height:600,borderRadius:"50%",background:"radial-gradient(ellipse,rgba(255,45,122,.06),transparent 70%)",top:"-10%",right:"-10%",animation:"orb 15s ease-in-out infinite",filter:"blur(60px)"}}/>
+      <div style={{position:"absolute",width:600,height:600,borderRadius:"50%",background:"radial-gradient(ellipse,rgba(26,79,196,.06),transparent 70%)",top:"-10%",right:"-10%",animation:"orb 15s ease-in-out infinite",filter:"blur(60px)"}}/>
       <div style={{position:"absolute",width:500,height:500,borderRadius:"50%",background:"radial-gradient(ellipse,rgba(0,195,255,.05),transparent 70%)",bottom:"10%",left:"-10%",animation:"orb 20s ease-in-out infinite reverse",filter:"blur(80px)"}}/>
     </div>
   );

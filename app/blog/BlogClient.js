@@ -7,13 +7,13 @@ const G = `
   html{scroll-behavior:smooth}
   body{background:#000814;overflow-x:hidden;font-family:'Cairo',sans-serif}
   ::-webkit-scrollbar{width:4px}
-  ::-webkit-scrollbar-thumb{background:#ff2d7a;border-radius:99px}
+  ::-webkit-scrollbar-thumb{background:#1a4fc4;border-radius:99px}
   @keyframes fadeUp{from{opacity:0;transform:translateY(40px)}to{opacity:1;transform:translateY(0)}}
   @keyframes fadeIn{from{opacity:0}to{opacity:1}}
   @keyframes orb{0%,100%{transform:translate(0,0)}50%{transform:translate(30px,-20px)}}
   @keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
   .card-hover{transition:transform .25s ease,box-shadow .25s ease}
-  .card-hover:hover{transform:translateY(-6px);box-shadow:0 20px 60px rgba(255,45,122,.18)!important}
+  .card-hover:hover{transform:translateY(-6px);box-shadow:0 20px 60px rgba(26,79,196,.18)!important}
   .tag{display:inline-block;padding:3px 12px;border-radius:99px;font-size:11px;font-weight:700;letter-spacing:.08em}
 `;
 
@@ -44,7 +44,7 @@ const POSTS = [
   },
   {
     id:4, slug:"menu-engineering",
-    category:"الربحية", categoryColor:"#ff2d7a",
+    category:"الربحية", categoryColor:"#1a4fc4",
     title:"هندسة قائمة الطعام: أي أصناف تجلب الربح وأيها تكلفك؟",
     excerpt:"ليس كل صنف في قائمتك يستحق مكانه — تعلم كيف تحلل هوامش الربح وتحسّن قائمتك لتزيد أرباحك دون رفع الأسعار.",
     date:"24 مارس 2026", readTime:"7 دقائق", icon:"🍽️",
@@ -88,15 +88,15 @@ function Nav() {
   return (
     <nav style={{position:"fixed",top:0,left:0,right:0,zIndex:100,padding:"20px 48px",display:"flex",alignItems:"center",justifyContent:"space-between",
       background:scrolled?"rgba(0,8,20,.95)":"transparent",backdropFilter:scrolled?"blur(24px)":"none",
-      borderBottom:scrolled?"1px solid rgba(255,45,122,.1)":"none",transition:"all .4s ease",direction:"rtl"}}>
+      borderBottom:scrolled?"1px solid rgba(26,79,196,.1)":"none",transition:"all .4s ease",direction:"rtl"}}>
       <a href="/" style={{fontFamily:"Space Mono",fontSize:20,fontWeight:700,color:"#f0f4ff",textDecoration:"none",display:"flex",alignItems:"center",gap:10}}>
-        <span style={{width:8,height:8,background:"#ff2d7a",borderRadius:"50%",animation:"blink 2s infinite"}}/>
-        IQR<span style={{color:"#ff2d7a",fontSize:13,fontWeight:400,fontFamily:"Cairo",marginRight:6}}>لإدارة المطاعم</span>
+        <span style={{width:8,height:8,background:"#1a4fc4",borderRadius:"50%",animation:"blink 2s infinite"}}/>
+        IQR<span style={{color:"#1a4fc4",fontSize:13,fontWeight:400,fontFamily:"Cairo",marginRight:6}}>لإدارة المطاعم</span>
       </a>
       <div style={{display:"flex",gap:24,alignItems:"center"}}>
         {[{h:"/",l:"الرئيسية"},{h:"/about",l:"من نحن"},{h:"/blog",l:"المدونة"},{h:"/contact",l:"تواصل"}].map(n=>(
-          <a key={n.h} href={n.h} style={{fontFamily:"Cairo",fontSize:13,fontWeight:700,color:n.h==="/blog"?"#ff2d7a":"rgba(240,244,255,.5)",textDecoration:"none",transition:"color .3s"}}
-            onMouseEnter={e=>e.target.style.color="#f0f4ff"} onMouseLeave={e=>e.target.style.color=n.h==="/blog"?"#ff2d7a":"rgba(240,244,255,.5)"}>{n.l}</a>
+          <a key={n.h} href={n.h} style={{fontFamily:"Cairo",fontSize:13,fontWeight:700,color:n.h==="/blog"?"#1a4fc4":"rgba(240,244,255,.5)",textDecoration:"none",transition:"color .3s"}}
+            onMouseEnter={e=>e.target.style.color="#f0f4ff"} onMouseLeave={e=>e.target.style.color=n.h==="/blog"?"#1a4fc4":"rgba(240,244,255,.5)"}>{n.l}</a>
         ))}
       </div>
     </nav>
@@ -131,7 +131,7 @@ function PostCard({post, idx}) {
       {/* Card bottom */}
       <div style={{padding:"16px 28px",borderTop:"1px solid rgba(255,255,255,.04)",display:"flex",justifyContent:"space-between",alignItems:"center"}}>
         <span style={{fontFamily:"Cairo",fontSize:11,color:"rgba(240,244,255,.25)"}}>{post.date}</span>
-        <a href={`/blog/${post.slug}`} style={{fontFamily:"Cairo",fontSize:12,fontWeight:700,color:"#ff2d7a",textDecoration:"none",display:"flex",alignItems:"center",gap:6,transition:"gap .2s"}}
+        <a href={`/blog/${post.slug}`} style={{fontFamily:"Cairo",fontSize:12,fontWeight:700,color:"#1a4fc4",textDecoration:"none",display:"flex",alignItems:"center",gap:6,transition:"gap .2s"}}
           onMouseEnter={e=>e.currentTarget.style.gap="10px"} onMouseLeave={e=>e.currentTarget.style.gap="6px"}>
           اقرأ المقال ←
         </a>
@@ -151,7 +151,7 @@ export default function BlogClient() {
     <>
       <style>{G}</style>
       <div style={{position:"fixed",inset:0,zIndex:0,pointerEvents:"none"}}>
-        <div style={{position:"absolute",width:600,height:600,borderRadius:"50%",background:"radial-gradient(ellipse,rgba(255,45,122,.08),transparent 70%)",top:"-10%",right:"-5%",animation:"orb 15s ease-in-out infinite",filter:"blur(60px)"}}/>
+        <div style={{position:"absolute",width:600,height:600,borderRadius:"50%",background:"radial-gradient(ellipse,rgba(26,79,196,.08),transparent 70%)",top:"-10%",right:"-5%",animation:"orb 15s ease-in-out infinite",filter:"blur(60px)"}}/>
         <div style={{position:"absolute",width:500,height:500,borderRadius:"50%",background:"radial-gradient(ellipse,rgba(0,195,255,.05),transparent 70%)",bottom:"10%",left:"-5%",animation:"orb 20s ease-in-out infinite reverse",filter:"blur(80px)"}}/>
       </div>
       <Nav/>
@@ -159,13 +159,13 @@ export default function BlogClient() {
       {/* HERO */}
       <section style={{minHeight:"50vh",display:"flex",alignItems:"center",justifyContent:"center",padding:"120px 48px 60px",textAlign:"center",position:"relative",zIndex:2,direction:"rtl"}}>
         <div style={{animation:"fadeUp 1s ease both"}}>
-          <div style={{fontSize:11,fontWeight:700,letterSpacing:".4em",color:"#ff2d7a",textTransform:"uppercase",marginBottom:24,display:"flex",alignItems:"center",justifyContent:"center",gap:16,fontFamily:"Cairo"}}>
-            <span style={{flex:1,maxWidth:60,height:1,background:"linear-gradient(to right,transparent,#ff2d7a)"}}/>
+          <div style={{fontSize:11,fontWeight:700,letterSpacing:".4em",color:"#1a4fc4",textTransform:"uppercase",marginBottom:24,display:"flex",alignItems:"center",justifyContent:"center",gap:16,fontFamily:"Cairo"}}>
+            <span style={{flex:1,maxWidth:60,height:1,background:"linear-gradient(to right,transparent,#1a4fc4)"}}/>
             المدونة
-            <span style={{flex:1,maxWidth:60,height:1,background:"linear-gradient(to left,transparent,#ff2d7a)"}}/>
+            <span style={{flex:1,maxWidth:60,height:1,background:"linear-gradient(to left,transparent,#1a4fc4)"}}/>
           </div>
           <h1 style={{fontFamily:"Cairo",fontSize:"clamp(40px,6vw,80px)",fontWeight:900,lineHeight:.95,marginBottom:24,color:"#f0f4ff"}}>
-            معرفة تبني<br/><em style={{fontStyle:"normal",color:"#ff2d7a"}}>مطاعم ناجحة</em>
+            معرفة تبني<br/><em style={{fontStyle:"normal",color:"#1a4fc4"}}>مطاعم ناجحة</em>
           </h1>
           <p style={{fontFamily:"Cairo",fontSize:17,color:"rgba(240,244,255,.45)",maxWidth:500,margin:"0 auto",lineHeight:1.8}}>
             مقالات عملية من خبرة حقيقية في إدارة وتطوير المطاعم في العراق
@@ -177,24 +177,24 @@ export default function BlogClient() {
       <section ref={featuredRef} style={{padding:"0 48px 60px",maxWidth:1200,margin:"0 auto",position:"relative",zIndex:2,direction:"rtl"}}>
         <div style={{
           background:"linear-gradient(135deg, #0a1628, #0d1f3d)",
-          border:"1px solid rgba(255,45,122,.15)",borderRadius:16,padding:"48px",
+          border:"1px solid rgba(26,79,196,.15)",borderRadius:16,padding:"48px",
           display:"grid",gridTemplateColumns:"1fr 1fr",gap:48,alignItems:"center",
           opacity:featuredVisible?1:0,transform:featuredVisible?"none":"translateY(30px)",
           transition:"all .9s ease",position:"relative",overflow:"hidden"
         }}>
-          <div style={{position:"absolute",top:0,right:0,width:300,height:300,borderRadius:"50%",background:"radial-gradient(ellipse,rgba(255,45,122,.08),transparent 70%)",pointerEvents:"none"}}/>
+          <div style={{position:"absolute",top:0,right:0,width:300,height:300,borderRadius:"50%",background:"radial-gradient(ellipse,rgba(26,79,196,.08),transparent 70%)",pointerEvents:"none"}}/>
           <div>
             <div style={{display:"flex",gap:12,alignItems:"center",marginBottom:20}}>
-              <span className="tag" style={{background:"rgba(255,45,122,.15)",color:"#ff2d7a",border:"1px solid rgba(255,45,122,.3)"}}>⭐ مقال مميز</span>
+              <span className="tag" style={{background:"rgba(26,79,196,.15)",color:"#1a4fc4",border:"1px solid rgba(26,79,196,.3)"}}>⭐ مقال مميز</span>
               <span style={{fontFamily:"Space Mono",fontSize:10,color:"rgba(240,244,255,.25)"}}>6 دقائق</span>
             </div>
             <h2 style={{fontFamily:"Cairo",fontSize:"clamp(22px,3vw,36px)",fontWeight:900,color:"#f0f4ff",lineHeight:1.2,marginBottom:16}}>
               {POSTS[0].title}
             </h2>
             <p style={{fontFamily:"Cairo",fontSize:15,color:"rgba(240,244,255,.45)",lineHeight:1.8,marginBottom:28}}>{POSTS[0].excerpt}</p>
-            <a href={`/blog/${POSTS[0].slug}`} style={{display:"inline-flex",alignItems:"center",gap:10,fontFamily:"Cairo",fontSize:14,fontWeight:700,padding:"14px 32px",background:"#ff2d7a",color:"#fff",borderRadius:8,textDecoration:"none",boxShadow:"0 0 30px rgba(255,45,122,.3)",transition:"all .2s"}}
-              onMouseEnter={e=>{e.currentTarget.style.transform="translateY(-2px)";e.currentTarget.style.boxShadow="0 8px 40px rgba(255,45,122,.5)"}}
-              onMouseLeave={e=>{e.currentTarget.style.transform="";e.currentTarget.style.boxShadow="0 0 30px rgba(255,45,122,.3)"}}>
+            <a href={`/blog/${POSTS[0].slug}`} style={{display:"inline-flex",alignItems:"center",gap:10,fontFamily:"Cairo",fontSize:14,fontWeight:700,padding:"14px 32px",background:"#1a4fc4",color:"#fff",borderRadius:8,textDecoration:"none",boxShadow:"0 0 30px rgba(26,79,196,.3)",transition:"all .2s"}}
+              onMouseEnter={e=>{e.currentTarget.style.transform="translateY(-2px)";e.currentTarget.style.boxShadow="0 8px 40px rgba(26,79,196,.5)"}}
+              onMouseLeave={e=>{e.currentTarget.style.transform="";e.currentTarget.style.boxShadow="0 0 30px rgba(26,79,196,.3)"}}>
               اقرأ المقال ←
             </a>
           </div>
@@ -220,7 +220,7 @@ export default function BlogClient() {
           {categories.map(c=>(
             <button key={c} onClick={()=>setFilter(c)} style={{
               fontFamily:"Cairo",fontSize:12,fontWeight:700,padding:"8px 20px",borderRadius:99,border:"none",cursor:"pointer",
-              background:filter===c?"#ff2d7a":"rgba(255,255,255,.05)",
+              background:filter===c?"#1a4fc4":"rgba(255,255,255,.05)",
               color:filter===c?"#fff":"rgba(240,244,255,.5)",transition:"all .2s"
             }}>{c}</button>
           ))}
@@ -243,7 +243,7 @@ export default function BlogClient() {
           <div style={{fontSize:36,marginBottom:16}}>📬</div>
           <h2 style={{fontFamily:"Cairo",fontSize:28,fontWeight:900,color:"#f0f4ff",marginBottom:12}}>اشترك في نشرتنا</h2>
           <p style={{fontFamily:"Cairo",fontSize:14,color:"rgba(240,244,255,.4)",marginBottom:28,lineHeight:1.8}}>مقال أسبوعي عملي لتطوير مطعمك — مباشرة على واتساب</p>
-          <a href="https://wa.me/9647734383431?text=أريد+الاشتراك+في+نشرة+IQR+الأسبوعية" target="_blank" style={{display:"inline-flex",alignItems:"center",gap:10,fontFamily:"Cairo",fontSize:14,fontWeight:700,padding:"14px 36px",background:"#ff2d7a",color:"#fff",borderRadius:8,textDecoration:"none",boxShadow:"0 0 30px rgba(255,45,122,.3)"}}>
+          <a href="https://wa.me/9647734383431?text=أريد+الاشتراك+في+نشرة+IQR+الأسبوعية" target="_blank" style={{display:"inline-flex",alignItems:"center",gap:10,fontFamily:"Cairo",fontSize:14,fontWeight:700,padding:"14px 36px",background:"#1a4fc4",color:"#fff",borderRadius:8,textDecoration:"none",boxShadow:"0 0 30px rgba(26,79,196,.3)"}}>
             📲 اشترك عبر واتساب
           </a>
         </div>

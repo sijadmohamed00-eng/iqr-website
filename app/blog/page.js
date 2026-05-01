@@ -7,7 +7,7 @@ const G = `
   html{scroll-behavior:smooth}
   body{background:#000814;overflow-x:hidden;font-family:'Cairo',sans-serif}
   ::-webkit-scrollbar{width:4px}
-  ::-webkit-scrollbar-thumb{background:#ff2d7a;border-radius:99px}
+  ::-webkit-scrollbar-thumb{background:#1a4fc4;border-radius:99px}
   @keyframes fadeUp{from{opacity:0;transform:translateY(40px)}to{opacity:1;transform:translateY(0)}}
   @keyframes fadeIn{from{opacity:0}to{opacity:1}}
   @keyframes orb{0%,100%{transform:translate(0,0)}50%{transform:translate(30px,-20px)}}
@@ -15,7 +15,7 @@ const G = `
   @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
   @keyframes lineGrow{from{width:0}to{width:100%}}
   .card-hover{transition:transform .2s ease,box-shadow .2s ease}
-  .card-hover:hover{transform:translateY(-4px);box-shadow:0 16px 48px rgba(255,45,122,.15)!important}
+  .card-hover:hover{transform:translateY(-4px);box-shadow:0 16px 48px rgba(26,79,196,.15)!important}
 `;
 
 function useVisible(ref) {
@@ -38,15 +38,15 @@ function Nav() {
   return (
     <nav style={{position:"fixed",top:0,left:0,right:0,zIndex:100,padding:"20px 48px",display:"flex",alignItems:"center",justifyContent:"space-between",
       background:scrolled?"rgba(0,8,20,.95)":"transparent",backdropFilter:scrolled?"blur(24px)":"none",
-      borderBottom:scrolled?"1px solid rgba(255,45,122,.1)":"none",transition:"all .4s ease",direction:"rtl"}}>
+      borderBottom:scrolled?"1px solid rgba(26,79,196,.1)":"none",transition:"all .4s ease",direction:"rtl"}}>
       <a href="/" style={{fontFamily:"Space Mono",fontSize:20,fontWeight:700,color:"#f0f4ff",textDecoration:"none",display:"flex",alignItems:"center",gap:10}}>
-        <span style={{width:8,height:8,background:"#ff2d7a",borderRadius:"50%",animation:"blink 2s infinite"}}/>
-        IQR<span style={{color:"#ff2d7a",fontSize:13,fontWeight:400,fontFamily:"Cairo",marginRight:6}}>لإدارة المطاعم</span>
+        <span style={{width:8,height:8,background:"#1a4fc4",borderRadius:"50%",animation:"blink 2s infinite"}}/>
+        IQR<span style={{color:"#1a4fc4",fontSize:13,fontWeight:400,fontFamily:"Cairo",marginRight:6}}>لإدارة المطاعم</span>
       </a>
       <div style={{display:"flex",gap:24}}>
         {[{h:"/",l:"الرئيسية"},{h:"/about",l:"من نحن"},{h:"/blog",l:"المدونة"},{h:"/contact",l:"تواصل"}].map(n=>(
-          <a key={n.h} href={n.h} style={{fontFamily:"Cairo",fontSize:13,fontWeight:700,color:n.h==="/about"?"#ff2d7a":"rgba(240,244,255,.5)",textDecoration:"none",transition:"color .3s"}}
-            onMouseEnter={e=>e.target.style.color="#f0f4ff"} onMouseLeave={e=>e.target.style.color=n.h==="/about"?"#ff2d7a":"rgba(240,244,255,.5)"}>{n.l}</a>
+          <a key={n.h} href={n.h} style={{fontFamily:"Cairo",fontSize:13,fontWeight:700,color:n.h==="/about"?"#1a4fc4":"rgba(240,244,255,.5)",textDecoration:"none",transition:"color .3s"}}
+            onMouseEnter={e=>e.target.style.color="#f0f4ff"} onMouseLeave={e=>e.target.style.color=n.h==="/about"?"#1a4fc4":"rgba(240,244,255,.5)"}>{n.l}</a>
         ))}
       </div>
     </nav>
@@ -76,7 +76,7 @@ export default function AboutPage() {
       <style>{G}</style>
       {/* BG */}
       <div style={{position:"fixed",inset:0,zIndex:0,pointerEvents:"none"}}>
-        <div style={{position:"absolute",width:600,height:600,borderRadius:"50%",background:"radial-gradient(ellipse,rgba(255,45,122,.08),transparent 70%)",top:"-10%",right:"-5%",animation:"orb 15s ease-in-out infinite",filter:"blur(60px)"}}/>
+        <div style={{position:"absolute",width:600,height:600,borderRadius:"50%",background:"radial-gradient(ellipse,rgba(26,79,196,.08),transparent 70%)",top:"-10%",right:"-5%",animation:"orb 15s ease-in-out infinite",filter:"blur(60px)"}}/>
         <div style={{position:"absolute",width:500,height:500,borderRadius:"50%",background:"radial-gradient(ellipse,rgba(0,195,255,.05),transparent 70%)",bottom:"20%",left:"-5%",animation:"orb 20s ease-in-out infinite reverse",filter:"blur(80px)"}}/>
       </div>
 
@@ -85,13 +85,13 @@ export default function AboutPage() {
       {/* HERO */}
       <section style={{minHeight:"70vh",display:"flex",alignItems:"center",justifyContent:"center",padding:"120px 48px 80px",textAlign:"center",position:"relative",zIndex:2,direction:"rtl"}}>
         <div style={{maxWidth:800,animation:"fadeUp 1s ease both"}}>
-          <div style={{fontSize:11,fontWeight:700,letterSpacing:".4em",color:"#ff2d7a",textTransform:"uppercase",marginBottom:24,display:"flex",alignItems:"center",justifyContent:"center",gap:16,fontFamily:"Cairo"}}>
-            <span style={{flex:1,maxWidth:60,height:1,background:"linear-gradient(to right,transparent,#ff2d7a)"}}/>
+          <div style={{fontSize:11,fontWeight:700,letterSpacing:".4em",color:"#1a4fc4",textTransform:"uppercase",marginBottom:24,display:"flex",alignItems:"center",justifyContent:"center",gap:16,fontFamily:"Cairo"}}>
+            <span style={{flex:1,maxWidth:60,height:1,background:"linear-gradient(to right,transparent,#1a4fc4)"}}/>
             من نحن
-            <span style={{flex:1,maxWidth:60,height:1,background:"linear-gradient(to left,transparent,#ff2d7a)"}}/>
+            <span style={{flex:1,maxWidth:60,height:1,background:"linear-gradient(to left,transparent,#1a4fc4)"}}/>
           </div>
           <h1 style={{fontFamily:"Cairo",fontSize:"clamp(40px,6vw,80px)",fontWeight:900,lineHeight:.95,letterSpacing:"-.025em",marginBottom:28,color:"#f0f4ff"}}>
-            نحن لا نبيع<br/><em style={{fontStyle:"normal",color:"#ff2d7a"}}>خدمة</em><br/>نبني <em style={{fontStyle:"normal",color:"rgba(240,244,255,.3)"}}>مستقبل</em>
+            نحن لا نبيع<br/><em style={{fontStyle:"normal",color:"#1a4fc4"}}>خدمة</em><br/>نبني <em style={{fontStyle:"normal",color:"rgba(240,244,255,.3)"}}>مستقبل</em>
           </h1>
           <p style={{fontFamily:"Cairo",fontSize:18,color:"rgba(240,244,255,.5)",lineHeight:1.9,maxWidth:600,margin:"0 auto"}}>
             IQR وُلدت من تجربة مباشرة مع مشاكل المطاعم في العراق — رأينا كيف تخسر المطاعم الجيدة بسبب غياب الأنظمة، فقررنا أن نكون الحل.
@@ -103,11 +103,11 @@ export default function AboutPage() {
       <section ref={ref1} style={{padding:"80px 48px",maxWidth:1200,margin:"0 auto",position:"relative",zIndex:2,direction:"rtl"}}>
         <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:80,alignItems:"center"}}>
           <div style={{opacity:v1?1:0,transform:v1?"none":"translateY(40px)",transition:"all 1s ease"}}>
-            <div style={{fontSize:10,fontWeight:700,letterSpacing:".4em",color:"#ff2d7a",marginBottom:20,fontFamily:"Cairo",display:"flex",alignItems:"center",gap:12}}>
-              <span style={{width:30,height:1,background:"#ff2d7a"}}/>قصتنا
+            <div style={{fontSize:10,fontWeight:700,letterSpacing:".4em",color:"#1a4fc4",marginBottom:20,fontFamily:"Cairo",display:"flex",alignItems:"center",gap:12}}>
+              <span style={{width:30,height:1,background:"#1a4fc4"}}/>قصتنا
             </div>
             <h2 style={{fontFamily:"Cairo",fontSize:"clamp(28px,4vw,52px)",fontWeight:900,lineHeight:1,marginBottom:24,color:"#f0f4ff"}}>
-              من مشكلة حقيقية<br/><em style={{fontStyle:"normal",color:"#ff2d7a"}}>إلى حل حقيقي</em>
+              من مشكلة حقيقية<br/><em style={{fontStyle:"normal",color:"#1a4fc4"}}>إلى حل حقيقي</em>
             </h2>
             <p style={{fontFamily:"Cairo",fontSize:16,color:"rgba(240,244,255,.45)",lineHeight:1.9,marginBottom:20}}>
               بدأت IQR عندما رأى مؤسسوها مطاعم جيدة تغلق أبوابها — لا بسبب سوء الطعام أو قلة الزبائن، بل بسبب الفوضى التشغيلية وغياب الأنظمة.
@@ -122,7 +122,7 @@ export default function AboutPage() {
           <div style={{opacity:v1?1:0,transform:v1?"none":"translateX(40px)",transition:"all 1s ease .2s"}}>
             <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:3}}>
               {[
-                {n:"+35%",l:"متوسط زيادة الأرباح",c:"#ff2d7a"},
+                {n:"+35%",l:"متوسط زيادة الأرباح",c:"#1a4fc4"},
                 {n:"-28%",l:"تراجع الهدر الغذائي",c:"#ffd60a"},
                 {n:"3x",l:"سرعة معالجة الطلبات",c:"#00c3ff"},
                 {n:"99%",l:"رضا عملاء IQR",c:"#00ff88"},
@@ -141,9 +141,9 @@ export default function AboutPage() {
       <section ref={ref2} style={{padding:"80px 48px",background:"#000510",position:"relative",zIndex:2}}>
         <div style={{maxWidth:1200,margin:"0 auto",direction:"rtl"}}>
           <div style={{textAlign:"center",marginBottom:64,opacity:v2?1:0,transform:v2?"none":"translateY(30px)",transition:"all .8s ease"}}>
-            <div style={{fontSize:10,fontWeight:700,letterSpacing:".4em",color:"#ff2d7a",marginBottom:20,fontFamily:"Cairo"}}>قيمنا</div>
+            <div style={{fontSize:10,fontWeight:700,letterSpacing:".4em",color:"#1a4fc4",marginBottom:20,fontFamily:"Cairo"}}>قيمنا</div>
             <h2 style={{fontFamily:"Cairo",fontSize:"clamp(28px,4vw,52px)",fontWeight:900,color:"#f0f4ff",lineHeight:1}}>
-              ما الذي يحركنا<br/><em style={{fontStyle:"normal",color:"#ff2d7a"}}>كل يوم</em>
+              ما الذي يحركنا<br/><em style={{fontStyle:"normal",color:"#1a4fc4"}}>كل يوم</em>
             </h2>
           </div>
           <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(260px,1fr))",gap:3}}>
@@ -162,19 +162,19 @@ export default function AboutPage() {
       {/* TEAM */}
       <section ref={ref3} style={{padding:"80px 48px",maxWidth:1200,margin:"0 auto",position:"relative",zIndex:2,direction:"rtl"}}>
         <div style={{textAlign:"center",marginBottom:64,opacity:v3?1:0,transform:v3?"none":"translateY(30px)",transition:"all .8s ease"}}>
-          <div style={{fontSize:10,fontWeight:700,letterSpacing:".4em",color:"#ff2d7a",marginBottom:20,fontFamily:"Cairo"}}>الفريق</div>
+          <div style={{fontSize:10,fontWeight:700,letterSpacing:".4em",color:"#1a4fc4",marginBottom:20,fontFamily:"Cairo"}}>الفريق</div>
           <h2 style={{fontFamily:"Cairo",fontSize:"clamp(28px,4vw,52px)",fontWeight:900,color:"#f0f4ff",lineHeight:1}}>
-            من يقف خلف<br/><em style={{fontStyle:"normal",color:"#ff2d7a"}}>IQR</em>
+            من يقف خلف<br/><em style={{fontStyle:"normal",color:"#1a4fc4"}}>IQR</em>
           </h2>
         </div>
         <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(300px,1fr))",gap:16}}>
           {team.map((t,i)=>(
             <div key={i} className="card-hover" style={{background:"#0a1628",border:"1px solid rgba(255,255,255,.05)",borderRadius:12,padding:"40px 32px",textAlign:"center",
               opacity:v3?1:0,transform:v3?"none":"translateY(30px)",transition:`all .8s ease ${i*.12}s`}}>
-              <div style={{width:72,height:72,borderRadius:16,background:"rgba(255,45,122,.1)",border:"1px solid rgba(255,45,122,.2)",
+              <div style={{width:72,height:72,borderRadius:16,background:"rgba(26,79,196,.1)",border:"1px solid rgba(26,79,196,.2)",
                 display:"flex",alignItems:"center",justifyContent:"center",fontSize:32,margin:"0 auto 20px"}}>{t.avatar}</div>
               <h3 style={{fontFamily:"Cairo",fontSize:18,fontWeight:900,color:"#f0f4ff",marginBottom:6}}>{t.name}</h3>
-              <div style={{fontFamily:"Cairo",fontSize:13,color:"#ff2d7a",fontWeight:700,marginBottom:16}}>{t.role}</div>
+              <div style={{fontFamily:"Cairo",fontSize:13,color:"#1a4fc4",fontWeight:700,marginBottom:16}}>{t.role}</div>
               <p style={{fontFamily:"Cairo",fontSize:13,color:"rgba(240,244,255,.4)",lineHeight:1.8}}>{t.desc}</p>
             </div>
           ))}
@@ -185,11 +185,11 @@ export default function AboutPage() {
       <section style={{padding:"100px 48px",textAlign:"center",position:"relative",zIndex:2,background:"#000510"}}>
         <div style={{maxWidth:600,margin:"0 auto",direction:"rtl"}}>
           <h2 style={{fontFamily:"Cairo",fontSize:"clamp(32px,5vw,60px)",fontWeight:900,lineHeight:.95,marginBottom:24,color:"#f0f4ff"}}>
-            جاهز تبدأ<br/><em style={{fontStyle:"normal",color:"#ff2d7a"}}>معنا؟</em>
+            جاهز تبدأ<br/><em style={{fontStyle:"normal",color:"#1a4fc4"}}>معنا؟</em>
           </h2>
           <p style={{fontFamily:"Cairo",fontSize:16,color:"rgba(240,244,255,.45)",marginBottom:40,lineHeight:1.8}}>محادثة مجانية نفهم فيها وضعك — بدون التزام</p>
           <div style={{display:"flex",gap:16,justifyContent:"center",flexWrap:"wrap"}}>
-            <a href="https://wa.me/9647734383431" target="_blank" style={{fontFamily:"Cairo",fontSize:14,fontWeight:700,padding:"16px 44px",background:"#ff2d7a",color:"#fff",borderRadius:4,textDecoration:"none",boxShadow:"0 0 40px rgba(255,45,122,.4)"}}>📲 تواصل على واتساب</a>
+            <a href="https://wa.me/9647734383431" target="_blank" style={{fontFamily:"Cairo",fontSize:14,fontWeight:700,padding:"16px 44px",background:"#1a4fc4",color:"#fff",borderRadius:4,textDecoration:"none",boxShadow:"0 0 40px rgba(26,79,196,.4)"}}>📲 تواصل على واتساب</a>
             <a href="/contact" style={{fontFamily:"Cairo",fontSize:14,fontWeight:700,padding:"15px 44px",background:"transparent",color:"rgba(240,244,255,.6)",border:"1px solid rgba(255,255,255,.1)",borderRadius:4,textDecoration:"none"}}>راسلنا</a>
           </div>
         </div>

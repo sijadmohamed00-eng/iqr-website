@@ -26,7 +26,7 @@ export default function Page({ params }) {
     }}>
       <h1>مقال: {params.slug}</h1>
       <p>براند IQRHQ - قيد التطوير</p>
-      <a href="/" style={{color: '#ff2d7a', marginTop: '20px'}}>العودة للرئيسية</a>
+      <a href="/" style={{color: '#1a4fc4', marginTop: '20px'}}>العودة للرئيسية</a>
     </div>
   );
 }

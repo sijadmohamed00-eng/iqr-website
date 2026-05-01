@@ -7,7 +7,7 @@ const G = `
   html{scroll-behavior:smooth}
   body{background:#000814;overflow-x:hidden;font-family:'Cairo',sans-serif}
   ::-webkit-scrollbar{width:4px}
-  ::-webkit-scrollbar-thumb{background:#ff2d7a;border-radius:99px}
+  ::-webkit-scrollbar-thumb{background:#1a4fc4;border-radius:99px}
   @keyframes fadeUp{from{opacity:0;transform:translateY(40px)}to{opacity:1;transform:translateY(0)}}
   @keyframes fadeIn{from{opacity:0}to{opacity:1}}
   @keyframes orb{0%,100%{transform:translate(0,0)}50%{transform:translate(30px,-20px)}}
@@ -16,8 +16,8 @@ const G = `
   .btn-hover{transition:all .2s ease}
   .btn-hover:hover{transform:translateY(-2px);filter:brightness(1.1)}
   .card-hover{transition:transform .2s ease,box-shadow .2s ease}
-  .card-hover:hover{transform:translateY(-4px);box-shadow:0 16px 48px rgba(255,45,122,.15)!important}
-  input:focus,textarea:focus,select:focus{outline:none;border-color:#ff2d7a!important;box-shadow:0 0 0 3px rgba(255,45,122,.1)!important}
+  .card-hover:hover{transform:translateY(-4px);box-shadow:0 16px 48px rgba(26,79,196,.15)!important}
+  input:focus,textarea:focus,select:focus{outline:none;border-color:#1a4fc4!important;box-shadow:0 0 0 3px rgba(26,79,196,.1)!important}
 `;
 
 function Nav() {
@@ -30,15 +30,15 @@ function Nav() {
   return (
     <nav style={{position:"fixed",top:0,left:0,right:0,zIndex:100,padding:"20px 48px",display:"flex",alignItems:"center",justifyContent:"space-between",
       background:scrolled?"rgba(0,8,20,.95)":"transparent",backdropFilter:scrolled?"blur(24px)":"none",
-      borderBottom:scrolled?"1px solid rgba(255,45,122,.1)":"none",transition:"all .4s ease",direction:"rtl"}}>
+      borderBottom:scrolled?"1px solid rgba(26,79,196,.1)":"none",transition:"all .4s ease",direction:"rtl"}}>
       <a href="/" style={{fontFamily:"Space Mono",fontSize:20,fontWeight:700,color:"#f0f4ff",textDecoration:"none",display:"flex",alignItems:"center",gap:10}}>
-        <span style={{width:8,height:8,background:"#ff2d7a",borderRadius:"50%",animation:"blink 2s infinite"}}/>
-        IQR<span style={{color:"#ff2d7a",fontSize:13,fontWeight:400,fontFamily:"Cairo",marginRight:6}}>لإدارة المطاعم</span>
+        <span style={{width:8,height:8,background:"#1a4fc4",borderRadius:"50%",animation:"blink 2s infinite"}}/>
+        IQR<span style={{color:"#1a4fc4",fontSize:13,fontWeight:400,fontFamily:"Cairo",marginRight:6}}>لإدارة المطاعم</span>
       </a>
       <div style={{display:"flex",gap:24,alignItems:"center"}}>
         {[{h:"/",l:"الرئيسية"},{h:"/about",l:"من نحن"},{h:"/blog",l:"المدونة"},{h:"/contact",l:"تواصل"}].map(n=>(
-          <a key={n.h} href={n.h} style={{fontFamily:"Cairo",fontSize:13,fontWeight:700,color:n.h==="/contact"?"#ff2d7a":"rgba(240,244,255,.5)",textDecoration:"none",transition:"color .3s"}}
-            onMouseEnter={e=>e.target.style.color="#f0f4ff"} onMouseLeave={e=>e.target.style.color=n.h==="/contact"?"#ff2d7a":"rgba(240,244,255,.5)"}>{n.l}</a>
+          <a key={n.h} href={n.h} style={{fontFamily:"Cairo",fontSize:13,fontWeight:700,color:n.h==="/contact"?"#1a4fc4":"rgba(240,244,255,.5)",textDecoration:"none",transition:"color .3s"}}
+            onMouseEnter={e=>e.target.style.color="#f0f4ff"} onMouseLeave={e=>e.target.style.color=n.h==="/contact"?"#1a4fc4":"rgba(240,244,255,.5)"}>{n.l}</a>
         ))}
 
       </div>
@@ -73,7 +73,7 @@ export default function ContactClient() {
     <>
       <style>{G}</style>
       <div style={{position:"fixed",inset:0,zIndex:0,pointerEvents:"none"}}>
-        <div style={{position:"absolute",width:600,height:600,borderRadius:"50%",background:"radial-gradient(ellipse,rgba(255,45,122,.08),transparent 70%)",top:"-10%",right:"-5%",animation:"orb 15s ease-in-out infinite",filter:"blur(60px)"}}/>
+        <div style={{position:"absolute",width:600,height:600,borderRadius:"50%",background:"radial-gradient(ellipse,rgba(26,79,196,.08),transparent 70%)",top:"-10%",right:"-5%",animation:"orb 15s ease-in-out infinite",filter:"blur(60px)"}}/>
         <div style={{position:"absolute",width:500,height:500,borderRadius:"50%",background:"radial-gradient(ellipse,rgba(0,195,255,.05),transparent 70%)",bottom:"10%",left:"-5%",animation:"orb 20s ease-in-out infinite reverse",filter:"blur(80px)"}}/>
       </div>
       <Nav/>
@@ -81,13 +81,13 @@ export default function ContactClient() {
       {/* HERO */}
       <section style={{minHeight:"50vh",display:"flex",alignItems:"center",justifyContent:"center",padding:"120px 48px 60px",textAlign:"center",position:"relative",zIndex:2,direction:"rtl"}}>
         <div style={{animation:"fadeUp 1s ease both"}}>
-          <div style={{fontSize:11,fontWeight:700,letterSpacing:".4em",color:"#ff2d7a",textTransform:"uppercase",marginBottom:24,display:"flex",alignItems:"center",justifyContent:"center",gap:16,fontFamily:"Cairo"}}>
-            <span style={{flex:1,maxWidth:60,height:1,background:"linear-gradient(to right,transparent,#ff2d7a)"}}/>
+          <div style={{fontSize:11,fontWeight:700,letterSpacing:".4em",color:"#1a4fc4",textTransform:"uppercase",marginBottom:24,display:"flex",alignItems:"center",justifyContent:"center",gap:16,fontFamily:"Cairo"}}>
+            <span style={{flex:1,maxWidth:60,height:1,background:"linear-gradient(to right,transparent,#1a4fc4)"}}/>
             تواصل معنا
-            <span style={{flex:1,maxWidth:60,height:1,background:"linear-gradient(to left,transparent,#ff2d7a)"}}/>
+            <span style={{flex:1,maxWidth:60,height:1,background:"linear-gradient(to left,transparent,#1a4fc4)"}}/>
           </div>
           <h1 style={{fontFamily:"Cairo",fontSize:"clamp(40px,6vw,80px)",fontWeight:900,lineHeight:.95,marginBottom:24,color:"#f0f4ff"}}>
-            نبدأ بـ<br/><em style={{fontStyle:"normal",color:"#ff2d7a"}}>محادثة مجانية</em>
+            نبدأ بـ<br/><em style={{fontStyle:"normal",color:"#1a4fc4"}}>محادثة مجانية</em>
           </h1>
           <p style={{fontFamily:"Cairo",fontSize:17,color:"rgba(240,244,255,.45)",maxWidth:500,margin:"0 auto",lineHeight:1.8}}>
             بدون التزام — فقط نفهم وضع مطعمك ونحدد كيف نساعدك
@@ -148,8 +148,8 @@ export default function ContactClient() {
                 </div>
                 <button type="submit" className="btn-hover" disabled={status==="loading"} style={{
                   fontFamily:"Cairo",fontSize:15,fontWeight:700,padding:"14px",borderRadius:8,border:"none",
-                  background:status==="loading"?"rgba(255,45,122,.5)":"#ff2d7a",color:"#fff",cursor:"pointer",
-                  boxShadow:"0 0 30px rgba(255,45,122,.3)",marginTop:8}}>
+                  background:status==="loading"?"rgba(26,79,196,.5)":"#1a4fc4",color:"#fff",cursor:"pointer",
+                  boxShadow:"0 0 30px rgba(26,79,196,.3)",marginTop:8}}>
                   {status==="loading"?"جاري الإرسال...":"📩 إرسال الرسالة"}
                 </button>
               </form>

@@ -40,15 +40,15 @@ const globalStyles = `
     --text-primary:  #f0f4ff;
     --text-secondary:rgba(240,244,255,0.5);
     --text-muted:    rgba(240,244,255,0.2);
-    --accent:        #ff2d7a;
-    --accent-glow:   rgba(255,45,122,0.2);
-    --accent-soft:   rgba(255,45,122,0.08);
+    --accent:        #1a4fc4;
+    --accent-glow:   rgba(26,79,196,0.2);
+    --accent-soft:   rgba(26,79,196,0.08);
     --navy:          #0a1f5c;
     --navy-light:    #162a7a;
     --blue-accent:   #00c3ff;
     --blue-rgb:      0,195,255;
     --border:        rgba(255,255,255,0.07);
-    --border-accent: rgba(255,45,122,0.3);
+    --border-accent: rgba(26,79,196,0.3);
     --success:       #00e887;
     --warning:       #ffb800;
     color-scheme: dark;
@@ -64,8 +64,8 @@ const globalStyles = `
   }
 
   ::-webkit-scrollbar { width: 4px; }
-  ::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 99px; }
-  ::selection { background: var(--accent-glow); color: var(--text-primary); }
+  ::-webkit-scrollbar-thumb { background: var(--blue-accent); border-radius: 99px; }
+  ::selection { background: rgba(26,79,196,.15); color: var(--text-primary); }
 `;
 
 export default function RootLayout({ children }) {
