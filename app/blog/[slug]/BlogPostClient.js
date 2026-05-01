@@ -1,5 +1,6 @@
 "use client";
 import { useState, useEffect, useRef } from "react";
+import { useParams } from "next/navigation";
 
 const G = `
   @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&family=Space+Mono:wght@400;700&display=swap');
@@ -803,8 +804,10 @@ function Nav({ categoryColor }) {
 // ═══════════════════════════════════════════════════════════════
 // MAIN COMPONENT
 // ═══════════════════════════════════════════════════════════════
-export default function BlogPostClient({ params }) {
-  const slug = params?.slug || "inventory-waste";
+export default function BlogPostClient({ params: propParams }) {
+  const routeParams = useParams();
+  const rawSlug = propParams?.slug || routeParams?.slug || "inventory-waste";
+  const slug = Array.isArray(rawSlug) ? rawSlug[0] : rawSlug;
   const post = POSTS[slug];
 
   // Fallback for unknown slugs
