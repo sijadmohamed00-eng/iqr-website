@@ -1,32 +1,6 @@
 "use client";
 import { useState, useEffect, useRef, useCallback } from "react";
 
-function ThemeToggle() {
-  const [dark, setDark] = useState(true);
-  useEffect(() => {
-    const saved = localStorage.getItem('iqr-theme');
-    const t = saved || 'dark';
-    setDark(t === 'dark');
-    document.documentElement.setAttribute('data-theme', t);
-  }, []);
-  const toggle = () => {
-    const next = dark ? 'light' : 'dark';
-    setDark(!dark);
-    document.documentElement.setAttribute('data-theme', next);
-    localStorage.setItem('iqr-theme', next);
-    // تبديل الشعار
-    const logos = document.querySelectorAll('#nav-logo, #footer-logo');
-    logos.forEach(l => { l.src = next === 'dark' ? '/logo-white.png' : '/logo-navy.png'; });
-  };
-  return (
-    <button className="theme-toggle" onClick={toggle} title={dark?"الوضع الفاتح":"الوضع الداكن"}>
-      {dark
-        ? <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" strokeWidth="2" strokeLinecap="round"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
-        : <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0a1f5c" strokeWidth="2" strokeLinecap="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
-      }
-    </button>
-  );
-}
 
 
 
@@ -44,37 +18,12 @@ const G = `
   @keyframes orb{0%,100%{transform:translate(0,0)}50%{transform:translate(30px,-20px)}}
   @keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
   @keyframes trailFade{from{opacity:.7;transform:translate(-50%,-50%) scale(1)}to{opacity:0;transform:translate(-50%,-50%) scale(.2)}}
-  .theme-toggle{position:fixed;bottom:24px;left:24px;z-index:999;width:44px;height:44px;border-radius:50%;background:var(--bg-secondary,#060e22);border:1px solid var(--border,rgba(74,158,255,.12));display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 4px 20px var(--accent-glow,rgba(255,45,122,.25));transition:all .3s}
-  .theme-toggle:hover{transform:scale(1.1);box-shadow:0 6px 28px var(--accent-glow,rgba(255,45,122,.4))}
+
   @media(max-width:900px){
     .nav-links-wrap{display:none!important}
     .mobile-menu-btn{display:flex!important}
   }
-  [data-theme="light"] #problem,
-  [data-theme="light"] #solution,
-  [data-theme="light"] #services,
-  [data-theme="light"] #process,
-  [data-theme="light"] #results,
-  [data-theme="light"] #cta,
-  [data-theme="light"] footer {
-    background: var(--bg-primary) !important;
-  }
-  [data-theme="light"] nav {
-    background: rgba(255,255,255,0.95) !important;
-    border-bottom: 1px solid rgba(10,31,92,0.1) !important;
-    box-shadow: 0 2px 24px rgba(10,31,92,0.08) !important;
-    backdrop-filter: blur(20px) !important;
-  }
-  [data-theme="light"] .particle-canvas {
-    opacity: 0.18 !important;
-    filter: invert(1) hue-rotate(180deg) brightness(0.4) !important;
-  }
-  [data-theme="light"] h1, [data-theme="light"] h2, [data-theme="light"] h3 {
-    color: var(--text-primary) !important;
-  }
-  [data-theme="light"] .mobile-menu-btn span {
-    background: #0a1f5c !important;
-  }
+
 `
 
 function CursorTrail() {
@@ -305,9 +254,9 @@ function Nav() {
       </a>
       <div className="nav-links-wrap" style={{display:"flex",alignItems:"center",gap:8}}>
         {pageLinks.map(({h,l}) => (
-          <a key={h} href={h} style={{fontFamily:"Cairo",fontSize:13,fontWeight:700,color:"#6ea8fe",textDecoration:"none",letterSpacing:".06em",cursor:"none",transition:"all .25s",padding:"7px 16px",border:"1px solid rgba(110,168,254,.35)",borderRadius:6,background:"rgba(110,168,254,.07)"}}
-            onMouseEnter={e=>{e.currentTarget.style.background="rgba(110,168,254,.18)";e.currentTarget.style.borderColor="#6ea8fe";e.currentTarget.style.transform="translateY(-1px)"}}
-            onMouseLeave={e=>{e.currentTarget.style.background="rgba(110,168,254,.07)";e.currentTarget.style.borderColor="rgba(110,168,254,.35)";e.currentTarget.style.transform=""}}>{l}</a>
+          <a key={h} href={h} style={{fontFamily:"Cairo",fontSize:13,fontWeight:700,color:"var(--blue-accent)",textDecoration:"none",letterSpacing:".06em",cursor:"none",transition:"all .25s",padding:"7px 16px",border:"1px solid rgba(10,31,92,.5)",borderRadius:6,background:"rgba(10,31,92,.15)"}}
+            onMouseEnter={e=>{e.currentTarget.style.background="rgba(74,158,255,.12)";e.currentTarget.style.borderColor="var(--blue-accent)";e.currentTarget.style.transform="translateY(-1px)"}}
+            onMouseLeave={e=>{e.currentTarget.style.background="rgba(10,31,92,.15)";e.currentTarget.style.borderColor="rgba(10,31,92,.5)";e.currentTarget.style.transform=""}}>{l}</a>
         ))}
         <span style={{width:1,height:18,background:"var(--border)",display:"inline-block",margin:"0 12px"}}/>
         {scrollLinks.map(({h,l}) => (
@@ -331,7 +280,7 @@ function Nav() {
     {mobileOpen && (
       <div style={{position:"fixed",top:"64px",left:0,right:0,zIndex:99,background:"rgba(0,8,20,.97)",backdropFilter:"blur(24px)",borderBottom:"1px solid rgba(255,45,122,.15)",padding:"20px 24px",display:"flex",flexDirection:"column",gap:10,direction:"rtl",animation:"fadeIn .2s ease"}}>
         {pageLinks.map(({h,l}) => (
-          <a key={h} href={h} onClick={()=>setMobileOpen(false)} style={{fontFamily:"Cairo",fontSize:15,fontWeight:700,color:"#6ea8fe",textDecoration:"none",padding:"12px 16px",border:"1px solid rgba(110,168,254,.3)",borderRadius:8,background:"rgba(110,168,254,.07)",textAlign:"right"}}>{l}</a>
+          <a key={h} href={h} onClick={()=>setMobileOpen(false)} style={{fontFamily:"Cairo",fontSize:15,fontWeight:700,color:"var(--blue-accent)",textDecoration:"none",padding:"12px 16px",border:"1px solid rgba(110,168,254,.3)",borderRadius:8,background:"rgba(110,168,254,.07)",textAlign:"right"}}>{l}</a>
         ))}
         <div style={{height:1,background:"var(--border)",margin:"4px 0"}}/>
         {scrollLinks.map(({h,l}) => (
@@ -396,23 +345,17 @@ function Hero() {
           نحول فوضى مطعمك إلى دقة هندسية ذاتية — سواء كنت تفتح أول فرع أو تدير سلسلة كاملة في العراق
         </p>
 
-        <div style={{display:"flex",gap:16,justifyContent:"center",opacity:loaded?1:0,transform:loaded?"none":"translateY(30px)",transition:"all 1s ease 1.3s",flexWrap:"wrap"}}>
-          <a href="https://wa.me/9647734383431" target="_blank"
-            style={{fontFamily:"Cairo",fontSize:14,fontWeight:700,padding:"16px 44px",background:"var(--accent)",color:"var(--text-primary)",borderRadius:4,textDecoration:"none",cursor:"none",letterSpacing:".06em",position:"relative",overflow:"hidden",boxShadow:"0 0 40px rgba(255,45,122,.4)",transition:"all .2s"}}
-            onMouseEnter={e=>{e.currentTarget.style.transform="translateY(-3px)";e.currentTarget.style.boxShadow="0 12px 50px rgba(255,45,122,.6)"}}
-            onMouseLeave={e=>{e.currentTarget.style.transform="";e.currentTarget.style.boxShadow="0 0 40px rgba(255,45,122,.4)"}}>
-            📲 تواصل على واتساب
-          </a>
+        <div style={{display:"flex",gap:20,justifyContent:"center",opacity:loaded?1:0,transform:loaded?"none":"translateY(30px)",transition:"all 1s ease 1.3s",flexWrap:"wrap"}}>
           <a href="/dashboard"
-            style={{fontFamily:"Cairo",fontSize:14,fontWeight:700,padding:"15px 44px",background:"rgba(var(--blue-rgb,0,195,255),.08)",color:"var(--blue-accent)",border:"1px solid rgba(0,195,255,.3)",borderRadius:4,textDecoration:"none",cursor:"none",letterSpacing:".06em",transition:"all .3s",boxShadow:"0 0 20px rgba(0,195,255,.1)"}}
-            onMouseEnter={e=>{e.currentTarget.style.background="rgba(var(--blue-rgb,0,195,255),.15)";e.currentTarget.style.boxShadow="0 8px 30px rgba(0,195,255,.25)";e.currentTarget.style.transform="translateY(-2px)"}}
-            onMouseLeave={e=>{e.currentTarget.style.background="rgba(var(--blue-rgb,0,195,255),.08)";e.currentTarget.style.boxShadow="0 0 20px rgba(0,195,255,.1)";e.currentTarget.style.transform=""}}>
+            style={{fontFamily:"Cairo",fontSize:16,fontWeight:700,padding:"18px 56px",background:"linear-gradient(135deg,#0a1f5c,#162a7a)",color:"#f0f4ff",border:"1px solid rgba(74,158,255,.4)",borderRadius:6,textDecoration:"none",cursor:"none",letterSpacing:".06em",transition:"all .3s",boxShadow:"0 0 30px rgba(10,31,92,.6),inset 0 1px 0 rgba(255,255,255,.1)"}}
+            onMouseEnter={e=>{e.currentTarget.style.transform="translateY(-3px)";e.currentTarget.style.boxShadow="0 12px 50px rgba(10,31,92,.8),0 0 40px rgba(74,158,255,.3),inset 0 1px 0 rgba(255,255,255,.15)"}}
+            onMouseLeave={e=>{e.currentTarget.style.transform="";e.currentTarget.style.boxShadow="0 0 30px rgba(10,31,92,.6),inset 0 1px 0 rgba(255,255,255,.1)"}}>
             ⬡ جرب الداشبورد
           </a>
           <a href="#solution"
-            style={{fontFamily:"Cairo",fontSize:14,fontWeight:700,padding:"15px 28px",background:"transparent",color:"var(--text-secondary)",border:"1px solid rgba(255,255,255,.07)",borderRadius:4,textDecoration:"none",cursor:"none",letterSpacing:".06em",transition:"all .3s"}}
-            onMouseEnter={e=>{e.currentTarget.style.borderColor="var(--text-muted)";e.currentTarget.style.color="rgba(240,244,255,.7)"}}
-            onMouseLeave={e=>{e.currentTarget.style.borderColor="var(--border)";e.currentTarget.style.color="var(--text-secondary)"}}>
+            style={{fontFamily:"Cairo",fontSize:16,fontWeight:600,padding:"17px 48px",background:"transparent",color:"rgba(240,244,255,.6)",border:"1px solid rgba(255,255,255,.1)",borderRadius:6,textDecoration:"none",cursor:"none",letterSpacing:".06em",transition:"all .3s"}}
+            onMouseEnter={e=>{e.currentTarget.style.borderColor="rgba(74,158,255,.5)";e.currentTarget.style.color="#f0f4ff";e.currentTarget.style.background="rgba(74,158,255,.06)"}}
+            onMouseLeave={e=>{e.currentTarget.style.borderColor="rgba(255,255,255,.1)";e.currentTarget.style.color="rgba(240,244,255,.6)";e.currentTarget.style.background="transparent"}}>
             اكتشف الحل
           </a>
         </div>
@@ -421,7 +364,7 @@ function Hero() {
       {/* Scroll hint */}
       <div style={{position:"absolute",bottom:40,left:"50%",transform:"translateX(-50%)",display:"flex",flexDirection:"column",alignItems:"center",gap:10,animation:"fadeIn 1s 3s both"}}>
         <span style={{fontFamily:"Cairo",fontSize:10,letterSpacing:".25em",color:"rgba(240,244,255,.3)",textTransform:"uppercase",fontWeight:700}}>اسحب للأسفل</span>
-        <div style={{width:1,height:50,background:"linear-gradient(to bottom, #ff2d7a, transparent)",animation:"glowPulse 2s infinite"}}/>
+        <div style={{width:1,height:50,background:"linear-gradient(to bottom, var(--blue-accent), transparent)",animation:"glowPulse 2s infinite"}}/>
       </div>
     </section>
   );
@@ -866,7 +809,7 @@ function Footer() {
       <div style={{maxWidth:1400,margin:"40px auto 0",paddingTop:28,borderTop:"1px solid rgba(255,255,255,.05)",display:"flex",justifyContent:"space-between",alignItems:"center",direction:"rtl"}}>
         <span style={{fontFamily:"Cairo",fontSize:12,color:"var(--text-muted)",letterSpacing:".08em"}}>© 2026 IQR لإدارة وتطوير المطاعم — العراق — جميع الحقوق محفوظة</span>
         <div style={{display:"flex",alignItems:"center",gap:8,fontFamily:"Space Mono",fontSize:11,color:"rgba(240,244,255,.2)"}}>
-          <span style={{width:6,height:6,background:"#00ff88",borderRadius:"50%",animation:"blink 2s infinite"}}/>
+          <span style={{width:6,height:6,background:"#00ff88",borderRadius:"50%",animation:"blink 2s infinite",background:"var(--blue-accent)"}}/>
           ONLINE
         </div>
       </div>
@@ -888,7 +831,6 @@ export default function App() {
   return (
     <>
       <style>{G}</style>
-      <ThemeToggle />
       <ParticleBackground />
       <Noise />
       <CursorTrail />

@@ -29,17 +29,7 @@ export const metadata = {
   robots: { index: true, follow: true },
 };
 
-const themeScript = `
-(function() {
-  try {
-    var saved = localStorage.getItem('iqr-theme');
-    var theme = saved || 'dark';
-    document.documentElement.setAttribute('data-theme', theme);
-  } catch(e) {
-    document.documentElement.setAttribute('data-theme', 'dark');
-  }
-})();
-`;
+const themeScript = `document.documentElement.setAttribute('data-theme','dark');`;
 
 const globalStyles = `
   :root[data-theme="dark"] {
@@ -63,27 +53,6 @@ const globalStyles = `
     --warning:       #ffb800;
     color-scheme: dark;
   }
-  :root[data-theme="light"] {
-    --bg-primary:    #f0f4fb;
-    --bg-secondary:  #ffffff;
-    --bg-card:       rgba(255,255,255,0.95);
-    --bg-glass:      rgba(255,255,255,0.9);
-    --text-primary:  #0a1f5c;
-    --text-secondary:#2a4a8a;
-    --text-muted:    #7a96cc;
-    --accent:        #0a1f5c;
-    --accent-glow:   rgba(10,31,92,0.12);
-    --accent-soft:   rgba(10,31,92,0.06);
-    --navy:          #0a1f5c;
-    --navy-light:    #162a7a;
-    --blue-accent:   #1a4fc4;
-    --blue-rgb:      26,79,196;
-    --border:        rgba(10,31,92,0.1);
-    --border-accent: rgba(10,31,92,0.25);
-    --success:       #0a9e5c;
-    --warning:       #c07800;
-    color-scheme: light;
-  }
   *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
   html { scroll-behavior: smooth; }
   body {
@@ -93,21 +62,7 @@ const globalStyles = `
     overflow-x: hidden;
     transition: background 0.35s ease, color 0.35s ease;
   }
-  [data-theme="light"] section,
-  [data-theme="light"] nav,
-  [data-theme="light"] footer {
-    background: var(--bg-primary) !important;
-    border-color: var(--border) !important;
-  }
-  [data-theme="light"] h1,
-  [data-theme="light"] h2,
-  [data-theme="light"] h3,
-  [data-theme="light"] p,
-  [data-theme="light"] span,
-  [data-theme="light"] a:not([style]) {
-    color: var(--text-primary);
-  }
-  [data-theme="light"] .particle-bg { opacity: 0.15 !important; }
+
   ::-webkit-scrollbar { width: 4px; }
   ::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 99px; }
   ::selection { background: var(--accent-glow); color: var(--text-primary); }
