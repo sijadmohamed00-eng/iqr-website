@@ -1,6 +1,3 @@
-// app/blog/[slug]/page.js
-// ضع هذا الملف في: app/blog/[slug]/page.js
-
 import BlogPostClient from "./BlogPostClient";
 
 export async function generateStaticParams() {

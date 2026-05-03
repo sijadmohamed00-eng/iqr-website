@@ -41,9 +41,10 @@ function Nav() {
       </a>
       <div style={{ display: "flex", gap: 24, alignItems: "center" }}>
         {links.map(n => (
-          <a key={n.h} href={n.h} style={{ fontFamily: "Cairo", fontSize: 13, fontWeight: 700, color: n.h === "/about" ? "#1a4fc4" : "rgba(240,244,255,.5)", textDecoration: "none", transition: "color .3s" }}
-            onMouseEnter={e => e.target.style.color = "#f0f4ff"} onMouseLeave={e => e.target.style.color = n.h === "/about" ? "#1a4fc4" : "rgba(240,244,255,.5)"}>{n.l}</a>
+          <a key={n.h} href={n.h} style={{ fontFamily: "Cairo", fontSize: 13, fontWeight: 700, color: n.h === "/about/" ? "#1a4fc4" : "rgba(240,244,255,.5)", textDecoration: "none", transition: "color .3s" }}
+            onMouseEnter={e => e.target.style.color = "#f0f4ff"} onMouseLeave={e => e.target.style.color = n.h === "/about/" ? "#1a4fc4" : "rgba(240,244,255,.5)"}>{n.l}</a>
         ))}
+        <a href="/pricing/" style={{ fontFamily: "Cairo", fontSize: 13, fontWeight: 700, padding: "8px 20px", background: "rgba(205,127,50,.15)", color: "#cd7f32", border: "1px solid rgba(205,127,50,.3)", borderRadius: 4, textDecoration: "none" }}>🔑 الاشتراكات</a>
       </div>
     </nav>
   );
@@ -82,7 +83,6 @@ export default function AboutClient() {
         <div style={{ position: "absolute", width: 500, height: 500, borderRadius: "50%", background: "radial-gradient(ellipse,rgba(0,195,255,.05),transparent 70%)", bottom: "20%", left: "-5%", animation: "orb 20s ease-in-out infinite reverse", filter: "blur(80px)" }} />
       </div>
       <Nav />
-
       <section style={{ minHeight: "70vh", display: "flex", alignItems: "center", justifyContent: "center", padding: "120px 48px 80px", textAlign: "center", position: "relative", zIndex: 2, direction: "rtl" }}>
         <div style={{ maxWidth: 800, animation: "fadeUp 1s ease both" }}>
           <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: ".4em", color: "#1a4fc4", textTransform: "uppercase", marginBottom: 24, display: "flex", alignItems: "center", justifyContent: "center", gap: 16, fontFamily: "Cairo" }}>
@@ -97,7 +97,6 @@ export default function AboutClient() {
           </p>
         </div>
       </section>
-
       <section ref={r1} style={{ padding: "80px 48px", maxWidth: 1200, margin: "0 auto", position: "relative", zIndex: 2, direction: "rtl" }}>
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 80, alignItems: "center" }}>
           <div style={{ opacity: v1 ? 1 : 0, transform: v1 ? "none" : "translateY(40px)", transition: "all 1s ease" }}>
@@ -121,7 +120,6 @@ export default function AboutClient() {
           </div>
         </div>
       </section>
-
       <section ref={r2} style={{ padding: "80px 48px", background: "#000510", position: "relative", zIndex: 2 }}>
         <div style={{ maxWidth: 1200, margin: "0 auto", direction: "rtl" }}>
           <div style={{ textAlign: "center", marginBottom: 64, opacity: v2 ? 1 : 0, transform: v2 ? "none" : "translateY(30px)", transition: "all .8s ease" }}>
@@ -139,7 +137,6 @@ export default function AboutClient() {
           </div>
         </div>
       </section>
-
       <section ref={r3} style={{ padding: "80px 48px", maxWidth: 1200, margin: "0 auto", position: "relative", zIndex: 2, direction: "rtl" }}>
         <div style={{ textAlign: "center", marginBottom: 64, opacity: v3 ? 1 : 0, transform: v3 ? "none" : "translateY(30px)", transition: "all .8s ease" }}>
           <div style={{ fontSize: 10, fontWeight: 700, letterSpacing: ".4em", color: "#1a4fc4", marginBottom: 20, fontFamily: "Cairo" }}>الفريق</div>
@@ -156,7 +153,6 @@ export default function AboutClient() {
           ))}
         </div>
       </section>
-
       <section style={{ padding: "100px 48px", textAlign: "center", position: "relative", zIndex: 2, background: "#000510" }}>
         <div style={{ maxWidth: 600, margin: "0 auto", direction: "rtl" }}>
           <h2 style={{ fontFamily: "Cairo", fontSize: "clamp(32px,5vw,60px)", fontWeight: 900, lineHeight: .95, marginBottom: 24, color: "#f0f4ff" }}>جاهز تبدأ<br /><em style={{ fontStyle: "normal", color: "#1a4fc4" }}>معنا؟</em></h2>
@@ -167,7 +163,6 @@ export default function AboutClient() {
           </div>
         </div>
       </section>
-
       <footer style={{ background: "#000510", borderTop: "1px solid rgba(255,255,255,.05)", padding: "40px 48px", textAlign: "center", position: "relative", zIndex: 2 }}>
         <p style={{ fontFamily: "Cairo", fontSize: 12, color: "rgba(240,244,255,.2)" }}>© 2026 IQR لإدارة وتطوير المطاعم — العراق — جميع الحقوق محفوظة</p>
       </footer>
