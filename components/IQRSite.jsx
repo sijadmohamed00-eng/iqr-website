@@ -757,14 +757,25 @@ function Footer() {
           </div>
         </div>
         {[
-          {h:"الخدمات",links:["الاستشارات التشغيلية","نظام المخزون الذكي","الكول سنتر وCRM","هندسة العمليات","التسويق والنمو"]},
-          {h:"من نحن",links:["التحديات","الحل","كيف نعمل","النتائج"]},
+          {h:"الخدمات",links:[
+            {l:"الاستشارات التشغيلية", h:"#services"},
+            {l:"نظام المخزون الذكي",   h:"#services"},
+            {l:"الكول سنتر وCRM",      h:"#services"},
+            {l:"هندسة العمليات",        h:"#services"},
+            {l:"التسويق والنمو",        h:"#services"},
+          ]},
+          {h:"من نحن",links:[
+            {l:"التحديات", h:"#problem"},
+            {l:"الحل",     h:"#solution"},
+            {l:"كيف نعمل", h:"#process"},
+            {l:"النتائج",  h:"#results"},
+          ]},
         ].map(col => (
           <div key={col.h}>
             <h4 style={{fontFamily:"Cairo",fontSize:11,fontWeight:700,letterSpacing:".2em",color:"var(--text-muted)",textTransform:"uppercase",marginBottom:20}}>{col.h}</h4>
-            {col.links.map(l => (
-              <a key={l} href="#" style={{display:"block",fontFamily:"Cairo",fontSize:14,fontWeight:600,color:"var(--text-secondary)",textDecoration:"none",marginBottom:12,cursor:"none",transition:"color .3s"}}
-                onMouseEnter={e=>e.target.style.color="var(--text-primary)"} onMouseLeave={e=>e.target.style.color="var(--text-secondary)"}>{l}</a>
+            {col.links.map(item => (
+              <a key={item.l} href={item.h} style={{display:"block",fontFamily:"Cairo",fontSize:14,fontWeight:600,color:"var(--text-secondary)",textDecoration:"none",marginBottom:12,cursor:"none",transition:"color .3s"}}
+                onMouseEnter={e=>e.target.style.color="var(--text-primary)"} onMouseLeave={e=>e.target.style.color="var(--text-secondary)"}>{item.l}</a>
             ))}
           </div>
         ))}
