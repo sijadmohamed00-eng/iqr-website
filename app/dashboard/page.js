@@ -12,9 +12,5 @@ const IQRDashboard = dynamic(() => import("../../components/IQRDashboard"), {
 });
 
 export default function DashboardPage() {
-  return (
-    <DashboardGate>
-      <IQRDashboard />
-    </DashboardGate>
-  );
+  return <DashboardGate><IQRDashboard /></DashboardGate>;
 }

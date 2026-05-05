@@ -1,17 +1,8 @@
 import BlogPostClient from "./BlogPostClient";
+import { POSTS_LIST } from "../../../lib/posts";
 
 export async function generateStaticParams() {
-  return [
-    { slug: "inventory-waste" },
-    { slug: "peak-hours" },
-    { slug: "staff-management" },
-    { slug: "menu-engineering" },
-    { slug: "order-routing" },
-    { slug: "iraq-restaurant-market" },
-    { slug: "digital-transformation" },
-    { slug: "customer-experience" },
-    { slug: "supplier-management" },
-  ];
+  return POSTS_LIST.map(p => ({ slug: p.slug }));
 }
 
 export default function Page({ params }) {
