@@ -49,7 +49,7 @@ function Nav() {
         {[{h:"/",l:"الرئيسية"},{h:"/about/",l:"من نحن"},{h:"/blog/",l:"المدونة"},{h:"/contact/",l:"تواصل"}].map(n=>(
           <a key={n.h} href={n.h} style={{fontFamily:"Cairo",fontSize:13,fontWeight:700,color:n.h==="/about/"?"#1a4fc4":"rgba(240,244,255,.5)",textDecoration:"none"}}>{n.l}</a>
         ))}
-        <a href="/pricing/" style={{fontFamily:"Cairo",fontSize:13,fontWeight:700,padding:"7px 16px",background:"rgba(205,127,50,.15)",color:"#cd7f32",border:"1px solid rgba(205,127,50,.3)",borderRadius:6,textDecoration:"none"}}>🔑 اشترك</a>
+        <a href="/pricing/" style={{fontFamily:"Cairo",fontSize:13,fontWeight:700,padding:"7px 16px",background:"rgba(205,127,50,.15)",color:"#cd7f32",border:"1px solid rgba(205,127,50,.3)",borderRadius:6,textDecoration:"none"}}>🔑 اشترك
       </div>
     </nav>
   );

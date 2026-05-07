@@ -70,7 +70,7 @@ function Nav(){
         {links.map(n=>(<a key={n.h} href={n.h} style={{fontFamily:"Cairo",fontSize:14,fontWeight:700,color:"rgba(240,244,255,.7)",textDecoration:"none",padding:"11px 0",borderBottom:"1px solid rgba(255,255,255,.04)"}}>{n.l}</a>))}
         <div style={{display:"flex",gap:10,paddingTop:12}}>
           <a href="/pricing/" style={{flex:1,fontFamily:"Cairo",fontSize:13,fontWeight:700,padding:"10px",background:"rgba(205,127,50,.12)",color:"#cd7f32",border:"1px solid rgba(205,127,50,.2)",borderRadius:7,textDecoration:"none",textAlign:"center"}}>🔑 اشترك</a>
-          <a href="/contact/" style={{flex:1,fontFamily:"Cairo",fontSize:13,fontWeight:700,padding:"10px",background:"#1a4fc4",color:"#fff",borderRadius:7,textDecoration:"none",textAlign:"center"}}>تواصل</a>
+          <a href="/contact/" style={{fontFamily:"Cairo",fontSize:13,fontWeight:700,padding:"7px 16px",background:"#1a4fc4",color:"#fff",borderRadius:5,textDecoration:"none"}}>تواصل</a>
         </div>
       </div>
     </>

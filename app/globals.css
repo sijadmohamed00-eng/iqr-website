@@ -1,5 +1,3 @@
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
 body{background:#000814;overflow-x:hidden;font-family:'Cairo',sans-serif}
-::-webkit-scrollbar{width:4px}
-::-webkit-scrollbar-thumb{background:#1a4fc4;border-radius:99px}

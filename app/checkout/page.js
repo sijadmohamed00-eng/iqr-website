@@ -1,2 +1,1 @@
-export const metadata = { title:"إتمام الاشتراك | IQR البرونزية" };
-export { default } from "./CheckoutClient";
+export const metadata={title:"إتمام الاشتراك | IQR"};export { default } from "./CheckoutClient";
