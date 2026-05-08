@@ -4,9 +4,30 @@ export const metadata = {
   title: "IQR | الشركة الأولى لإدارة وتطوير المطاعم في العراق",
   description: "نحول فوضى مطعمك إلى دقة هندسية — نظام متكامل لإدارة المطاعم في العراق.",
   metadataBase: new URL("https://iqrhq.me"),
-  openGraph: { title:"IQR | إدارة المطاعم في العراق", description:"نحول فوضى مطعمك إلى نظام", url:"https://iqrhq.me", siteName:"IQR", locale:"ar_IQ", type:"website" },
+  openGraph: {
+    title: "IQR | الشركة الأولى لإدارة وتطوير المطاعم في العراق",
+    description: "نحول فوضى مطعمك إلى دقة هندسية — نظام متكامل لإدارة المطاعم في العراق.",
+    url: "https://iqrhq.me",
+    siteName: "IQR",
+    locale: "ar_IQ",
+    type: "website",
+    images: [
+      {
+        url: "https://iqrhq.me/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "IQR | الشركة الأولى لإدارة وتطوير المطاعم في العراق",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "IQR | إدارة المطاعم في العراق",
+    description: "نحول فوضى مطعمك إلى دقة هندسية — نظام متكامل لإدارة المطاعم في العراق.",
+    images: ["https://iqrhq.me/og-image.png"],
+  },
   manifest: "/manifest.json",
-  robots: { index:true, follow:true },
+  robots: { index: true, follow: true },
 };
 
 const css = `
